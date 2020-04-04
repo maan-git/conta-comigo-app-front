@@ -4,8 +4,8 @@ Este é um projeto que tem como propósito conectar as pessoas que estão precis
 
 ## Tecnologias 
 
-- Node
-- Vue
+- Node JS
+- Vue JS
 
 
 ## Instalação e dependências
@@ -60,6 +60,35 @@ Abaixo você encontra as informações necessárias para executar o projeto:
 cd front
 npm run serve
 ```
+
+## Project setup
+```
+npm install
+```
+
+### Compiles and hot-reloads for development
+```
+npm run serve
+```
+
+### Compiles and minifies for production
+```
+npm run build
+```
+
+### Run your unit tests
+```
+npm run test:unit
+```
+
+### Lints and fixes files
+```
+npm run lint
+```
+
+### Customize configuration
+See [Configuration Reference](https://cli.vuejs.org/config/).
+
 
 O projeto será executado na porta **8080**
 
