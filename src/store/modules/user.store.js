@@ -38,7 +38,7 @@ const actions = {
       //   commit('SET_LIST', success.data.data);
       // });
     }).catch((error) => {
-      console.log('error', error.response);
+      // console.log('error', error.response);
       if (error.response.data.detail) commit('SET_LOGIN_ERROR', error.response.data.detail);
       else commit('SET_LOGIN_ERROR', error.response.statusText);
       commit('SET_LOGIN_LOADING', false);
@@ -55,7 +55,7 @@ const actions = {
   register({ commit }, data) {
     commit('SET_LOGIN_LOADING', true);
     return api().post('register/', data).then((success) => {
-      console.log(success);
+      // console.log(success);
       commit('SET_TOKEN', success);
       commit('SET_LOGIN_ERROR', null);
       commit('SET_LOGIN_LOADING', false);
@@ -69,7 +69,7 @@ const actions = {
     let isValidated = false;
     const userInfo = localStorage.getItem('userInfo');
     if (userInfo && (Date.now() - JSON.parse(userInfo).xpd) <= 900000) {
-      console.log('user validated');
+      // console.log('user validated');
       isValidated = true;
     } else {
       api().get('app/user/current/').then((success) => {
