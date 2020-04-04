@@ -303,12 +303,12 @@ export default {
       }
     },
     stepThreeClick() {
-      console.log('stepThreeClick()', this.$refs.stepthreedata.validate());
+      // console.log('stepThreeClick()', this.$refs.stepthreedata.validate());
       // this.e1 = 2;
     },
 
     createAccount() {
-      console.log('createAccount', this.$refs.userformum.validate());
+      // console.log('createAccount', this.$refs.userformum.validate());
       if (this.$refs.userformum.validate()) {
         // this.$store.dispatch('user/register', { email: this.email, password: this.password });
       }
@@ -337,7 +337,7 @@ export default {
     },
   },
   created() {
-    console.log('created', this.$vln);
+    // console.log('created', this.$vln);
   },
 };
 </script>
