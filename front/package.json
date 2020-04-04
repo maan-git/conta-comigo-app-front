@@ -1,12 +1,14 @@
 {
-  "name": "front",
+  "name": "Conta Comigo APP - Front",
   "version": "0.1.0",
+  "description": "Vue project",
   "private": true,
   "scripts": {
     "serve": "vue-cli-service serve",
     "build": "vue-cli-service build",
     "test:unit": "vue-cli-service test:unit",
-    "lint": "vue-cli-service lint"
+    "lint": "vue-cli-service lint",
+    "start": "node server.js"
   },
   "dependencies": {
     "@babel/polyfill": "^7.4.4",
