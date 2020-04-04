@@ -3,6 +3,9 @@
   "version": "0.1.0",
   "description": "Vue project",
   "private": true,
+  "engines": {
+    "node": "13.5.0"
+  },
   "scripts": {
     "postinstall": "if test \"$NODE_ENV\" = \"production\" ; then npm run build ; fi ",
     "start": "node server.js",
