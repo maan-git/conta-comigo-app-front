@@ -1,9 +1,7 @@
 <template>
-  <v-app >
-    <!-- :class="{'purple': true}" -->
-    <NavBar
-    />
-    <!-- v-if="user.user" -->
+  <v-app :class="purple()">
+    <!--  -->
+    <NavBar v-if="user.user"/>
     <v-content>
       <router-view></router-view>
     </v-content>
@@ -22,9 +20,15 @@ export default {
   computed: mapState(['user']),
   data: () => ({}),
   methods: {
-    showNavBar() {
-      return (this.$router.history.current.name !== 'Login' && this.$router.history.current.name !== 'CreateAccount');
+    purple() {
+      if (this.$router.history.current.name !== 'Home') {
+        return 'purple';
+      }
+      return '';
     },
+  },
+  beforeCreate() {
+    this.$store.dispatch('user/getCurrentUser');
   },
 };
 </script>
