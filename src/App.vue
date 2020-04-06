@@ -1,6 +1,9 @@
 <template>
-  <v-app :class="{'purple': true}">
-    <NavBar v-if="user.user"/>
+  <v-app >
+    <!-- :class="{'purple': true}" -->
+    <NavBar
+    />
+    <!-- v-if="user.user" -->
     <v-content>
       <router-view></router-view>
     </v-content>
@@ -13,7 +16,6 @@ import NavBar from './components/NavBar.vue';
 
 export default {
   name: 'App',
-
   components: {
     NavBar,
   },
@@ -26,7 +28,7 @@ export default {
   },
 };
 </script>
-<style lang="css" scoped>
+<style lang="scss" scoped>
 .theme--light.purple {
   background-color: #532594;
   background-image: url('./assets/pattern.svg');

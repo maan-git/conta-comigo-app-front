@@ -1,6 +1,6 @@
 <template>
   <div>
-    <v-stepper alt-labels v-model="e1">
+    <v-stepper alt-labels v-model="register.step">
       <v-stepper-header>
         <v-stepper-step step="1">Dados Pessoais</v-stepper-step>
 
@@ -23,6 +23,14 @@
               :rules="[$vln.requiredRule('Nome'), $vln.moreThanRule(6)]"
               required
               v-model="nome"
+            ></v-text-field>
+            <v-text-field
+              :disabled="disapleForm()"
+              outlined
+              label="Sobrenome"
+              :rules="[$vln.requiredRule('Nome'), $vln.moreThanRule(6)]"
+              required
+              v-model="sobrenome"
             ></v-text-field>
             <v-text-field
               :disabled="disapleForm()"
@@ -53,7 +61,7 @@
                   outlined
                   :rules="[$vln.requiredRule('Data de nascimento')]"
                   @click:clear="datanascimento = null"
-                ></v-text-field>
+                >{{register.datanascimento}}</v-text-field>
               </template>
               <v-date-picker
                 ref="picker"
@@ -72,7 +80,7 @@
               v-model="telefone"
               v-mask="'(##) #####-####'"
               :rules="[$vln.requiredRule('Telefone'),$vln.foneRule(11)]"
-            ></v-text-field>
+            >{{register.telefone}}</v-text-field>
             <span class="mb-0 grey--text text--darken-2">O número informado tem Whatsapp?</span>
             <v-switch
             :disabled="disapleForm()"
@@ -102,7 +110,7 @@
               x-large
               color="primary"
               @click="stepOneClick()"
-              :loading="user.loading">Próximo</v-btn>
+              :loading="register.loginLoading">Próximo</v-btn>
           </v-form>
         </v-stepper-content>
         <v-stepper-content step="2">
@@ -154,7 +162,7 @@
               x-large
               color="primary"
               @click="stepTwoClick()"
-              :loading="user.loading">Próximo</v-btn>
+              :loading="register.loginLoading">Próximo</v-btn>
           </v-form>
         </v-stepper-content>
         <v-stepper-content step="3">
@@ -197,7 +205,10 @@
               x-large
               color="primary"
               @click="stepThreeClick()"
-              :loading="user.loading">Registrar-se</v-btn>
+              :loading="register.createUserLoading">Registrar-se</v-btn>
+            <p v-if="register.createUserError" class="block text-center mt-4 red--text">
+              {{register.createUserError}}
+            </p>
           </v-form>
         </v-stepper-content>
       </v-stepper-items>
@@ -230,8 +241,8 @@
         x-large
         color="primary"
         @click="createAccount()"
-        :loading="user.loading">registrar Usuário</v-btn>
-      <p class="mt-4 red--text text-center" v-if="user.loginError">{{user.loginError}}</p>
+        :loading="register.loading">registrar Usuário</v-btn>
+      <p class="mt-4 red--text text-center" v-if="register.loginError">{{register.loginError}}</p>
     </v-form> -->
   </div>
 </template>
@@ -241,7 +252,7 @@ import { mapState } from 'vuex';
 
 export default {
   props: ['editavel'],
-  computed: mapState(['user']),
+  computed: mapState(['register']),
   watch: {
     datanascimentomenu(val) {
       // eslint-disable-next-line no-unused-expressions
@@ -262,6 +273,7 @@ export default {
   data() {
     return {
       nome: '',
+      sobrenome: '',
       cpf: '',
       cpfMask: '###.###.###-##',
       datanascimento: null,
@@ -294,21 +306,47 @@ export default {
   methods: {
     stepOneClick() {
       if (this.$refs.steponedata.validate()) {
-        this.e1 = 2;
+        this.$store.dispatch('register/registerStep1', {
+          nome: this.nome,
+          sobrenome: this.sobrenome,
+          cpf: this.cpf,
+          datanascimento: this.datanascimento,
+          telefone: this.telefone,
+          whatsapp: this.whatsapp,
+          moraso: this.moraso,
+          grupoderisco: this.grupoderisco,
+        });
       }
     },
     stepTwoClick() {
       if (this.$refs.steptwodata.validate()) {
-        this.e1 = 3;
+        this.$store.dispatch('register/registerStep2', {
+          cep: this.cep,
+          endereco: this.endereco,
+          bairro: this.bairro,
+          cidade: this.cidade,
+          estado: this.estado,
+        });
       }
     },
     stepThreeClick() {
-      // console.log('stepThreeClick()', this.$refs.stepthreedata.validate());
+      if (this.$refs.stepthreedata.validate()) {
+        const data = {
+          is_superuser: false,
+          password: this.password,
+          email: this.email,
+          first_name: this.nome,
+          last_name: this.sobrenome,
+        };
+        console.log('enviando data: ', data);
+        this.$store.dispatch('register/createAccount', data);
+      }
+      console.log('stepThreeClick()', this.$refs.stepthreedata.validate());
       // this.e1 = 2;
     },
 
     createAccount() {
-      // console.log('createAccount', this.$refs.userformum.validate());
+      console.log('createAccount', this.$refs.userformum.validate());
       if (this.$refs.userformum.validate()) {
         // this.$store.dispatch('user/register', { email: this.email, password: this.password });
       }
@@ -320,24 +358,29 @@ export default {
       this.$refs.dpnascimento.save(`${dia}-${mes}-${mdate.getFullYear()}`);
     },
     disapleForm() {
-      return this.editavel && !this.user.loading;
+      return this.editavel && !this.register.loginLoading;
     },
 
     onInput(val) {
       // eslint-disable-next-line radix
       this.steps = parseInt(val);
     },
-
-    nextStep(n) {
-      if (n === this.steps) {
-        this.e1 = 1;
-      } else {
-        this.e1 = n + 1;
-      }
-    },
   },
   created() {
-    // console.log('created', this.$vln);
+    console.log('created', this.$vln);
+    this.nome = this.register.nome ? this.register.nome : '';
+    this.sobrenome = this.register.sobrenome ? this.register.sobrenome : '';
+    this.cpf = this.register.cpf ? this.register.cpf : '';
+    this.datanascimento = this.register.datanascimento ? this.register.datanascimento : '';
+    this.telefone = this.register.telefone ? this.register.telefone : '';
+    this.whatsapp = this.register.whatsapp ? this.register.whatsapp : '';
+    this.moraso = this.register.moraso ? this.register.moraso : '';
+    this.grupoderisco = this.register.grupoderisco ? this.register.grupoderisco : '';
+    this.cep = this.register.cep ? this.register.cep : '';
+    this.endereco = this.register.endereco ? this.register.endereco : '';
+    this.bairro = this.register.bairro ? this.register.bairro : '';
+    this.cidade = this.register.cidade ? this.register.cidade : '';
+    this.estado = this.register.estado ? this.register.estado : '';
   },
 };
 </script>

@@ -1,7 +1,16 @@
 <template>
-  <v-container>
+  <v-container class="text-center">
+    <p class="title font-weight-medium primary--text text-left">Pedidos recentes</p>
     <div v-if="help.helpList">
-      <Carousel :loop="true" :scrollPerPage="2" :paginationEnabled="false">
+      <Carousel
+        :loop="true"
+        :scrollPerPage="true"
+        :paginationEnabled="false"
+        :perPageCustom="[[320, 1], [600, 2], [768, 3]]"
+        :paginationActiveColor="'#532594'"
+        :spacePadding="20"
+        :spacePaddingMaxOffsetFactor="1"
+        >
         <Slide  v-for="(help, i) in help.helpList" :key="help.id_user">
           <HelpCard
             :name="`Maria do Carmo ${i}`"
@@ -11,7 +20,15 @@
           />
         </Slide>
       </Carousel>
+      <v-btn text color="primary">Ver todos</v-btn>
     </div>
+    <p
+      v-if="help.helpCategoryError"
+      class="block text-center mt-4 red--text">{{help.helpCategoryError}}</p>
+    <v-btn
+      v-if="help.helpCategoryLoading"
+      text block x-large
+      :loading="true" color="primary"></v-btn>
   </v-container>
 </template>
 <script>
@@ -36,7 +53,7 @@ export default {
   },
   methods: {
     async listHelp() {
-      await this.$store.dispatch('help/listHelp');
+      await this.$store.dispatch('help/getHelpCategory');
     },
   },
   created() {
@@ -46,10 +63,10 @@ export default {
 </script>
 <style lang="scss" scoped>
 .VueCarousel {
-  max-width: 600px;
+  max-width: 700px;
   margin: 0 auto;
   &-slide {
-    margin: 30px 6px;
+    margin: 10px 0px;
   }
 }
 </style>
