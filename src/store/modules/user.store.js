@@ -37,7 +37,7 @@ const actions = {
       commit('SET_TOKEN', success);
       commit('SET_LOGIN_ERROR', null);
       commit('SET_LOGIN_LOADING', false);
-      commit('SET_USER', success);
+      commit('SET_USER', success.data);
       //  redirect to page
       routes.replace('/');
       // return api().get('users?page=1').then((success) => {
@@ -100,9 +100,10 @@ const actions = {
     let isValidated = false;
     const userInfo = localStorage.getItem('userInfo');
     if (userInfo && (Date.now() - JSON.parse(userInfo).xpd) <= 900000) {
-      console.log('user validated');
       isValidated = true;
+      commit('SET_USER', JSON.parse(userInfo));
     } else {
+      console.log('getCurrentUser else');
       api().get('app/user/current/').then((success) => {
         const userInfo = success.data;
         const expDate = Date.now();

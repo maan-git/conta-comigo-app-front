@@ -1,85 +1,65 @@
 <template>
-  <v-app-bar
-    app
-    color="primary"
-    dark
-  >
-    <v-img
-      alt="Vuetify Logo"
-      class="shrink mr-2"
-      contain
-      :src="require('../assets/icone.svg')"
-      transition="scale-transition"
-      width="40"
-    />
-    <v-spacer></v-spacer>
-    <div class="text--center">
-      <span class="title">Olá, Luzia</span>
-      <p>Conta comigo</p>
-    </div>
-    <v-spacer></v-spacer>
-    <v-avatar :size="46">
+  <v-app-bar app color="primary" dark prominent dense>
+    <div class="nav-container">
       <v-img
         alt="Vuetify Logo"
         class="shrink mr-2"
         contain
-        :src="require('../assets/logo.svg')"
+        :src="require('../assets/icone.svg')"
         transition="scale-transition"
-        width="46"
+        width="40"
       />
-    </v-avatar>
-    <!-- <v-spacer></v-spacer>
-
-    <v-btn to="/create-help" text>
-      <span>create help</span>
-    </v-btn>
-        <v-btn to="/list-help" text>
-      <span>list help</span>
-    </v-btn>
-    <v-btn @click="logout()" text>
-      <span>logout</span>
-    </v-btn> -->
+      <div class="nav-container__text">
+        <p class="title mb-0">Olá, {{user.user.first_name}}
+          <br>
+          <span class="subtitle-1">Conta comigo!</span>
+        </p>
+      </div>
+      <v-avatar :size="46">
+        <v-img
+          alt="Vuetify Logo"
+          class="shrink mr-2"
+          contain
+          :src="require('../assets/logo.svg')"
+          transition="scale-transition"
+          width="46"
+        />
+      </v-avatar>
+    </div>
   </v-app-bar>
 </template>
 <script>
+import { mapState } from 'vuex';
+
 export default {
+  computed: mapState(['user']),
   methods: {
     logout() {
       this.$store.dispatch('user/logout');
     },
   },
+  created() {
+    console.log('user.user', this.user.user);
+  },
 };
 </script>
 <style lang="scss" scoped>
 .v-toolbar {
-  // height: 115px !important;
   border-bottom-right-radius: 40px;
   border-bottom-left-radius: 40px;
 }
-.v-toolbar__content, .v-toolbar__extension {
+
+.nav-container {
+  width: 90%;
+  height: 60px;
+  margin: 10px auto 0;
   display: flex;
-  flex-direction: row;
-  height: 100% !important;
-  justify-content: space-around;
-
+  justify-content: space-between;
+  align-items: center;
+  &__text {
+    text-align: center;
+    vertical-align: middle;
+  }
 }
-
-.my-nav-bar {
-  margin-top: 0px;
-  transform: translateY(0px);
-  left: 0px;
-  right: 0px;
-  position: fixed;
-  top: 0;
-  z-index: 5;
-  height: 115px !important;
-  border-bottom-right-radius: 40px;
-  border-bottom-left-radius: 40px;
-  contain: layout;
-  display: block;
-  background-color: #532594
-}
-
 
 </style>
- <!--v-sheet v-sheet--tile theme--dark v-toolbar v-app-bar v-app-bar--fixed primary-->
