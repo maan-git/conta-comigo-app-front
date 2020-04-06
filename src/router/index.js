@@ -47,4 +47,15 @@ const router = new VueRouter({
   routes,
 });
 
+const protectedRoutes = [
+  '/', '/about', '/create-help', '/how-to',
+];
+
+const userInfo = localStorage.getItem('userInfo');
+
+router.beforeEach((to, from, next) => {
+  if (protectedRoutes.includes(to.path) && !userInfo) {
+    next({ path: '/login' });
+  } else next();
+});
 export default router;
