@@ -5,27 +5,29 @@ const state = {
   help: null,
   token: '',
   helpList: null,
-  loginError: null,
-  loading: false,
+  helpCategoryError: null,
+  helpCategoryLoading: false,
 };
 
 const getters = {
   getHelp(state) { return state.help; },
   getToken(state) { return state.token; },
   getHelpList(state) { return state.helpList; },
-  getLoginError(state) { return state.loginError; },
+  getHelpCategoryError(state) { return state.helpCategoryError; },
+  getHelpCategoryLoading(state) { return state.helpCategoryLoading; },
 };
 
 const actions = {
-  listHelp({ commit }) {
-    commit('SET_LOADING', true);
+  getHelpCategory({ commit }) {
+    commit('SET_HELP_CATEGORY_LOADING', true);
     api().get('/help/helpcategory/').then((success) => {
       commit('SET_HELPLIST', success.data.results);
-      commit('SET_LOGIN_ERROR', null);
-      commit('SET_LOADING', false);
+      commit('SET_HELP_CATEGORY_ERROR', null);
+      commit('SET_HELP_CATEGORY_LOADING', false);
     }).catch((error) => {
-      commit('SET_LOGIN_ERROR', error.response.data.error);
-      commit('SET_LOADING', false);
+      if (error.response.data.detail) commit('SET_HELP_CATEGORY_ERROR', error.response.data.detail);
+      else commit('SET_HELP_CATEGORY_ERROR', error.response.statusText);
+      commit('SET_HELP_CATEGORY_LOADING', false);
     });
     // return api().get('Helps?page=1').then((success) => {
     //   commit('SET_LIST', success.data.data);
@@ -55,11 +57,11 @@ const mutations = {
   SET_HELPLIST(state, value) {
     state.helpList = value;
   },
-  SET_LOGIN_ERROR(state, value) {
-    state.loginError = value;
+  SET_HELP_CATEGORY_ERROR(state, value) {
+    state.helpCategoryError = value;
   },
-  SET_LOADING(state, value) {
-    state.loading = value;
+  SET_HELP_CATEGORY_LOADING(state, value) {
+    state.helpCategoryLoading = value;
   },
 };
 

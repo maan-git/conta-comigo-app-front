@@ -73,7 +73,7 @@ export default {
   },
   methods: {
     saveHelp() {
-      // console.log('salvou!', this.mydescription);
+      console.log('salvou!', this.mydescription);
     },
   },
   created() {
