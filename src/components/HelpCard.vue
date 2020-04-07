@@ -6,7 +6,7 @@
       </div>
       <div class="help-card--header__text">
         <p>
-          <b>{{createdat}}<br>{{timeago}}</b>
+          {{createdat}}<br>{{timeago}}
         </p>
       </div>
     </div>
@@ -56,6 +56,7 @@ export default {
   display: flex;
   flex-flow: column;
   justify-content: space-between;
+  // margin: 10px 30px;
 
   &--header {
     display: flex;
@@ -73,6 +74,7 @@ export default {
       color: $txtcolor;
       font-size: 12px;
       text-align: right;
+      font-weight: 500;
       p {
         margin-bottom: 0;
       }
@@ -81,6 +83,7 @@ export default {
   &--content {
     color: $txtcolor;
     font-size: 12px;
+    text-align: left;
     &__title {
       font-size: 16px;
       font-weight: 500;
