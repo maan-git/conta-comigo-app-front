@@ -26,9 +26,9 @@ const getters = {
 };
 
 const actions = {
-  login({ commit }, data) {
+  async login({ commit }, data) {
     commit('SET_LOGIN_LOADING', true);
-    return api().post('app/login/', data).then((success) => {
+    await api().post('app/login/', data).then((success) => {
       const userInfo = success.data;
       const expDate = Date.now();
       // xpd stands for expiration Date
@@ -38,17 +38,13 @@ const actions = {
       commit('SET_LOGIN_ERROR', null);
       commit('SET_LOGIN_LOADING', false);
       commit('SET_USER', success.data);
-      //  redirect to page
-      routes.replace('/');
-      // return api().get('users?page=1').then((success) => {
-      //   commit('SET_LIST', success.data.data);
-      // });
     }).catch((error) => {
       console.log('error', error.response);
       if (error.response.data.detail) commit('SET_LOGIN_ERROR', error.response.data.detail);
       else commit('SET_LOGIN_ERROR', error.response.statusText);
       commit('SET_LOGIN_LOADING', false);
     });
+    routes.push({ path: '/' });
   },
 
   logout({ commit }) {
@@ -112,8 +108,9 @@ const actions = {
         localStorage.setItem('userInfo', JSON.stringify(userInfo));
         commit('SET_USER', userInfo);
       }).catch((error) => {
+        localStorage.removeItem('userInfo');
         commit('SET_LOGIN_ERROR', error.response.data.error);
-        routes.replace('/login');
+        // routes.replace('/login');
       });
       isValidated = true;
     }

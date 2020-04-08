@@ -51,9 +51,6 @@ export default {
       this.drawer = !this.drawer;
     },
   },
-  beforeCreate() {
-    this.$store.dispatch('user/getCurrentUser');
-  },
 };
 </script>
 <style lang="scss" scoped>
