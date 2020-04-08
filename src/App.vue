@@ -1,7 +1,25 @@
 <template>
   <v-app :class="purple()">
     <!--  -->
-    <NavBar v-if="user.user"/>
+    <NavBar v-if="user.user" v-on:toogle="toogleMenu()"/>
+      <v-navigation-drawer
+        v-model="drawer"
+        absolute
+        bottom
+        temporary
+      >
+        <v-list nav dense>
+          <v-list-item-group active-class="deep-purple--text text--accent-4">
+            <v-list-item>
+              <v-btn
+                text
+                block
+                color="primary"
+                @click="$store.dispatch('user/logout')">Logout</v-btn>
+            </v-list-item>
+          </v-list-item-group>
+        </v-list>
+      </v-navigation-drawer>
     <v-content>
       <router-view></router-view>
     </v-content>
@@ -18,13 +36,19 @@ export default {
     NavBar,
   },
   computed: mapState(['user']),
-  data: () => ({}),
+  data: () => ({
+    drawer: false,
+  }),
   methods: {
     purple() {
       if (this.$router.history.current.name !== 'Home') {
         return 'purple';
       }
       return '';
+    },
+    toogleMenu() {
+      console.log('toogleMenu');
+      this.drawer = !this.drawer;
     },
   },
   beforeCreate() {

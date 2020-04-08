@@ -1,14 +1,16 @@
 <template>
   <v-app-bar app color="primary" dark prominent dense>
     <div class="nav-container">
-      <v-img
-        alt="Vuetify Logo"
-        class="shrink mr-2"
-        contain
-        :src="require('../assets/icone.svg')"
-        transition="scale-transition"
-        width="40"
-      />
+      <v-btn text fab large @click="$emit('toogle')">
+        <v-img
+          alt="conta comigo"
+          class="shrink mr-2"
+          contain
+          :src="require('../assets/icone.svg')"
+          transition="scale-transition"
+          width="40"
+        />
+      </v-btn>
       <div class="nav-container__text">
         <p class="title mb-0">Olá, {{user.user.first_name}}
           <br>
