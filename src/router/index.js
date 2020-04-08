@@ -39,6 +39,10 @@ const routes = [
     name: 'HowTo',
     component: () => import('../views/HowTo.vue'),
   },
+  {
+    path: '*',
+    redirect: '/login',
+  },
 ];
 
 const router = new VueRouter({
@@ -53,9 +57,12 @@ const protectedRoutes = [
 
 const userInfo = localStorage.getItem('userInfo');
 
-router.beforeEach((to, from, next) => {
+router.beforeResolve((to, from, next) => {
   if (protectedRoutes.includes(to.path) && !userInfo) {
     next({ path: '/login' });
-  } else next();
+  } else if (userInfo && (to.path === '/login' || to.path === '/create-account')) {
+    next({ path: '/' });
+  }
+  next();
 });
 export default router;
