@@ -21,15 +21,11 @@
             </div>
         </Slide>
       </Carousel>
-    <v-btn
-      class="mt-5"
-      rounded
-      color="primary"
-      x-large
-    >
-      Preciso de ajuda!
-      <v-icon>$heart</v-icon>
-    </v-btn>
+      <ButtonRouter
+        url='/create-help'
+        text='Preciso de ajuda!'
+        heart=$heart>
+      </ButtonRouter>
     </div>
     <p
       v-if="user.usersError"
@@ -44,11 +40,13 @@
 <script>
 import { mapState } from 'vuex';
 import { Carousel, Slide } from 'vue-carousel';
+import ButtonRouter from '@/components/ButtonRouter.vue';
 
 export default {
   components: {
     Carousel,
     Slide,
+    ButtonRouter,
   },
   computed: mapState(['user']),
   created() {
