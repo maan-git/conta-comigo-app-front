@@ -1,8 +1,13 @@
 import Vue from 'vue';
-import Vuetify from 'vuetify/lib';
+import Vuetify, { VTextField } from 'vuetify/lib';
+import VuetifyGoogleAutocomplete from 'vuetify-google-autocomplete';
 import HeartIcon from '../components/HeartIcon.vue';
 
-Vue.use(Vuetify);
+Vue.use(Vuetify, { components: { VTextField } });
+Vue.use(VuetifyGoogleAutocomplete, {
+  apiKey: 'AIzaSyDKii6D4Qt05eQwu7w_DIJpWz6FJFKQ7Uw',
+});
+
 
 export default new Vuetify({
 

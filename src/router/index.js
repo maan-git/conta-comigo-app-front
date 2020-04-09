@@ -29,11 +29,6 @@ const routes = [
     name: 'CreateHelp',
     component: () => import('../views/CreateHelp.vue'),
   },
-  // {
-  //   path: '/list-help',
-  //   name: 'ListHelp',
-  //   component: () => import('../views/ListHelp.vue'),
-  // },
   {
     path: '/how-to',
     name: 'HowTo',
@@ -55,14 +50,12 @@ const protectedRoutes = [
   '/', '/about', '/create-help', '/how-to',
 ];
 
-const userInfo = localStorage.getItem('userInfo');
-
 router.beforeResolve((to, from, next) => {
+  const userInfo = localStorage.getItem('userInfo');
   if (protectedRoutes.includes(to.path) && !userInfo) {
     next({ path: '/login' });
   } else if (userInfo && (to.path === '/login' || to.path === '/create-account')) {
     next({ path: '/' });
-  }
-  next();
+  } else { next(); }
 });
 export default router;
