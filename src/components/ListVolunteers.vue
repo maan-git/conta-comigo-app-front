@@ -22,7 +22,7 @@
         </Slide>
       </Carousel>
       <ButtonRouter
-        url='/CreateHelp'
+        url='/create-help'
         text='Preciso de ajuda!'
         heart=$heart>
       </ButtonRouter>
