@@ -15,9 +15,9 @@
           <HelpCard
             :id="help.id"
             :name="help.request_user.first_name"
-            :age="'65'"
-            :createdat="help.created | dateParse('DD/MM/YYYY')"
-            :description="help.description"
+            :age="calcAge(help.created)"
+            :createdat="formatDate(help.created)"
+            :description="help.category.description"
           />
         </Slide>
       </Carousel>
@@ -33,6 +33,7 @@
   </v-container>
 </template>
 <script>
+import moment from 'moment';
 import { mapState } from 'vuex';
 import HelpCard from '@/components/HelpCard.vue';
 import { Carousel, Slide } from 'vue-carousel';
@@ -54,8 +55,14 @@ export default {
   },
   methods: {
     async listHelp() {
-      // await this.$store.dispatch('help/getHelpCategory');
       await this.$store.dispatch('help/getHelp');
+    },
+    formatDate(dateStr) {
+      return moment(String(dateStr)).format('DD/MM/YY');
+    },
+    calcAge(dateString) {
+      console.log(dateString);
+      return moment().diff(moment(dateString, 'YYYYMMDD'), 'years');
     },
   },
   created() {

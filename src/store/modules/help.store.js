@@ -13,8 +13,9 @@ const getters = {
   getHelp(state) { return state.help; },
   getToken(state) { return state.token; },
   getHelpList(state) { return state.helpList; },
-//  getHelpCategoryError(state) { return state.helpCategoryError; },
-//  getHelpCategoryLoading(state) { return state.helpCategoryLoading; },
+
+  getHelpCategoryError(state) { return state.helpCategoryError; },
+  getHelpCategoryLoading(state) { return state.helpCategoryLoading; },
   getHelpListError(state) { return state.helpListError; },
   getHelpListLoading(state) { return state.helpListLoading; },
 };
