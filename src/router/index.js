@@ -8,17 +8,11 @@ const routes = [
     path: '/login',
     name: 'Login',
     component: () => import('../views/Login.vue'),
-    meta: {
-      requiresAuth: false,
-    },
   },
   {
     path: '/create-account',
     name: 'CreateAccount',
     component: () => import('../views/CreateAccount.vue'),
-    meta: {
-      requiresAuth: false,
-    },
   },
   {
     path: '/',
@@ -52,31 +46,18 @@ const router = new VueRouter({
   routes,
 });
 
-router.beforeEach((to, from, next) => {
-  const userInfo = localStorage.getItem('userInfo');
-  console.log('beforeEach', userInfo);
-  if (to.matched.some((record) => record.meta.requiresAuth)) {
-    if (userInfo) {
-      next();
-      return;
-    }
-    next('/login');
+const protectedRoutes = [
+  '/', '/about', '/create-help', '/how-to',
+];
+
+const userInfo = localStorage.getItem('userInfo');
+
+router.beforeResolve((to, from, next) => {
+  if (protectedRoutes.includes(to.path) && !userInfo) {
+    next({ path: '/login' });
+  } else if (userInfo && (to.path === '/login' || to.path === '/create-account')) {
+    next({ path: '/' });
   }
   next();
 });
-
-// const protectedRoutes = [
-//   '/', '/about', '/create-help', '/how-to',
-// ];
-
-// const userInfo = localStorage.getItem('userInfo');
-
-// router.beforeResolve((to, from, next) => {
-//   if (protectedRoutes.includes(to.path) && !userInfo) {
-//     next({ path: '/login' });
-//   } else if (userInfo && (to.path === '/login' || to.path === '/create-account')) {
-//     next({ path: '/' });
-//   }
-//   next();
-// });
 export default router;

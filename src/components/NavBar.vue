@@ -1,5 +1,5 @@
 <template>
-  <v-app-bar app color="primary" dark prominent dense>
+  <v-app-bar v-if="user.user" app color="primary" dark prominent dense>
     <div class="nav-container">
       <v-btn text fab large @click="$emit('toogle')">
         <v-img
@@ -8,7 +8,7 @@
           contain
           :src="require('../assets/icone.svg')"
           transition="scale-transition"
-          width="40"
+          width="45"
         />
       </v-btn>
       <div class="nav-container__text">

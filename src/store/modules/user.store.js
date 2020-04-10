@@ -38,21 +38,22 @@ const actions = {
       commit('SET_LOGIN_ERROR', null);
       commit('SET_LOGIN_LOADING', false);
       commit('SET_USER', success.data);
+      routes.push({ path: '/' });
     }).catch((error) => {
       console.log('error', error.response);
       if (error.response.data.detail) commit('SET_LOGIN_ERROR', error.response.data.detail);
       else commit('SET_LOGIN_ERROR', error.response.statusText);
       commit('SET_LOGIN_LOADING', false);
     });
-    routes.push({ path: '/' });
   },
 
-  logout({ commit }) {
-    commit('SET_USER', null);
-    commit('SET_TOKEN', null);
-    localStorage.removeItem('userInfo');
-    // TODO chamar o servico de logout para retirar o token do cookie
-    routes.replace('/login');
+  async logout({ commit }) {
+    await api().post('app/logout/').then(() => {
+      commit('SET_USER', null);
+      commit('SET_TOKEN', null);
+      localStorage.removeItem('userInfo');
+      routes.push({ path: '/login' });
+    });
   },
 
   register({ commit }, data) {
@@ -76,7 +77,6 @@ const actions = {
     commit('SET_WHATSAPP', data.whatsapp);
     commit('SET_MORASO', data.moraso);
     commit('SET_GRUPORISCO', data.grupoderisco);
-    console.log(data);
   },
   registerStep2({ commit }, data) {
     commit('SET_CEP', data.cep);
@@ -84,13 +84,12 @@ const actions = {
     commit('SET_BAIRRO', data.bairro);
     commit('SET_CIDADE', data.cidade);
     commit('SET_ESTADO', data.estado);
-    console.log(data);
   },
   registerStep3({ commit }, data) {
     commit('SET_EMAIL', data.email);
     commit('SET_PASSWORD', data.password);
-    console.log(data);
   },
+
   getCurrentUser({ commit }) {
     commit('SET_LOGIN_LOADING', false);
     let isValidated = false;
@@ -99,7 +98,6 @@ const actions = {
       isValidated = true;
       commit('SET_USER', JSON.parse(userInfo));
     } else {
-      console.log('getCurrentUser else');
       api().get('app/user/current/').then((success) => {
         const userInfo = success.data;
         const expDate = Date.now();
@@ -110,7 +108,6 @@ const actions = {
       }).catch((error) => {
         localStorage.removeItem('userInfo');
         commit('SET_LOGIN_ERROR', error.response.data.error);
-        // routes.replace('/login');
       });
       isValidated = true;
     }

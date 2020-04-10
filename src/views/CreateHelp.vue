@@ -22,8 +22,5 @@ export default {
       newHelp: true,
     };
   },
-  async beforeCreate() {
-    await !this.$store.dispatch('user/getCurrentUser');
-  },
 };
 </script>
