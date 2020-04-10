@@ -45,9 +45,9 @@ const actions = {
       commit('SET_LOADING', false);
     });
   },
-  getHelpDetails({ commit }, data) {
+  requestHelpDetails({ commit }, data) {
     return api().get(`/help/helprequest/${data}/`, data).then((success) => {
-      commit('SET_HELP_DETAILS', success.data.results);
+      commit('SET_HELP_DETAILS', success.data);
     }).catch((error) => {
       console.log(error);
     });
@@ -73,6 +73,9 @@ const mutations = {
   },
   SET_HELP_LOADING(state, value) {
     state.helpListLoading = value;
+  },
+  SET_HELP_CATEGORY_LOADING(state, value) {
+    state.helpCategoryLoading = value;
   },
   SET_HELP_DETAILS(state, value) {
     state.helpDetails = value;
