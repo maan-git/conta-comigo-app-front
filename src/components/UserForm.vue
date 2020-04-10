@@ -124,8 +124,8 @@
               outlined
               placeholder=""
               label="Endereço"
-              :placechanged="getAddressData"
               :rules="[$vln.requiredRule('Endereço')]"
+              v-on:placechanged="getAddressData"
             ></vuetify-google-autocomplete>
             <v-text-field
               :disabled="disapleForm()"
@@ -217,37 +217,6 @@
         </v-stepper-content>
       </v-stepper-items>
     </v-stepper>
-
-    <!-- <v-form ref="userform" class="ma-5" >
-        <v-radio-group
-          :rules="[$vln.requiredRule('Sexo')]"
-          :disabled="disapleForm()"
-          v-model="sexo"
-          label="Sexo:"
-          class="mb-3"
-          row>
-          <v-radio
-            label="Masculino"
-            value="m"
-          ></v-radio>
-          <v-radio
-            label="Feminino"
-            value="f"
-          ></v-radio>
-          <v-radio
-            label="Não sei"
-            value="n/s"
-          ></v-radio>
-        </v-radio-group>
-      <v-btn
-        block
-        rounded
-        x-large
-        color="primary"
-        @click="createAccount()"
-        :loading="register.loading">registrar Usuário</v-btn>
-      <p class="mt-4 red--text text-center" v-if="register.loginError">{{register.loginError}}</p>
-    </v-form> -->
   </div>
 </template>
 <script>
@@ -311,55 +280,44 @@ export default {
   },
   methods: {
     stepOneClick() {
-      // if (this.$refs.steponedata.validate()) {
-      //   this.$store.dispatch('register/registerStep1', {
-      //     nome: this.nome,
-      //     sobrenome: this.sobrenome,
-      //     cpf: this.cpf,
-      //     datanascimento: this.datanascimento,
-      //     telefone: this.telefone,
-      //     whatsapp: this.whatsapp,
-      //     moraso: this.moraso,
-      //     grupoderisco: this.grupoderisco,
-      //   });
-      // }
-      this.$store.dispatch('register/setStep', 2);
-    },
-    stepTwoClick() {
-      // if (this.$refs.steptwodata.validate()) {
-      //   this.$store.dispatch('register/registerStep2', {
-      //     cep: this.cep,
-      //     endereco: this.endereco,
-      //     bairro: this.bairro,
-      //     cidade: this.cidade,
-      //     estado: this.estado,
-      //   });
-      // }
-      this.$store.dispatch('register/setStep', 3);
-    },
-    stepThreeClick() {
-      // if (this.$refs.stepthreedata.validate()) {
-      //   const data = {
-      //     is_superuser: false,
-      //     password: this.password,
-      //     email: this.email,
-      //     first_name: this.nome,
-      //     last_name: this.sobrenome,
-      //   };
-      //   console.log('enviando data: ', data);
-      //   this.$store.dispatch('register/createAccount', data);
-      // }
-      // console.log('stepThreeClick()', this.$refs.stepthreedata.validate());
-      // this.e1 = 2;
-      this.$store.dispatch('register/setStep', 1);
-    },
-
-    createAccount() {
-      console.log('createAccount', this.$refs.userformum.validate());
-      if (this.$refs.userformum.validate()) {
-        // this.$store.dispatch('user/register', { email: this.email, password: this.password });
+      if (this.$refs.steponedata.validate()) {
+        this.$store.dispatch('register/registerStep1', {
+          nome: this.nome,
+          sobrenome: this.sobrenome,
+          cpf: this.cpf,
+          datanascimento: this.datanascimento,
+          telefone: this.telefone,
+          whatsapp: this.whatsapp,
+          moraso: this.moraso,
+          grupoderisco: this.grupoderisco,
+        });
       }
     },
+    stepTwoClick() {
+      if (this.$refs.steptwodata.validate()) {
+        this.$store.dispatch('register/registerStep2', {
+          cep: this.cep,
+          endereco: this.endereco,
+          bairro: this.bairro,
+          cidade: this.cidade,
+          estado: this.estado,
+        });
+      }
+    },
+    stepThreeClick() {
+      if (this.$refs.stepthreedata.validate()) {
+        const data = {
+          is_superuser: false,
+          password: this.password,
+          email: this.email,
+          first_name: this.nome,
+          last_name: this.sobrenome,
+        };
+        console.log('enviando data: ', data);
+        this.$store.dispatch('register/createAccount', data);
+      }
+    },
+
     saveDate(date) {
       const mdate = new Date(date);
       const dia = mdate.getDay() < 0 ? `0${mdate.getDay()}` : mdate.getDay();
@@ -375,23 +333,26 @@ export default {
       this.steps = parseInt(val);
     },
     getAddressData(map) {
-      console.log('getAddressData', map);
+      if (map.postal_code) this.cep = map.postal_code;
+      if (map.administrative_area_level_2) this.cidade = map.administrative_area_level_2;
+      if (map.administrative_area_level_1) this.estado = map.administrative_area_level_1;
+      if (map.name) this.endereco = map.name;
     },
   },
   created() {
-    // this.nome = this.register.nome ? this.register.nome : '';
-    // this.sobrenome = this.register.sobrenome ? this.register.sobrenome : '';
-    // this.cpf = this.register.cpf ? this.register.cpf : '';
-    // this.datanascimento = this.register.datanascimento ? this.register.datanascimento : '';
-    // this.telefone = this.register.telefone ? this.register.telefone : '';
-    // this.whatsapp = this.register.whatsapp ? this.register.whatsapp : '';
-    // this.moraso = this.register.moraso ? this.register.moraso : '';
-    // this.grupoderisco = this.register.grupoderisco ? this.register.grupoderisco : '';
-    // this.cep = this.register.cep ? this.register.cep : '';
-    // this.endereco = this.register.endereco ? this.register.endereco : '';
-    // this.bairro = this.register.bairro ? this.register.bairro : '';
-    // this.cidade = this.register.cidade ? this.register.cidade : '';
-    // this.estado = this.register.estado ? this.register.estado : '';
+    this.nome = this.register.nome ? this.register.nome : '';
+    this.sobrenome = this.register.sobrenome ? this.register.sobrenome : '';
+    this.cpf = this.register.cpf ? this.register.cpf : '';
+    this.datanascimento = this.register.datanascimento ? this.register.datanascimento : '';
+    this.telefone = this.register.telefone ? this.register.telefone : '';
+    this.whatsapp = this.register.whatsapp ? this.register.whatsapp : '';
+    this.moraso = this.register.moraso ? this.register.moraso : '';
+    this.grupoderisco = this.register.grupoderisco ? this.register.grupoderisco : '';
+    this.cep = this.register.cep ? this.register.cep : '';
+    this.endereco = this.register.endereco ? this.register.endereco : '';
+    this.bairro = this.register.bairro ? this.register.bairro : '';
+    this.cidade = this.register.cidade ? this.register.cidade : '';
+    this.estado = this.register.estado ? this.register.estado : '';
   },
 };
 </script>

@@ -48,9 +48,6 @@ export default {
       newHelp: false,
     };
   },
-  async beforeCreate() {
-    await !this.$store.dispatch('user/getCurrentUser');
-  },
   methods: {
     async listHelp() {
       await this.$store.dispatch('help/getHelpCategory');
