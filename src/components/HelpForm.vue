@@ -24,7 +24,6 @@
             <v-icon left>mdi-account-circle-outline</v-icon>
             {{ id_user }}
           </v-chip>
-
           <v-select
             :items="categories"
             label="Selecione a Categoria"
@@ -67,7 +66,7 @@ import { mapState } from 'vuex';
 
 export default {
   computed: mapState(['help']),
-  props: ['newHelp', 'category', 'id_user', 'description'],
+  props: ['newHelp', 'category', 'id_user', 'description', 'id_help'],
   data() {
     return {
       categories: [

@@ -13,7 +13,7 @@ export default {
   data() {
     return {
       newHelp: false,
-      id: this.id,
+      id_help: this.id,
     };
   },
   created() {
