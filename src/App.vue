@@ -27,8 +27,12 @@
 </template>
 
 <script>
+import Vue from 'vue';
+import VueFilterDateFormat from 'vue-filter-date-format';
 import { mapState } from 'vuex';
 import NavBar from './components/NavBar.vue';
+
+Vue.use(VueFilterDateFormat);
 
 export default {
   name: 'App',

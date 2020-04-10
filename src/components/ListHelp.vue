@@ -16,7 +16,7 @@
             :id="help.id"
             :name="help.request_user.first_name"
             :age="'65'"
-            :createdat="help.created"
+            :createdat="help.created | dateParse('DD/MM/YYYY')"
             :description="help.description"
           />
         </Slide>
@@ -25,9 +25,9 @@
     </div>
     <p
       v-if="help.helpCategoryError"
-      class="block text-center mt-4 red--text">{{help.helpCategoryError}}</p>
+      class="block text-center mt-4 red--text">{{help.helpListError}}</p>
     <v-btn
-      v-if="help.helpCategoryLoading"
+      v-if="help.helpListLoading"
       text block x-large
       :loading="true" color="primary"></v-btn>
   </v-container>
