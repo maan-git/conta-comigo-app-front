@@ -11,12 +11,12 @@
         :spacePadding="20"
         :spacePaddingMaxOffsetFactor="1"
         >
-        <Slide  v-for="(help, i) in help.helpList" :key="help.id_user">
+        <Slide  v-for="(help) in help.helpList" :key="help.id_user">
           <HelpCard
             :id="help.id"
-            :name="'help.request_user.first_name, help.request_user.last_name'"
+            :name="help.request_user.first_name"
             :age="'65'"
-            :createdat="'23/02'"
+            :createdat="help.created"
             :description="help.description"
           />
         </Slide>

@@ -37,6 +37,7 @@ const actions = {
   getHelp({ commit }) {
     commit('SET_HELP_CATEGORY_LOADING', true);
     api().get('/help/helprequest/').then((success) => {
+      console.log(success.data.results);
       commit('SET_HELPLIST', success.data.results);
       commit('SET_HELP_ERROR', null);
       commit('SET_HELP_LOADING', false);
