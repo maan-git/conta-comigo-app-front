@@ -6,14 +6,10 @@
           <h1>
             {{newHelp ? "Cadastrar Ajuda" : " Visualizar Ajuda"}}
           </h1>
-          <br />
-          <span>
+          <span class="mb-5 mt-1">
             {{newHelp ? "Selecione o tipo de ajuda e uma breve descrição do"
             +"que você precisa e logo um voluntário irá oferecer ajuda." : ""}}
           </span>
-          <br />
-          <br />
-          <br />
           <v-chip
             class="ma-2"
             color="primary"
