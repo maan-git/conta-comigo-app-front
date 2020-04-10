@@ -27,7 +27,7 @@
 </template>
 <script>
 export default {
-  props: ['id', 'description', 'name', 'age', 'createdat', 'user_request',],
+  props: ['id', 'description', 'name', 'age', 'createdat', 'user_request'],
   data() {
     return {
       timeago: 'há 10 minutos',
