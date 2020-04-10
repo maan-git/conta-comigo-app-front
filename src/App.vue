@@ -2,24 +2,7 @@
   <v-app :class="purple()">
     <!--  -->
     <NavBar v-if="user.user" v-on:toogle="toogleMenu()"/>
-      <v-navigation-drawer
-        v-model="drawer"
-        absolute
-        bottom
-        temporary
-      >
-        <v-list nav dense>
-          <v-list-item-group active-class="deep-purple--text text--accent-4">
-            <v-list-item>
-              <v-btn
-                text
-                block
-                color="primary"
-                @click="$store.dispatch('user/logout')">Logout</v-btn>
-            </v-list-item>
-          </v-list-item-group>
-        </v-list>
-      </v-navigation-drawer>
+    <SideMenu ref="sidemenu"/>
     <v-content>
       <router-view></router-view>
     </v-content>
@@ -29,16 +12,16 @@
 <script>
 import { mapState } from 'vuex';
 import NavBar from './components/NavBar.vue';
+import SideMenu from './components/SideMenu.vue';
 
 export default {
   name: 'App',
   components: {
     NavBar,
+    SideMenu,
   },
   computed: mapState(['user']),
-  data: () => ({
-    drawer: false,
-  }),
+  data: () => ({}),
   methods: {
     purple() {
       if (this.$router.history.current.name !== 'Home') {
@@ -47,8 +30,8 @@ export default {
       return '';
     },
     toogleMenu() {
+      this.$refs.sidemenu.toogleMenu();
       console.log('toogleMenu');
-      this.drawer = !this.drawer;
     },
   },
 };

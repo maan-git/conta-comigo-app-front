@@ -8,7 +8,7 @@
           contain
           :src="require('../assets/icone.svg')"
           transition="scale-transition"
-          width="40"
+          width="45"
         />
       </v-btn>
       <div class="nav-container__text">

@@ -1,9 +1,9 @@
 <template>
   <div>
     <CardContainer>
-      <div class="text-center">
-        <p class="primary--text font-weight-bold title">Cadastro</p>
-        <span class="subtitle-1 grey--text">{{text}}</span>
+      <div class="text-center mb-5">
+        <p class="primary--text font-weight-medium headline">Cadastro</p>
+        <span class="subtitle-1 sub-txt">{{text}}</span>
       </div>
       <UserForm :editavel="editavel"></UserForm>
     </CardContainer>
@@ -27,3 +27,9 @@ export default {
   },
 };
 </script>
+
+<style lang="scss" scoped>
+.sub-txt {
+  color: #5f5f5f;
+}
+</style>style
