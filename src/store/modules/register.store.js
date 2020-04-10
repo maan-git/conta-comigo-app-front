@@ -67,6 +67,9 @@ const actions = {
     commit('SET_LOGIN_LOADING', false);
     commit('SET_STEP', 3);
   },
+  setStep({ commit }, step) {
+    commit('SET_STEP', step);
+  },
   registerStep3({ commit }, data) {
     commit('SET_EMAIL', data.email);
     commit('SET_PASSWORD', data.password);

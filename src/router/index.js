@@ -5,19 +5,9 @@ Vue.use(VueRouter);
 
 const routes = [
   {
-    path: '/',
-    name: 'Home',
-    component: () => import('../views/Home.vue'),
-  },
-  {
     path: '/login',
     name: 'Login',
     component: () => import('../views/Login.vue'),
-  },
-  {
-    path: '/about',
-    name: 'About',
-    component: () => import('../views/About.vue'),
   },
   {
     path: '/create-account',
@@ -25,15 +15,20 @@ const routes = [
     component: () => import('../views/CreateAccount.vue'),
   },
   {
+    path: '/',
+    name: 'Home',
+    component: () => import('../views/Home.vue'),
+  },
+  {
+    path: '/about',
+    name: 'About',
+    component: () => import('../views/About.vue'),
+  },
+  {
     path: '/create-help',
     name: 'CreateHelp',
     component: () => import('../views/CreateHelp.vue'),
   },
-  // {
-  //   path: '/list-help',
-  //   name: 'ListHelp',
-  //   component: () => import('../views/ListHelp.vue'),
-  // },
   {
     path: '/how-to',
     name: 'HowTo',
