@@ -40,6 +40,11 @@ const routes = [
     component: () => import('../views/HowTo.vue'),
   },
   {
+    path: '/help-details',
+    name: 'HelpDetails',
+    component: () => import('../views/HelpDetails.vue'),
+  },
+  {
     path: '*',
     redirect: '/login',
   },
@@ -52,7 +57,7 @@ const router = new VueRouter({
 });
 
 const protectedRoutes = [
-  '/', '/about', '/create-help', '/how-to',
+  '/', '/about', '/create-help', '/how-to', '/help-details',
 ];
 
 const userInfo = localStorage.getItem('userInfo');

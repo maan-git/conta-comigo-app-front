@@ -13,6 +13,7 @@
         >
         <Slide  v-for="(help, i) in help.helpList" :key="help.id_user">
           <HelpCard
+            :id="help.id"
             :name="`Maria do Carmo ${i}`"
             :age="'65'"
             :createdat="'23/02'"
