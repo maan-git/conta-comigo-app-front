@@ -13,7 +13,6 @@ const getters = {
   getHelp(state) { return state.help; },
   getToken(state) { return state.token; },
   getHelpList(state) { return state.helpList; },
-
   getHelpCategoryError(state) { return state.helpCategoryError; },
   getHelpCategoryLoading(state) { return state.helpCategoryLoading; },
   getHelpListError(state) { return state.helpListError; },
@@ -39,8 +38,7 @@ const actions = {
 //  },
   getHelp({ commit }) {
     commit('SET_HELP_CATEGORY_LOADING', true);
-    api().get('/help/helprequest/').then((success) => {
-      console.log(success.data.results);
+    api().get('/help/helprequest/?limit=10&ordering=-created').then((success) => {
       commit('SET_HELPLIST', success.data.results);
       commit('SET_HELP_ERROR', null);
       commit('SET_HELP_LOADING', false);
@@ -77,11 +75,11 @@ const mutations = {
   SET_HELPLIST(state, value) {
     state.helpList = value;
   },
-  SET_HELP_CATEGORY_ERROR(state, value) {
-    state.helpCategoryError = value;
+  SET_HELP_ERROR(state, value) {
+    state.helpListError = value;
   },
-  SET_HELP_CATEGORY_LOADING(state, value) {
-    state.helpCategoryLoading = value;
+  SET_HELP_LOADING(state, value) {
+    state.helpListLoading = value;
   },
 };
 

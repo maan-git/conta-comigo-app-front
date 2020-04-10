@@ -5,11 +5,14 @@
 </template>
 <script>
 import HelpForm from '@/components/HelpForm.vue';
+import { mapState } from 'vuex';
+
 
 export default {
   components: {
     HelpForm,
   },
+  computed: mapState(['help']),
   data() {
     return {
       newHelp: false,
@@ -18,6 +21,7 @@ export default {
   },
   created() {
     console.log('Help here!');
+    console.log(this.$route.query.id);
     this.id = this.$route.query.id;
   },
 };

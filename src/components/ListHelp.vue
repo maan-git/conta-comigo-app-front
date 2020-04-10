@@ -61,7 +61,6 @@ export default {
       return moment(String(dateStr)).format('DD/MM/YY');
     },
     calcAge(dateString) {
-      console.log(dateString);
       return moment().diff(moment(dateString, 'YYYYMMDD'), 'years');
     },
   },
