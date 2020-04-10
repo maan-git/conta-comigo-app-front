@@ -18,32 +18,16 @@ const getters = {
 };
 
 const actions = {
-//  getHelpCategory({ commit }) {
-//    commit('SET_HELP_CATEGORY_LOADING', true);
-//    api().get('/help/helpcategory/').then((success) => {
-//      commit('SET_HELPLIST', success.data.results);
-//      commit('SET_HELP_CATEGORY_ERROR', null);
-//      commit('SET_HELP_CATEGORY_LOADING', false);
-//    }).catch((error) => {
-//      if (error.response.data.detail) commit('SET_HELP_CATEGORY_ERROR',
-//      error.response.data.detail);
-//      else commit('SET_HELP_CATEGORY_ERROR', error.response.statusText);
-//      commit('SET_HELP_CATEGORY_LOADING', false);
-//    });
-//    // return api().get('Helps?page=1').then((success) => {
-//    //   commit('SET_LIST', success.data.data);
-//    // });
-//  },
-  getHelp({ commit }) {
+  getHelpCategory({ commit }) {
     commit('SET_HELP_CATEGORY_LOADING', true);
-    api().get('/help/helprequest/').then((success) => {
+    api().get('/help/helpcategory/').then((success) => {
       commit('SET_HELPLIST', success.data.results);
-      commit('SET_HELP_ERROR', null);
-      commit('SET_HELP_LOADING', false);
+      commit('SET_HELP_CATEGORY_ERROR', null);
+      commit('SET_HELP_CATEGORY_LOADING', false);
     }).catch((error) => {
-      if (error.response.data.detail) commit('SET_HELP_ERROR', error.response.data.detail);
-      else commit('SET_HELP_ERROR', error.response.statusText);
-      commit('SET_HELP_LOADING', false);
+      if (error.response.data.detail) commit('SET_HELP_CATEGORY_ERROR', error.response.data.detail);
+      else commit('SET_HELP_CATEGORY_ERROR', error.response.statusText);
+      commit('SET_HELP_CATEGORY_LOADING', false);
     });
     // return api().get('Helps?page=1').then((success) => {
     //   commit('SET_LIST', success.data.data);

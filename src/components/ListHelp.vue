@@ -14,7 +14,7 @@
         <Slide  v-for="(help, i) in help.helpList" :key="help.id_user">
           <HelpCard
             :id="help.id"
-            :name="`Maria do Carmo ${i}`"
+            :name="'help.request_user.first_name, help.request_user.last_name'"
             :age="'65'"
             :createdat="'23/02'"
             :description="help.description"
@@ -54,7 +54,8 @@ export default {
   },
   methods: {
     async listHelp() {
-      await this.$store.dispatch('help/getHelpCategory');
+      // await this.$store.dispatch('help/getHelpCategory');
+      await this.$store.dispatch('help/getHelp');
     },
   },
   created() {
