@@ -1,7 +1,7 @@
 <template>
   <v-app :class="purple()">
     <!--  -->
-    <NavBar v-if="user.user" v-on:toogle="toogleMenu()"/>
+    <NavBar v-on:toogle="toogleMenu()"/>
     <SideMenu ref="sidemenu"/>
     <v-content>
       <router-view></router-view>
@@ -31,8 +31,10 @@ export default {
     },
     toogleMenu() {
       this.$refs.sidemenu.toogleMenu();
-      console.log('toogleMenu');
     },
+  },
+  async beforeCreate() {
+    await !this.$store.dispatch('user/getCurrentUser');
   },
 };
 </script>

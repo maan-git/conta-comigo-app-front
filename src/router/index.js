@@ -5,24 +5,24 @@ Vue.use(VueRouter);
 
 const routes = [
   {
-    path: '/',
-    name: 'Home',
-    component: () => import('../views/Home.vue'),
-  },
-  {
     path: '/login',
     name: 'Login',
     component: () => import('../views/Login.vue'),
   },
   {
-    path: '/about',
-    name: 'About',
-    component: () => import('../views/About.vue'),
-  },
-  {
     path: '/create-account',
     name: 'CreateAccount',
     component: () => import('../views/CreateAccount.vue'),
+  },
+  {
+    path: '/',
+    name: 'Home',
+    component: () => import('../views/Home.vue'),
+  },
+  {
+    path: '/about',
+    name: 'About',
+    component: () => import('../views/About.vue'),
   },
   {
     path: '/create-help',
@@ -50,12 +50,14 @@ const protectedRoutes = [
   '/', '/about', '/create-help', '/how-to',
 ];
 
+const userInfo = localStorage.getItem('userInfo');
+
 router.beforeResolve((to, from, next) => {
-  const userInfo = localStorage.getItem('userInfo');
   if (protectedRoutes.includes(to.path) && !userInfo) {
     next({ path: '/login' });
   } else if (userInfo && (to.path === '/login' || to.path === '/create-account')) {
     next({ path: '/' });
-  } else { next(); }
+  }
+  next();
 });
 export default router;

@@ -1,5 +1,5 @@
 <template>
-  <v-app-bar app color="primary" dark prominent dense>
+  <v-app-bar v-if="user.user" app color="primary" dark prominent dense>
     <div class="nav-container">
       <v-btn text fab large @click="$emit('toogle')">
         <v-img

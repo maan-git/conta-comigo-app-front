@@ -27,9 +27,9 @@
         heart=$heart>
       </ButtonRouter>
     </div>
-    <p
-      v-if="user.usersError"
-      class="block text-center mt-4 red--text">{{help.usersError}}</p>
+    <!-- <p
+      v-if="user && user.usersError"
+      class="block text-center mt-4 red--text">{{help.usersError}}</p> -->
     <v-btn
       v-if="user.usersLoginLoading"
       text block x-large
