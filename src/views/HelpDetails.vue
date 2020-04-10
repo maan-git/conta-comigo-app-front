@@ -1,16 +1,36 @@
 <template>
-  <v-container>
-    <HelpForm :newHelp="newHelp"></HelpForm>
-  </v-container>
+  <div>
+    <CardContainer>
+      <div class="text-center">
+        <p class="primary--text font-weight-bold title">Agora é só aguardar!</p>
+      </div>
+
+      <v-flex class="how-to">
+        <v-img width="350" class="img-center"
+               center :src="require('../assets/intro/step1.svg')"></v-img>
+        <div class="text-center margin-text">
+          <span class="subtitle-1 grey--text">{{help.helpDetails.request_user.first_name}}</span>
+        </div>
+      </v-flex>
+
+
+      <v-btn rounded v-if="!newHelp" class="v-btn v-btn--block v-btn--contained
+      v-btn--rounded theme--light v-size--x-large primary">
+        OK
+      </v-btn>
+
+    </CardContainer>
+  </div>
 </template>
 <script>
-import HelpForm from '@/components/HelpForm.vue';
+
 import { mapState } from 'vuex';
+import CardContainer from '@/components/CardContainer.vue';
 
 
 export default {
   components: {
-    HelpForm,
+    CardContainer,
   },
   computed: mapState(['help']),
   data() {
@@ -19,10 +39,9 @@ export default {
       id_help: this.id,
     };
   },
-  created() {
-    console.log('Help here!');
-    console.log(this.$route.query.id);
-    this.id = this.$route.query.id;
+  async created() {
+    await this.$store.dispatch('help/getHelpDetails', this.$route.query.id);
+    console.log(this.help.helpDetails);
   },
 };
 </script>

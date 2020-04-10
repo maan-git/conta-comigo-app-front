@@ -7,6 +7,7 @@ const state = {
   helpList: null,
   helpCategoryError: null,
   helpCategoryLoading: false,
+  helpDetails: null,
 };
 
 const getters = {
@@ -17,25 +18,10 @@ const getters = {
   getHelpCategoryLoading(state) { return state.helpCategoryLoading; },
   getHelpListError(state) { return state.helpListError; },
   getHelpListLoading(state) { return state.helpListLoading; },
+  getHelpDetails(state) { return state.helpDetails; },
 };
 
 const actions = {
-//  getHelpCategory({ commit }) {
-//    commit('SET_HELP_CATEGORY_LOADING', true);
-//    api().get('/help/helpcategory/').then((success) => {
-//      commit('SET_HELPLIST', success.data.results);
-//      commit('SET_HELP_CATEGORY_ERROR', null);
-//      commit('SET_HELP_CATEGORY_LOADING', false);
-//    }).catch((error) => {
-//      if (error.response.data.detail) commit('SET_HELP_CATEGORY_ERROR',
-//      error.response.data.detail);
-//      else commit('SET_HELP_CATEGORY_ERROR', error.response.statusText);
-//      commit('SET_HELP_CATEGORY_LOADING', false);
-//    });
-//    // return api().get('Helps?page=1').then((success) => {
-//    //   commit('SET_LIST', success.data.data);
-//    // });
-//  },
   getHelp({ commit }) {
     commit('SET_HELP_CATEGORY_LOADING', true);
     api().get('/help/helprequest/?limit=10&ordering=-created').then((success) => {
@@ -47,9 +33,6 @@ const actions = {
       else commit('SET_HELP_ERROR', error.response.statusText);
       commit('SET_HELP_LOADING', false);
     });
-    // return api().get('Helps?page=1').then((success) => {
-    //   commit('SET_LIST', success.data.data);
-    // });
   },
   register({ commit }, data) {
     commit('SET_LOADING', true);
@@ -61,6 +44,16 @@ const actions = {
       commit('SET_LOGIN_ERROR', error.response.data.error);
       commit('SET_LOADING', false);
     });
+  },
+  getHelpDetails({ commit }, data) {
+    return api().get(`/help/helprequest/${data}/`, data).then((success) => {
+      commit('SET_HELP_DETAILS', success.data.results);
+    }).catch((error) => {
+      console.log(error);
+    });
+  },
+  deleteDetails({ commit }) {
+    commit('SET_HELP_DETAILS', null);
   },
 };
 
@@ -80,6 +73,9 @@ const mutations = {
   },
   SET_HELP_LOADING(state, value) {
     state.helpListLoading = value;
+  },
+  SET_HELP_DETAILS(state, value) {
+    state.helpDetails = value;
   },
 };
 
