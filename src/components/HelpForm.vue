@@ -23,13 +23,14 @@
           <v-select
             :items="categories"
             label="Selecione a Categoria"
+            v-model="category"
             outlined
             required
             :disabled = "!newHelp"
           ></v-select>
           <v-textarea
             outlined
-            v-model="mydescription"
+            v-model="description"
             label="Descrição"
             :disabled = "!newHelp"
             required
@@ -39,14 +40,14 @@
             v-if="newHelp"
             class="mt-5"
             block
-            @click="saveHelp()"
+            @click="requestHelpSave()"
             color="primary" x-large>Salvar</v-btn>
           <v-btn
             rounded
-            v-if="newHelp"
+            v-if="!newHelp"
             class="mt-5"
             block
-            @click="saveHelp()"
+            @click="requestHelpSave()"
             color="primary"
             x-large>Editar</v-btn>
           <v-btn rounded v-if="!newHelp" class="mt-5" block outlined color="red" x-large>
@@ -71,17 +72,19 @@ export default {
         { text: 'Olhar Crianças' },
         { text: 'Outros' },
       ],
-      mydescription: '',
+      requestDescription: '',
+      requestCategory: '',
     };
   },
   methods: {
-    saveHelp() {
-      console.log('salvou!', this.mydescription);
+    async requestHelpSave() {
+      await this.$store.dispatch('help/requestHelpSave', {this.requestCategory, this.requestDescription});
     },
   },
   created() {
-    if (this.description) {
-      this.mydescription = this.description;
+    if ((this.description) && (this.category)) {
+      this.requestDescription = this.description;
+      this.requestCategory = this.category;
     }
   },
 };

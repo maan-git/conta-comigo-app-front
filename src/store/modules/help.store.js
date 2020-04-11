@@ -36,12 +36,11 @@ const actions = {
       commit('SET_HELP_LOADING', false);
     });
   },
-  register({ commit }, data) {
+  requestHelpSave({ commit }, data) {
     commit('SET_LOADING', true);
-    return api().post('register', data).then((success) => {
-      commit('SET_TOKEN', success);
-      commit('SET_LOGIN_ERROR', null);
-      commit('SET_LOADING', false);
+    return api().post('/help/helprequest/', data).then((success) => {
+      console.log(success);
+      console.log(data);
     }).catch((error) => {
       commit('SET_LOGIN_ERROR', error.response.data.error);
       commit('SET_LOADING', false);
