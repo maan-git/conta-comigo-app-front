@@ -8,6 +8,8 @@ const state = {
   helpCategoryError: null,
   helpCategoryLoading: false,
   helpDetails: null,
+  helpDetailsLoading: false,
+  helpDetailsError: null,
 };
 
 const getters = {
@@ -56,13 +58,15 @@ const actions = {
     commit('SET_HELP_DETAILS', null);
   },
   applyToHelpRequest({ commit }, data) {
+    commit('SET_HELP_DETAILS_LOADING', true);
     return api().post(`help/helprequest/${data}/applytohelp/`, data).then((success) => {
-      commit('SET_TOKEN', success);
-      commit('SET_LOGIN_ERROR', null);
-      commit('SET_LOADING', false);
+      console.log(success);
+      commit('SET_HELP_DETAILS_LOADING', false);
+      commit('SET_HELP_DETAILS_ERROR', null);
+      console.log('Sucesso!');
     }).catch((error) => {
-      commit('SET_LOGIN_ERROR', error.response.data.error);
-      commit('SET_LOADING', false);
+      commit('SET_HELP_DETAILS_LOADING', false);
+      commit('SET_HELP_DETAILS_ERROR', error.response.data.detail);
     });
   },
 };
@@ -89,6 +93,12 @@ const mutations = {
   },
   SET_HELP_DETAILS(state, value) {
     state.helpDetails = value;
+  },
+  SET_HELP_DETAILS_LOADING(state, value) {
+    state.helpDetailsLoading = value;
+  },
+  SET_HELP_DETAILS_ERROR(state, value) {
+    state.helpDetailsError = value;
   },
 };
 

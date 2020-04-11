@@ -2,6 +2,7 @@ import VueMask from 'v-mask';
 import VueCarousel from 'vue-carousel';
 import Vue from 'vue';
 import * as validation from './utils/validation';
+import * as filters from './utils/filters';
 import App from './App.vue';
 import './registerServiceWorker';
 import router from './router';
@@ -13,6 +14,7 @@ Vue.config.productionTip = false;
 Vue.use(VueMask);
 Vue.use(VueCarousel);
 Vue.prototype.$vln = validation;
+Vue.prototype.$filters = filters;
 
 new Vue({
   router,

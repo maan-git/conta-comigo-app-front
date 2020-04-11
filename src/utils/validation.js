@@ -1,5 +1,3 @@
-import moment from 'moment';
-
 export const requiredRule = (field) => (v) => !!v || `${field} é obrigatório`;
 
 export const lessThanRule = (max) => (v) => (v && v.length <= max) || `Tem que ter menos de ${max} caracteres`;
@@ -50,17 +48,6 @@ export const cpflRule = () => (v) => {
   return true;
 };
 
-
-export const formatDate = () => (v) => {
-  const dateStr = v;
-  return moment(String(dateStr)).format('DD/MM/YY');
-};
-
-export const calcAge = () => (v) => {
-  const dateString = v;
-  return moment().diff(moment(dateString, 'YYYYMMDD'), 'years');
-};
-
 export default {
   requiredRule,
   lessThanRule,
@@ -70,6 +57,4 @@ export default {
   emailRule,
   cpflRule,
   mustBeEqualPass,
-  formatDate,
-  calcAge,
 };
