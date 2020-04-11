@@ -22,9 +22,9 @@
           alt="Vuetify Logo"
           class="shrink mr-2"
           contain
-          :src="require('../assets/logo.svg')"
+          :src="user.user.avatar"
           transition="scale-transition"
-          width="46"
+          width="48"
         />
       </v-avatar>
     </div>

@@ -9,7 +9,7 @@
 
       <v-flex class="how-to">
         <v-img width="350" class="img-center"
-          center :src="require('../assets/intro/step1.svg')"></v-img>
+          center :src="help.helpDetails.request_user.avatar"></v-img>
         <div class="text-center margin-text">
           <span
             class="subtitle-1 grey--text"
@@ -69,3 +69,12 @@ export default {
   },
 };
 </script>
+
+<style lang="scss">
+.margin-text{
+  margin:12% 0;
+}
+.img-center{
+  margin:0 auto;
+}
+</style>
