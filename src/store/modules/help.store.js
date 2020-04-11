@@ -55,6 +55,16 @@ const actions = {
   deleteDetails({ commit }) {
     commit('SET_HELP_DETAILS', null);
   },
+  applyToHelpRequest({ commit }, data) {
+    return api().post(`help/helprequest/${data}/applytohelp/`, data).then((success) => {
+      commit('SET_TOKEN', success);
+      commit('SET_LOGIN_ERROR', null);
+      commit('SET_LOADING', false);
+    }).catch((error) => {
+      commit('SET_LOGIN_ERROR', error.response.data.error);
+      commit('SET_LOADING', false);
+    });
+  },
 };
 
 const mutations = {

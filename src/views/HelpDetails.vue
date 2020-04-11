@@ -2,13 +2,21 @@
   <div v-if="help.helpDetails">
     <CardContainer :hideLogo="true">
       <div class="text-center">
-        <p class="primary--text font-weight-bold title">Agora é só aguardar!</p>
+        <p class="primary--text font-weight-bold title">
+          {{help.helpDetails.request_user.first_name}}</p>
       </div>
 
       <v-flex class="how-to">
         <v-img width="350" class="img-center"
           center :src="require('../assets/intro/step1.svg')"></v-img>
         <div class="text-center margin-text">
+          <span
+            class="subtitle-1 grey--text"
+          >Criado em, {{help.helpDetails.created}}</span>,
+          <span
+            class="subtitle-1 grey--text"
+          >{{help.helpDetails.category.description}}</span>
+          <br />
           <span
             class="subtitle-1 grey--text"
           >{{help.helpDetails.description}}</span>
@@ -40,6 +48,11 @@ export default {
       newHelp: false,
       id_help: this.id,
     };
+  },
+  methods: {
+    async requestHelp() {
+      await this.$store.dispatch('help/getHelp');
+    },
   },
   created() {
     this.$store.dispatch('help/requestHelpDetails', this.$route.query.id);
