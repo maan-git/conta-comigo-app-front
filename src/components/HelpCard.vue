@@ -16,6 +16,7 @@
     </div>
     <div class="help-card--footer">
     <v-btn
+      :to="getUrl()"
       block
       rounded
       color="primary">Conta Comigo
@@ -26,13 +27,18 @@
 </template>
 <script>
 export default {
-  props: ['description', 'name', 'age', 'createdat'],
+  props: ['id', 'description', 'name', 'age', 'createdat', 'user_request'],
   data() {
     return {
       timeago: 'há 10 minutos',
       mydescription: '',
       myimg: '../assets/icone.svg',
     };
+  },
+  methods: {
+    getUrl() {
+      return `/help-details?id=${this.id}`;
+    },
   },
   created() {
     if (this.description.length > 120) {

@@ -1,9 +1,9 @@
 <template>
   <div class="card-container" :class="{'justify-space-between': $vuetify.breakpoint.xs}">
-    <div class="card-container__img text-center my-5">
+    <div v-if="!hideLogo" class="card-container__img text-center my-5">
       <img width="178" :src="require('../assets/logo_completa.svg')">
     </div>
-    <div class="card-container__card">
+    <div class="card-container__card" :class="{'mt-5' : hideLogo}">
       <slot></slot>
     </div>
   </div>
@@ -11,6 +11,7 @@
 <script>
 export default {
   name: 'CardContainer',
+  props: ['hideLogo'],
 };
 </script>
 <style lang="scss" scoped>

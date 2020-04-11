@@ -6,14 +6,10 @@
           <h1>
             {{newHelp ? "Cadastrar Ajuda" : " Visualizar Ajuda"}}
           </h1>
-          <br />
-          <span>
+          <span class="mb-5 mt-1">
             {{newHelp ? "Selecione o tipo de ajuda e uma breve descrição do"
             +"que você precisa e logo um voluntário irá oferecer ajuda." : ""}}
           </span>
-          <br />
-          <br />
-          <br />
           <v-chip
             class="ma-2"
             color="primary"
@@ -24,7 +20,6 @@
             <v-icon left>mdi-account-circle-outline</v-icon>
             {{ id_user }}
           </v-chip>
-
           <v-select
             :items="categories"
             label="Selecione a Categoria"
@@ -67,7 +62,7 @@ import { mapState } from 'vuex';
 
 export default {
   computed: mapState(['help']),
-  props: ['newHelp', 'category', 'id_user', 'description'],
+  props: ['newHelp', 'category', 'id_user', 'description', 'id_help'],
   data() {
     return {
       categories: [

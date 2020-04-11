@@ -11,12 +11,13 @@
         :spacePadding="20"
         :spacePaddingMaxOffsetFactor="1"
         >
-        <Slide  v-for="(help, i) in help.helpList" :key="help.id_user">
+        <Slide  v-for="(help) in help.helpList" :key="help.id_user">
           <HelpCard
-            :name="`Maria do Carmo ${i}`"
-            :age="'65'"
-            :createdat="'23/02'"
-            :description="help.description"
+            :id="help.id"
+            :name="help.request_user.first_name"
+            :age="calcAge(help.created)"
+            :createdat="formatDate(help.created)"
+            :description="help.category.description"
           />
         </Slide>
       </Carousel>
@@ -24,14 +25,15 @@
     </div>
     <p
       v-if="help.helpCategoryError"
-      class="block text-center mt-4 red--text">{{help.helpCategoryError}}</p>
+      class="block text-center mt-4 red--text">{{help.helpListError}}</p>
     <v-btn
-      v-if="help.helpCategoryLoading"
+      v-if="help.helpListLoading"
       text block x-large
       :loading="true" color="primary"></v-btn>
   </v-container>
 </template>
 <script>
+import moment from 'moment';
 import { mapState } from 'vuex';
 import HelpCard from '@/components/HelpCard.vue';
 import { Carousel, Slide } from 'vue-carousel';
@@ -50,7 +52,13 @@ export default {
   },
   methods: {
     async listHelp() {
-      await this.$store.dispatch('help/getHelpCategory');
+      await this.$store.dispatch('help/getHelp');
+    },
+    formatDate(dateStr) {
+      return moment(String(dateStr)).format('DD/MM/YY');
+    },
+    calcAge(dateString) {
+      return moment().diff(moment(dateString, 'YYYYMMDD'), 'years');
     },
   },
   created() {
