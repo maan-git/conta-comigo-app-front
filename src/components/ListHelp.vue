@@ -12,9 +12,8 @@
         :spacePaddingMaxOffsetFactor="1"
         >
         <Slide  v-for="(help) in help.helpList" :key="help.id_user">
-<!--          <img :src="help.request_user.avatar" width="46" height="46" />-->
           <HelpCard
-            :src="help.request_user.avatar"
+            :avatar="help.request_user.avatar"
             :id="help.id"
             :name="help.request_user.first_name"
             :age="$filters.calcAge(help.created)"

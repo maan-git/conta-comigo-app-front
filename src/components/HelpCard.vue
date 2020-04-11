@@ -2,7 +2,9 @@
   <div class="help-card">
     <div class="help-card--header">
       <div class="help-card--header__avatar">
-        <v-img width="46" height="46" :src="require('../assets/logo.png')"></v-img>
+        <v-img width="46" height="46" :lazy-src="`${avatar}?vuetify-preload`"
+               :src="`${avatar}?vuetify-preload`"
+               ></v-img>
       </div>
       <div class="help-card--header__text">
         <p>
@@ -27,7 +29,7 @@
 </template>
 <script>
 export default {
-  props: ['id', 'description', 'name', 'age', 'createdat', 'user_request'],
+  props: ['id', 'description', 'name', 'age', 'createdat', 'user_request', 'avatar'],
   data() {
     return {
       timeago: 'há 10 minutos',
