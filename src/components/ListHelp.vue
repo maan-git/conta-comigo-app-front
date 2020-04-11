@@ -13,6 +13,7 @@
         >
         <Slide  v-for="(help) in help.helpList" :key="help.id_user">
           <HelpCard
+            :src="help.request_user.avatar"
             :id="help.id"
             :name="help.request_user.first_name"
             :age="$filters.calcAge(help.created)"
