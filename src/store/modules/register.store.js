@@ -95,6 +95,19 @@ const actions = {
       console.log(error);
     });
   },
+  findByZip({ commit }, cep) {
+    const zip = cep.replace('-', '');
+    return api().get(`/app/address/findbyzip/?zip=${zip}`).then((s) => {
+      console.log('searchByCep success', s);
+      commit('SET_CEP', zip);
+      commit('SET_ENDERECO', s.data.address);
+      commit('SET_BAIRRO', s.data.neighborhood.description);
+      commit('SET_CIDADE', s.data.city.description);
+      commit('SET_ESTADO', s.data.state.description);
+    }).catch((err) => {
+      console.log('searchByCep error', err);
+    });
+  },
 };
 
 const mutations = {

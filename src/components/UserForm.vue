@@ -3,8 +3,9 @@
     <StepperHeader :currenctStep="register.step"
       :steps="[
         { label: 'Dados pessoais' },
+        { label: 'Dados da conta' },
         { label: 'Endereço' },
-        { label: 'Dados da conta' },]"
+        ]"
     />
     <v-stepper alt-labels v-model="register.step">
       <v-stepper-items>
@@ -110,67 +111,6 @@
         </v-stepper-content>
         <v-stepper-content class="px-0" step="2">
           <v-form ref="steptwodata" class="mt-3">
-            <!-- <v-text-field
-              :disabled="disapleForm()"
-              outlined
-              label="Endereço"
-              :rules="[$vln.requiredRule('Endereço')]"
-              required
-              v-model="endereco"
-            ></v-text-field> -->
-            <vuetify-google-autocomplete
-              :country="['br']"
-              id="map"
-              outlined
-              placeholder=""
-              label="Endereço"
-              :rules="[$vln.requiredRule('Endereço')]"
-              v-on:placechanged="getAddressData"
-            ></vuetify-google-autocomplete>
-            <v-text-field
-              :disabled="disapleForm()"
-              outlined
-              label="Cep"
-              v-mask="cepMask"
-              :rules="[$vln.requiredRule('Cep')]"
-              required
-              v-model="cep"
-            ></v-text-field>
-            <v-text-field
-              :disabled="disapleForm()"
-              outlined
-              label="Bairro"
-              :rules="[$vln.requiredRule('Bairro')]"
-              required
-              v-model="bairro"
-            ></v-text-field>
-            <v-text-field
-              :disabled="disapleForm()"
-              outlined
-              label="Cidade"
-              :rules="[$vln.requiredRule('Cidade')]"
-              required
-              v-model="cidade"
-            ></v-text-field>
-            <v-text-field
-              :disabled="disapleForm()"
-              outlined
-              label="Estado"
-              :rules="[$vln.requiredRule('Estado')]"
-              required
-              v-model="estado"
-            ></v-text-field>
-            <v-btn
-              block
-              rounded
-              x-large
-              color="primary"
-              @click="stepTwoClick()"
-              :loading="register.loginLoading">Próximo</v-btn>
-          </v-form>
-        </v-stepper-content>
-        <v-stepper-content class="px-0" step="3">
-          <v-form ref="stepthreedata" class="mt-3">
             <v-text-field
               :disabled="disapleForm()"
               outlined
@@ -208,11 +148,72 @@
               rounded
               x-large
               color="primary"
-              @click="stepThreeClick()"
+              @click="stepTwoClick()"
               :loading="register.createUserLoading">Registrar-se</v-btn>
             <p v-if="register.createUserError" class="block text-center mt-4 red--text">
               {{register.createUserError}}
             </p>
+          </v-form>
+        </v-stepper-content>
+        <v-stepper-content class="px-0" step="3">
+          <v-form ref="stepthreedata" class="mt-3">
+            <!-- <vuetify-google-autocomplete
+              :country="['br']"
+              id="map"
+              outlined
+              placeholder=""
+              label="Endereço"
+              :rules="[$vln.requiredRule('Endereço')]"
+              v-on:placechanged="getAddressData"
+            ></vuetify-google-autocomplete> -->
+            <v-text-field
+              :disabled="disapleForm()"
+              outlined
+              label="Cep"
+              v-mask="cepMask"
+              :rules="[$vln.requiredRule('Cep')]"
+              required
+              v-model="cep"
+            ></v-text-field>
+            <v-text-field
+              :disabled="disapleForm()"
+              outlined
+              label="Endereço"
+              :rules="[$vln.requiredRule('Endereço')]"
+              required
+              v-model="endereco"
+            ></v-text-field>
+            <v-text-field
+              :disabled="disapleForm()"
+              outlined
+              label="Bairro"
+              :rules="[$vln.requiredRule('Bairro')]"
+              required
+              v-model="bairro"
+            ></v-text-field>
+            <v-text-field
+              :disabled="disapleForm()"
+              outlined
+              label="Cidade"
+              :rules="[$vln.requiredRule('Cidade')]"
+              required
+              v-model="cidade"
+            ></v-text-field>
+            <v-text-field
+              :disabled="disapleForm()"
+              outlined
+              label="Estado"
+              :rules="[$vln.requiredRule('Estado')]"
+              required
+              v-model="estado"
+            ></v-text-field>
+            <v-btn
+              block
+              rounded
+              x-large
+              color="primary"
+              @click="stepThreeClick()"
+              :loading="register.loginLoading">Próximo</v-btn>
           </v-form>
         </v-stepper-content>
       </v-stepper-items>
@@ -227,7 +228,7 @@ import StepperHeader from './StepperHeader.vue';
 export default {
   props: ['editavel'],
   components: { StepperHeader },
-  computed: mapState(['register']),
+  computed: mapState(['register', 'register.state']),
   watch: {
     datanascimentomenu(val) {
       // eslint-disable-next-line no-unused-expressions
@@ -243,6 +244,11 @@ export default {
     vertical() {
       this.e1 = 2;
       requestAnimationFrame(() => { this.e1 = 1; }); // Workarounds
+    },
+    cep(cep) {
+      if (cep.length === 9) {
+        this.$store.dispatch('register/findByZip', cep);
+      }
     },
   },
   data() {
@@ -280,42 +286,45 @@ export default {
   },
   methods: {
     stepOneClick() {
-      if (this.$refs.steponedata.validate()) {
-        this.$store.dispatch('register/registerStep1', {
-          nome: this.nome,
-          sobrenome: this.sobrenome,
-          cpf: this.cpf,
-          datanascimento: this.datanascimento,
-          telefone: this.telefone,
-          whatsapp: this.whatsapp,
-          moraso: this.moraso,
-          grupoderisco: this.grupoderisco,
-        });
-      }
+      // if (this.$refs.steponedata.validate()) {
+      //   this.$store.dispatch('register/registerStep1', {
+      //     nome: this.nome,
+      //     sobrenome: this.sobrenome,
+      //     cpf: this.cpf,
+      //     datanascimento: this.datanascimento,
+      //     telefone: this.telefone,
+      //     whatsapp: this.whatsapp,
+      //     moraso: this.moraso,
+      //     grupoderisco: this.grupoderisco,
+      //   });
+      // }
+      this.$store.dispatch('register/setStep', 2);
     },
     stepTwoClick() {
-      if (this.$refs.steptwodata.validate()) {
-        this.$store.dispatch('register/registerStep2', {
-          cep: this.cep,
-          endereco: this.endereco,
-          bairro: this.bairro,
-          cidade: this.cidade,
-          estado: this.estado,
-        });
-      }
+      // if (this.$refs.steptwodata.validate()) {
+      //   this.$store.dispatch('register/registerStep2', {
+      //     cep: this.cep,
+      //     endereco: this.endereco,
+      //     bairro: this.bairro,
+      //     cidade: this.cidade,
+      //     estado: this.estado,
+      //   });
+      // }
+      this.$store.dispatch('register/setStep', 3);
     },
     stepThreeClick() {
-      if (this.$refs.stepthreedata.validate()) {
-        const data = {
-          is_superuser: false,
-          password: this.password,
-          email: this.email,
-          first_name: this.nome,
-          last_name: this.sobrenome,
-        };
-        console.log('enviando data: ', data);
-        this.$store.dispatch('register/createAccount', data);
-      }
+      // if (this.$refs.stepthreedata.validate()) {
+      //   const data = {
+      //     is_superuser: false,
+      //     password: this.password,
+      //     email: this.email,
+      //     first_name: this.nome,
+      //     last_name: this.sobrenome,
+      //   };
+      //   console.log('enviando data: ', data);
+      //   this.$store.dispatch('register/createAccount', data);
+      // }
+      this.$store.dispatch('register/setStep', 1);
     },
 
     saveDate(date) {
@@ -333,10 +342,11 @@ export default {
       this.steps = parseInt(val);
     },
     getAddressData(map) {
-      if (map.postal_code) this.cep = map.postal_code;
-      if (map.administrative_area_level_2) this.cidade = map.administrative_area_level_2;
-      if (map.administrative_area_level_1) this.estado = map.administrative_area_level_1;
-      if (map.name) this.endereco = map.name;
+      console.log('google places', map);
+      // if (map.postal_code) this.cep = map.postal_code;
+      // if (map.administrative_area_level_2) this.cidade = map.administrative_area_level_2;
+      // if (map.administrative_area_level_1) this.estado = map.administrative_area_level_1;
+      // if (map.name) this.endereco = map.name;
     },
   },
   created() {
@@ -353,7 +363,25 @@ export default {
     this.bairro = this.register.bairro ? this.register.bairro : '';
     this.cidade = this.register.cidade ? this.register.cidade : '';
     this.estado = this.register.estado ? this.register.estado : '';
+    this.$store.watch(
+      (state) => state.register,
+      (val) => {
+        if (this.endereco !== val.endereco) {
+          this.endereco = val.endereco;
+        }
+        if (this.bairro !== val.bairro) {
+          this.bairro = val.bairro;
+        }
+        if (this.cidade !== val.cidade) {
+          this.cidade = val.cidade;
+        }
+        if (this.estado !== val.estado) {
+          this.estado = val.estado;
+        }
+      }, { deep: true },
+    );
   },
+
 };
 </script>
 <style lang="scss" scoped>

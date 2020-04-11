@@ -1,9 +1,9 @@
 <template>
   <div>
     <CardContainer>
-      <div class="text-center mb-5">
+      <div class="cadastro text-center mb-5">
         <p class="primary--text font-weight-medium headline">Cadastro</p>
-        <span class="subtitle-1 sub-txt">{{text}}</span>
+        <span class="subtitle-1 txt-color">{{text}}</span>
       </div>
       <UserForm :editavel="editavel"></UserForm>
     </CardContainer>
@@ -29,7 +29,10 @@ export default {
 </script>
 
 <style lang="scss" scoped>
-.sub-txt {
+.cadastro {
+  max-width: 500px;
+}
+.txt-color {
   color: #5f5f5f;
 }
 </style>style
