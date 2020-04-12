@@ -1,4 +1,4 @@
-export const requiredRule = (field) => (v) => !!v || `${field} é obrigatório`;
+export const requiredRule = (field) => (v) => !!v || `${field} é campo obrigatório.`;
 
 export const lessThanRule = (max) => (v) => (v && v.length <= max) || `Tem que ter menos de ${max} caracteres`;
 
