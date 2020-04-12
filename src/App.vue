@@ -33,9 +33,6 @@ export default {
       this.$refs.sidemenu.toogleMenu();
     },
   },
-  async beforeCreate() {
-    await !this.$store.dispatch('user/getCurrentUser');
-  },
 };
 </script>
 <style lang="scss" scoped>
