@@ -69,26 +69,26 @@ const actions = {
     }); */
     console.log(data);
   },
-  registerStep1({ commit }, data) {
-    commit('SET_NOME', data.nome);
-    commit('SET_CPF', data.cpf);
-    commit('SET_DATANASCIMENTO', data.datanascimento);
-    commit('SET_TELEFONE', data.telefone);
-    commit('SET_WHATSAPP', data.whatsapp);
-    commit('SET_MORASO', data.moraso);
-    commit('SET_GRUPORISCO', data.grupoderisco);
-  },
-  registerStep2({ commit }, data) {
-    commit('SET_CEP', data.cep);
-    commit('SET_ENDERECO', data.endereco);
-    commit('SET_BAIRRO', data.bairro);
-    commit('SET_CIDADE', data.cidade);
-    commit('SET_ESTADO', data.estado);
-  },
-  registerStep3({ commit }, data) {
-    commit('SET_EMAIL', data.email);
-    commit('SET_PASSWORD', data.password);
-  },
+  // registerStep1({ commit }, data) {
+  //   commit('SET_NOME', data.nome);
+  //   commit('SET_CPF', data.cpf);
+  //   commit('SET_DATANASCIMENTO', data.datanascimento);
+  //   commit('SET_TELEFONE', data.telefone);
+  //   commit('SET_WHATSAPP', data.whatsapp);
+  //   commit('SET_MORASO', data.moraso);
+  //   commit('SET_GRUPORISCO', data.grupoderisco);
+  // },
+  // registerStep2({ commit }, data) {
+  //   commit('SET_CEP', data.cep);
+  //   commit('SET_ENDERECO', data.endereco);
+  //   commit('SET_BAIRRO', data.bairro);
+  //   commit('SET_CIDADE', data.cidade);
+  //   commit('SET_ESTADO', data.estado);
+  // },
+  // registerStep3({ commit }, data) {
+  //   commit('SET_EMAIL', data.email);
+  //   commit('SET_PASSWORD', data.password);
+  // },
 
   getCurrentUser({ commit }) {
     commit('SET_LOGIN_LOADING', false);

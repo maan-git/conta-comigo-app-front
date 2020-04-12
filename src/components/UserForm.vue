@@ -3,8 +3,9 @@
     <StepperHeader :currenctStep="register.step"
       :steps="[
         { label: 'Dados pessoais' },
+        { label: 'Dados da conta' },
         { label: 'Endereço' },
-        { label: 'Dados da conta' },]"
+        ]"
     />
     <v-stepper alt-labels v-model="register.step">
       <v-stepper-items>
@@ -110,67 +111,6 @@
         </v-stepper-content>
         <v-stepper-content class="px-0" step="2">
           <v-form ref="steptwodata" class="mt-3">
-            <!-- <v-text-field
-              :disabled="disapleForm()"
-              outlined
-              label="Endereço"
-              :rules="[$vln.requiredRule('Endereço')]"
-              required
-              v-model="endereco"
-            ></v-text-field> -->
-            <vuetify-google-autocomplete
-              :country="['br']"
-              id="map"
-              outlined
-              placeholder=""
-              label="Endereço"
-              :rules="[$vln.requiredRule('Endereço')]"
-              v-on:placechanged="getAddressData"
-            ></vuetify-google-autocomplete>
-            <v-text-field
-              :disabled="disapleForm()"
-              outlined
-              label="Cep"
-              v-mask="cepMask"
-              :rules="[$vln.requiredRule('Cep')]"
-              required
-              v-model="cep"
-            ></v-text-field>
-            <v-text-field
-              :disabled="disapleForm()"
-              outlined
-              label="Bairro"
-              :rules="[$vln.requiredRule('Bairro')]"
-              required
-              v-model="bairro"
-            ></v-text-field>
-            <v-text-field
-              :disabled="disapleForm()"
-              outlined
-              label="Cidade"
-              :rules="[$vln.requiredRule('Cidade')]"
-              required
-              v-model="cidade"
-            ></v-text-field>
-            <v-text-field
-              :disabled="disapleForm()"
-              outlined
-              label="Estado"
-              :rules="[$vln.requiredRule('Estado')]"
-              required
-              v-model="estado"
-            ></v-text-field>
-            <v-btn
-              block
-              rounded
-              x-large
-              color="primary"
-              @click="stepTwoClick()"
-              :loading="register.loginLoading">Próximo</v-btn>
-          </v-form>
-        </v-stepper-content>
-        <v-stepper-content class="px-0" step="3">
-          <v-form ref="stepthreedata" class="mt-3">
             <v-text-field
               :disabled="disapleForm()"
               outlined
@@ -199,7 +139,7 @@
               ></v-text-field>
               <v-checkbox
                 :disabled="disapleForm()"
-                v-model="checkbox"
+                v-model="lieAceito"
                 :rules="[$vln.requiredRule('Ler o contrato')]"
                 label="Li e aceito os termos de uso do Conta Comigo app"
               ></v-checkbox>
@@ -208,11 +148,89 @@
               rounded
               x-large
               color="primary"
-              @click="stepThreeClick()"
-              :loading="register.createUserLoading">Registrar-se</v-btn>
-            <p v-if="register.createUserError" class="block text-center mt-4 red--text">
+              @click="stepTwoClick()"
+              :loading="register.createUserLoading">Próximo</v-btn>
+            <p v-if="register.createUserError" class="block text-center mb-0 mt-4 red--text">
               {{register.createUserError}}
             </p>
+          </v-form>
+        </v-stepper-content>
+        <v-stepper-content class="px-0" step="3">
+          <v-form ref="stepthreedata" class="mt-3">
+            <!-- <vuetify-google-autocomplete
+              :country="['br']"
+              id="map"
+              outlined
+              placeholder=""
+              label="Endereço"
+              :rules="[$vln.requiredRule('Endereço')]"
+              v-on:placechanged="getAddressData"
+            ></vuetify-google-autocomplete> -->
+            <v-text-field
+              :disabled="disapleForm()"
+              outlined
+              label="Cep"
+              v-mask="cepMask"
+              :rules="[$vln.requiredRule('Cep')]"
+              required
+              v-model="cep"
+            ></v-text-field>
+            <v-text-field
+              :disabled="disapleForm()"
+              outlined
+              label="Endereço"
+              :rules="[$vln.requiredRule('Endereço')]"
+              required
+              v-model="endereco"
+            ></v-text-field>
+            <v-select
+              item-value="id"
+              item-text="description"
+              :items="register.bairros"
+              v-model="bairro"
+              :readonly="register.bairros.length <= 1"
+              outlined
+              menu-props="auto"
+              label="Bairro"
+              :rules="[$vln.requiredRule('Bairro')]"
+              required
+            ></v-select>
+
+            <!-- <v-text-field
+              outlined
+              :disabled="true"
+              label="Bairro"
+              :rules="[$vln.requiredRule('Bairro')]"
+              required
+              v-model="bairro"
+            ></v-text-field> -->
+            <v-text-field
+              :readonly="true"
+              outlined
+              label="Cidade"
+              :rules="[$vln.requiredRule('Cidade')]"
+              required
+              v-model="cidade"
+            ></v-text-field>
+            <v-text-field
+              :readonly="true"
+              outlined
+              label="Estado"
+              :rules="[$vln.requiredRule('Estado')]"
+              required
+              v-model="estado"
+            ></v-text-field>
+            <v-btn
+              block
+              rounded
+              x-large
+              color="primary"
+              @click="stepThreeClick()"
+              :loading="register.createUserLoading">Registrar-se</v-btn>
+            <p v-if="register.createUserError" class="block text-center mb-0 mt-4 red--text">
+              {{register.createUserError}}
+            </p>
+
           </v-form>
         </v-stepper-content>
       </v-stepper-items>
@@ -234,15 +252,11 @@ export default {
       val && setTimeout(() => {
         this.$refs.picker.activePicker = 'YEAR';
       });
-    }, // stepper
-    steps(val) {
-      if (this.e1 > val) {
-        this.e1 = val;
-      }
     },
-    vertical() {
-      this.e1 = 2;
-      requestAnimationFrame(() => { this.e1 = 1; }); // Workarounds
+    cep(cep) {
+      if (cep.length === 9) {
+        this.$store.dispatch('register/findByZip', cep);
+      }
     },
   },
   data() {
@@ -270,12 +284,6 @@ export default {
       password: '',
       repassword: '',
       checkbox: false,
-      // stepper
-      e1: 1,
-      steps: 3,
-      vertical: false,
-      altLabels: false,
-      editable: true,
     };
   },
   methods: {
@@ -296,25 +304,20 @@ export default {
     stepTwoClick() {
       if (this.$refs.steptwodata.validate()) {
         this.$store.dispatch('register/registerStep2', {
-          cep: this.cep,
-          endereco: this.endereco,
-          bairro: this.bairro,
-          cidade: this.cidade,
-          estado: this.estado,
+          email: this.email,
+          password: this.password,
+          lieAceito: this.lieAceito,
         });
       }
     },
     stepThreeClick() {
       if (this.$refs.stepthreedata.validate()) {
         const data = {
-          is_superuser: false,
-          password: this.password,
-          email: this.email,
-          first_name: this.nome,
-          last_name: this.sobrenome,
+          neighborhood_id: this.bairro,
+          address: this.endereco,
+          zip: this.cep.replace(/-/g, ''),
         };
-        console.log('enviando data: ', data);
-        this.$store.dispatch('register/createAccount', data);
+        this.$store.dispatch('register/registerStep3', data);
       }
     },
 
@@ -332,27 +335,40 @@ export default {
       // eslint-disable-next-line radix
       this.steps = parseInt(val);
     },
+
     getAddressData(map) {
-      if (map.postal_code) this.cep = map.postal_code;
-      if (map.administrative_area_level_2) this.cidade = map.administrative_area_level_2;
-      if (map.administrative_area_level_1) this.estado = map.administrative_area_level_1;
-      if (map.name) this.endereco = map.name;
+      console.log('google places', map);
+      // if (map.postal_code) this.cep = map.postal_code;
+      // if (map.administrative_area_level_2) this.cidade = map.administrative_area_level_2;
+      // if (map.administrative_area_level_1) this.estado = map.administrative_area_level_1;
+      // if (map.name) this.endereco = map.name;
     },
   },
   created() {
     this.nome = this.register.nome ? this.register.nome : '';
     this.sobrenome = this.register.sobrenome ? this.register.sobrenome : '';
+    this.email = this.register.email ? this.register.email : '';
     this.cpf = this.register.cpf ? this.register.cpf : '';
     this.datanascimento = this.register.datanascimento ? this.register.datanascimento : '';
     this.telefone = this.register.telefone ? this.register.telefone : '';
-    this.whatsapp = this.register.whatsapp ? this.register.whatsapp : '';
-    this.moraso = this.register.moraso ? this.register.moraso : '';
-    this.grupoderisco = this.register.grupoderisco ? this.register.grupoderisco : '';
+    this.whatsapp = this.register.whatsapp;
+    this.moraso = this.register.moraso;
+    this.grupoderisco = this.register.grupoderisco;
     this.cep = this.register.cep ? this.register.cep : '';
     this.endereco = this.register.endereco ? this.register.endereco : '';
     this.bairro = this.register.bairro ? this.register.bairro : '';
     this.cidade = this.register.cidade ? this.register.cidade : '';
     this.estado = this.register.estado ? this.register.estado : '';
+    this.lieAceito = this.register.lieAceito;
+    this.$store.watch(
+      (state) => state.register,
+      (val) => {
+        if (this.endereco !== val.endereco) this.endereco = val.endereco;
+        if (this.bairros !== val.bairros) this.bairro = val.bairro;
+        if (this.cidade !== val.cidade) this.cidade = val.cidade;
+        if (this.estado !== val.estado) this.estado = val.estado;
+      }, { deep: true },
+    );
   },
 };
 </script>
