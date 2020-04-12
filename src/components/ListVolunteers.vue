@@ -17,6 +17,7 @@
               <div class="volunteer__img">
                 <v-img width="60" height="60" :src="user.avatar"></v-img>
               </div>
+<!--              <v-btn @click="volunteerDetails()"><span>{{user.first_name}}</span></v-btn>-->
               <span>{{user.first_name}}</span>
             </div>
         </Slide>
@@ -34,7 +35,6 @@
       v-if="user.usersLoginLoading"
       text block x-large
       :loading="true" color="primary"></v-btn>
-
   </v-container>
 </template>
 <script>
@@ -49,6 +49,11 @@ export default {
     ButtonRouter,
   },
   computed: mapState(['user']),
+  methods: {
+    volunteerDetails() {
+      return `/volunteer-details?id=${this.user.user.id}`;
+    },
+  },
   created() {
     this.$store.dispatch('user/getUsers', 'limit=10');
   },

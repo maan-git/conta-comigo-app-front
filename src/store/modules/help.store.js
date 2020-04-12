@@ -29,7 +29,6 @@ const getters = {
 const actions = {
   getHelp({ commit }, data) {
     commit('SET_HELP_CATEGORY_LOADING', true);
-    // ?limit=10&owner_user_id__ne=1&ordering=-created
     api().get(`/help/helprequest/?limit=10&status_id=1&owner_user_id__ne=${data}&ordering=-created`).then((success) => {
       commit('SET_HELPLIST', success.data.results);
       commit('SET_HELP_ERROR', null);
@@ -56,11 +55,14 @@ const actions = {
     commit('SET_REQUEST_LOAD', true);
     console.log(data);
     return api().post('/help/helprequest/', data).then((success) => {
+      console.log('Ajudar!');
+      console.log(data);
       commit('SET_REQUEST_ERROR', null);
       commit('SET_REQUEST_LOAD', false);
       console.log(success);
       console.log(data);
     }).catch((error) => {
+      console.log(error.response.data);
       commit('SET_REQUEST_ERROR', error.response.data.error);
       commit('SET_REQUEST_LOAD', false);
     });

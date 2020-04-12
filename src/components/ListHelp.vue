@@ -45,7 +45,6 @@ export default {
     Slide,
   },
   computed: mapState(['help', 'user']),
-  props: ['user'],
   data() {
     return {
       newHelp: false,
