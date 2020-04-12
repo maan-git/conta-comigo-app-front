@@ -12,6 +12,7 @@ const state = {
   whatsapp: false,
   moraso: false,
   grupoderisco: false,
+  lieAceito: false,
   cep: '',
   endereco: '',
   bairro: '',
@@ -19,7 +20,7 @@ const state = {
   cidade: '',
   estado: '',
   email: '',
-  password: '',
+  id: '',
 
   addressLoading: false,
   // error handling
@@ -43,7 +44,6 @@ const getters = {
   getCidade(state) { return state.cidade; },
   getEstado(state) { return state.estado; },
   getEmail(state) { return state.email; },
-  getPassword(state) { return state.password; },
   getCreateUserError(state) { return state.createUserError; },
   getStep(state) { return state.step; },
 };
@@ -61,34 +61,67 @@ const actions = {
     commit('SET_CREATE_USER_ERROR', '');
     commit('SET_STEP', 2);
   },
-  registerStep2({ commit }, data) {
-    commit('SET_CEP', data.cep);
-    commit('SET_ENDERECO', data.endereco);
-    commit('SET_BAIRRO', data.bairro);
-    commit('SET_CIDADE', data.cidade);
-    commit('SET_ESTADO', data.estado);
-    commit('SET_LOGIN_LOADING', false);
-    commit('SET_STEP', 3);
+  registerStep2({ commit, state, dispatch }, data) {
+    console.log(state);
+    commit('SET_LI_E_ACEITO', data.lieAceito);
+    commit('SET_EMAIL', data.email);
+    console.log('registerStep2 data', data);
+    const payload = {
+      password: data.password,
+      email: state.email,
+      first_name: state.nome,
+      last_name: state.sobrenome,
+      // avatar: string,
+      is_superuser: false,
+      cpf: state.cpf.replace(/\./g, '').replace(/-/, ''),
+      birth_date: state.datanascimento,
+      phone_number: state.telefone.replace(/\(/g, '').replace(/\)/g, '').replace(/ /g, '').replace(/-/g, ''),
+      is_phone_whatsapp: state.whatsapp,
+      is_at_risk_group: state.grupoderisco,
+      live_alone: state.moraso,
+    };
+    console.log('payload', payload);
+    commit('SET_ADDRESSS_LOADING', true);
+    return api().post('/app/user/', payload).then(() => {
+      // console.log('Usuário criado.');
+      commit('SET_ADDRESSS_LOADING', false);
+      commit('SET_CREATE_USER_ERROR', null);
+      // implementar o route guard
+      dispatch('fakelogin', {
+        username: data.email,
+        password: data.password,
+      });
+      // dispatch('user/login', loginData, { root: true });
+    }).catch((error) => {
+      commit('SET_ADDRESSS_LOADING', false);
+      if (error.response.data.detail) commit('SET_CREATE_USER_ERROR', error.response.data.detail);
+      else commit('SET_CREATE_USER_ERROR', error.response.statusText);
+    });
+  },
+  fakelogin({ commit }, data) {
+    return api.post('app/login/', data).the((s) => {
+      commit('SET_ID', s.id);
+      commit('SET_STEP', 3);
+    }).then((err) => {
+      if (err.response.data.detail) commit('SET_CREATE_USER_ERROR', err.response.data.detail);
+      else commit('SET_CREATE_USER_ERROR', err.response.statusText);
+      commit('SET_ADDRESSS_LOADING', false);
+    });
   },
   setStep({ commit }, step) {
     commit('SET_STEP', step);
   },
-  registerStep3({ commit }, data) {
-    commit('SET_EMAIL', data.email);
-    commit('SET_PASSWORD', data.password);
-  },
-  createAccount({ commit, dispatch }, _data) {
-    console.log('chegou aqui o valor ====== ', _data);
-    commit('SET_LOGIN_LOADING', true);
-    return api().post('/app/user/', _data).then(() => {
-      console.log('Usuário criado.');
-      commit('SET_LOGIN_LOADING', false);
+  registerStep3({ commit, dispatch, state }, data) {
+    console.log('chegou aqui o valor ====== ', data);
+    commit('SET_ADDRESSS_LOADING', true);
+    return api().post(`/app/user/${state.userid}/addaddress/`, data).then(() => {
+      commit('SET_ADDRESSS_LOADING', false);
       commit('SET_CREATE_USER_ERROR', null);
       commit('RESET_STATES');
       // implementar o route guard
       const loginData = {
-        username: _data.email,
-        password: _data.password,
+        username: data.email,
+        password: data.password,
       };
       dispatch('user/login', loginData, { root: true });
     }).catch((error) => {
@@ -97,6 +130,14 @@ const actions = {
       else commit('SET_CREATE_USER_ERROR', error.response.statusText);
       console.log(error);
     });
+
+    // commit('SET_CEP', data.cep);
+    // commit('SET_ENDERECO', data.endereco);
+    // commit('SET_BAIRRO', data.bairro);
+    // commit('SET_CIDADE', data.cidade);
+    // commit('SET_ESTADO', data.estado);
+    // commit('SET_LOGIN_LOADING', false);
+    // commit('SET_STEP', 3);
   },
 
   findByZip({ commit, dispatch }, cep) {
@@ -187,14 +228,17 @@ const mutations = {
   SET_EMAIL(state, value) {
     state.email = value;
   },
-  SET_PASSWORD(state, value) {
-    state.password = value;
+  SET_LI_E_ACEITO(state, value) {
+    state.lieAceito = value;
   },
   SET_CREATE_USER_ERROR(state, value) {
     state.createUserError = value;
   },
   SET_STEP(state, value) {
     state.step = value;
+  },
+  SET_ID(state, value) {
+    state.id = value;
   },
   SET_ADDRESSS_LOADING(state, value) {
     state.addressLoading = value;
@@ -216,7 +260,7 @@ const mutations = {
     state.cidade = '';
     state.estado = '';
     state.email = '';
-    state.password = '';
+    state.id = '';
     // error handling
     state.createUserError = '';
     state.step = 1;

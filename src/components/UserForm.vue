@@ -139,7 +139,7 @@
               ></v-text-field>
               <v-checkbox
                 :disabled="disapleForm()"
-                v-model="checkbox"
+                v-model="lieAceito"
                 :rules="[$vln.requiredRule('Ler o contrato')]"
                 label="Li e aceito os termos de uso do Conta Comigo app"
               ></v-checkbox>
@@ -284,45 +284,37 @@ export default {
   },
   methods: {
     stepOneClick() {
-      // if (this.$refs.steponedata.validate()) {
-      //   this.$store.dispatch('register/registerStep1', {
-      //     nome: this.nome,
-      //     sobrenome: this.sobrenome,
-      //     cpf: this.cpf,
-      //     datanascimento: this.datanascimento,
-      //     telefone: this.telefone,
-      //     whatsapp: this.whatsapp,
-      //     moraso: this.moraso,
-      //     grupoderisco: this.grupoderisco,
-      //   });
-      // }
-      this.$store.dispatch('register/setStep', 2);
+      if (this.$refs.steponedata.validate()) {
+        this.$store.dispatch('register/registerStep1', {
+          nome: this.nome,
+          sobrenome: this.sobrenome,
+          cpf: this.cpf,
+          datanascimento: this.datanascimento,
+          telefone: this.telefone,
+          whatsapp: this.whatsapp,
+          moraso: this.moraso,
+          grupoderisco: this.grupoderisco,
+        });
+      }
     },
     stepTwoClick() {
-      // if (this.$refs.steptwodata.validate()) {
-      //   this.$store.dispatch('register/registerStep2', {
-      //     cep: this.cep,
-      //     endereco: this.endereco,
-      //     bairro: this.bairro,
-      //     cidade: this.cidade,
-      //     estado: this.estado,
-      //   });
-      // }
-      this.$store.dispatch('register/setStep', 3);
+      if (this.$refs.steptwodata.validate()) {
+        this.$store.dispatch('register/registerStep2', {
+          email: this.email,
+          password: this.password,
+          lieAceito: this.lieAceito,
+        });
+      }
     },
     stepThreeClick() {
-      // if (this.$refs.stepthreedata.validate()) {
-      //   const data = {
-      //     is_superuser: false,
-      //     password: this.password,
-      //     email: this.email,
-      //     first_name: this.nome,
-      //     last_name: this.sobrenome,
-      //   };
-      //   console.log('enviando data: ', data);
-      //   this.$store.dispatch('register/createAccount', data);
-      // }
-      this.$store.dispatch('register/setStep', 1);
+      if (this.$refs.stepthreedata.validate()) {
+        const data = {
+          neighborhood_id: this.bairro,
+          address: this.endereco,
+          zip: this.cep,
+        };
+        this.$store.dispatch('register/registerStep3', data);
+      }
     },
 
     saveDate(date) {
@@ -351,17 +343,19 @@ export default {
   created() {
     this.nome = this.register.nome ? this.register.nome : '';
     this.sobrenome = this.register.sobrenome ? this.register.sobrenome : '';
+    this.email = this.register.email ? this.register.email : '';
     this.cpf = this.register.cpf ? this.register.cpf : '';
     this.datanascimento = this.register.datanascimento ? this.register.datanascimento : '';
     this.telefone = this.register.telefone ? this.register.telefone : '';
-    this.whatsapp = this.register.whatsapp ? this.register.whatsapp : '';
-    this.moraso = this.register.moraso ? this.register.moraso : '';
-    this.grupoderisco = this.register.grupoderisco ? this.register.grupoderisco : '';
+    this.whatsapp = this.register.whatsapp;
+    this.moraso = this.register.moraso;
+    this.grupoderisco = this.register.grupoderisco;
     this.cep = this.register.cep ? this.register.cep : '';
     this.endereco = this.register.endereco ? this.register.endereco : '';
     this.bairro = this.register.bairro ? this.register.bairro : '';
     this.cidade = this.register.cidade ? this.register.cidade : '';
     this.estado = this.register.estado ? this.register.estado : '';
+    this.lieAceito = this.register.lieAceito;
     this.$store.watch(
       (state) => state.register,
       (val) => {
@@ -371,8 +365,9 @@ export default {
         if (this.estado !== val.estado) this.estado = val.estado;
       }, { deep: true },
     );
+    // TODO remover
+    this.$store.dispatch('register/setStep', 1);
   },
-
 };
 </script>
 <style lang="scss" scoped>
