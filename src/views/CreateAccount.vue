@@ -1,7 +1,7 @@
 <template>
   <div>
     <CardContainer>
-      <div class="cadastro text-center mb-5">
+      <div class="text-center mb-5">
         <p class="primary--text font-weight-medium headline">Cadastro</p>
         <span class="subtitle-1 txt-color">{{text}}</span>
       </div>
@@ -29,9 +29,6 @@ export default {
 </script>
 
 <style lang="scss" scoped>
-.cadastro {
-  max-width: 500px;
-}
 .txt-color {
   color: #5f5f5f;
 }
