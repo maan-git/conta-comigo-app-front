@@ -41,7 +41,9 @@ export default {
     },
   },
   created() {
-    console.log('user.user', this.user.user);
+    if (!this.user.user) {
+      this.$store.dispatch('user/getCurrentUser');
+    }
   },
 };
 </script>

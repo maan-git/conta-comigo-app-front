@@ -11,12 +11,21 @@
         <v-img width="350" class="img-center"
           center :src="help.helpDetails.request_user.avatar"></v-img>
         <div class="text-center margin-text">
-          <span
+          <ul>
+            <li>
+              <span
             class="subtitle-1 grey--text"
-          >Criado em, {{help.helpDetails.created}}</span>,
-          <span
+          >Criado em {{$filters.formatDate(help.helpDetails.created)}}</span>
+            </li>
+            <li>
+              <span
             class="subtitle-1 grey--text"
           >{{help.helpDetails.category.description}}</span>
+            </li>
+          </ul>
+          <span
+            class="subtitle-1 grey--text"
+          >Descrição: </span>
           <br />
           <span
             class="subtitle-1 grey--text"

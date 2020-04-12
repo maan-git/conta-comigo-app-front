@@ -44,7 +44,8 @@ export default {
     Carousel,
     Slide,
   },
-  computed: mapState(['help']),
+  computed: mapState(['help', 'user']),
+  props: ['user'],
   data() {
     return {
       newHelp: false,
@@ -52,11 +53,14 @@ export default {
   },
   methods: {
     async listHelp() {
-      await this.$store.dispatch('help/getHelp');
+      await this.$store.dispatch('help/getHelp', this.user.user.id);
     },
   },
   created() {
     this.listHelp();
+    if (!this.user.user) {
+      this.$store.dispatch('user/getCurrentUser');
+    }
   },
 };
 </script>

@@ -27,9 +27,10 @@ const getters = {
 };
 
 const actions = {
-  getHelp({ commit }) {
+  getHelp({ commit }, data) {
     commit('SET_HELP_CATEGORY_LOADING', true);
-    api().get('/help/helprequest/?limit=10&ordering=-created').then((success) => {
+    // ?limit=10&owner_user_id__ne=1&ordering=-created
+    api().get(`/help/helprequest/?limit=10&status_id=1&owner_user_id__ne=${data}&ordering=-created`).then((success) => {
       commit('SET_HELPLIST', success.data.results);
       commit('SET_HELP_ERROR', null);
       commit('SET_HELP_LOADING', false);
