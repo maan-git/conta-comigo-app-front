@@ -149,8 +149,8 @@
               x-large
               color="primary"
               @click="stepTwoClick()"
-              :loading="register.createUserLoading">Registrar-se</v-btn>
-            <p v-if="register.createUserError" class="block text-center mt-4 red--text">
+              :loading="register.createUserLoading">Próximo</v-btn>
+            <p v-if="register.createUserError" class="block text-center mb-0 mt-4 red--text">
               {{register.createUserError}}
             </p>
           </v-form>
@@ -226,7 +226,11 @@
               x-large
               color="primary"
               @click="stepThreeClick()"
-              :loading="register.addressLoading">Próximo</v-btn>
+              :loading="register.createUserLoading">Registrar-se</v-btn>
+            <p v-if="register.createUserError" class="block text-center mb-0 mt-4 red--text">
+              {{register.createUserError}}
+            </p>
+
           </v-form>
         </v-stepper-content>
       </v-stepper-items>
@@ -311,7 +315,7 @@ export default {
         const data = {
           neighborhood_id: this.bairro,
           address: this.endereco,
-          zip: this.cep,
+          zip: this.cep.replace(/-/g, ''),
         };
         this.$store.dispatch('register/registerStep3', data);
       }
@@ -365,8 +369,6 @@ export default {
         if (this.estado !== val.estado) this.estado = val.estado;
       }, { deep: true },
     );
-    // TODO remover
-    this.$store.dispatch('register/setStep', 1);
   },
 };
 </script>
