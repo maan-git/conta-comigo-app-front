@@ -15,10 +15,13 @@ const state = {
   cep: '',
   endereco: '',
   bairro: '',
+  bairros: [],
   cidade: '',
   estado: '',
   email: '',
   password: '',
+
+  addressLoading: false,
   // error handling
   createUserError: '',
   step: 1,
@@ -95,17 +98,42 @@ const actions = {
       console.log(error);
     });
   },
-  findByZip({ commit }, cep) {
+
+  findByZip({ commit, dispatch }, cep) {
     const zip = cep.replace('-', '');
+    commit('SET_ADDRESSS_LOADING', true);
     return api().get(`/app/address/findbyzip/?zip=${zip}`).then((s) => {
-      console.log('searchByCep success', s);
       commit('SET_CEP', zip);
       commit('SET_ENDERECO', s.data.address);
-      commit('SET_BAIRRO', s.data.neighborhood.description);
+      if (s.data.neighborhood.description && s.data.neighborhood.description.length > 0) {
+        commit('SET_BAIRROS', [s.data.neighborhood]);
+        commit('SET_BAIRRO', s.data.neighborhood.id);
+      } else if (s.data.city.id) {
+        dispatch('findNeighborhood', s.data.city.id);
+      } else {
+        commit('SET_BAIRROS', []);
+        commit('SET_BAIRRO', '');
+      }
       commit('SET_CIDADE', s.data.city.description);
       commit('SET_ESTADO', s.data.state.description);
+      commit('SET_ADDRESSS_LOADING', false);
     }).catch((err) => {
+      commit('SET_ADDRESSS_LOADING', false);
       console.log('searchByCep error', err);
+    });
+  },
+
+  setBairros({ commit }, bairros) {
+    commit('SET_BAIRROS', bairros);
+  },
+
+  findNeighborhood({ commit }, cityid) {
+    commit('SET_ADDRESSS_LOADING', true);
+    return api().get(`/app/neighborhood/?city_id=${cityid}`).then((s) => {
+      commit('SET_BAIRROS', s.data.results);
+      commit('SET_ADDRESSS_LOADING', false);
+    }).catch(() => {
+      commit('SET_ADDRESSS_LOADING', false);
     });
   },
 };
@@ -147,6 +175,9 @@ const mutations = {
   SET_BAIRRO(state, value) {
     state.bairro = value;
   },
+  SET_BAIRROS(state, value) {
+    state.bairros = value;
+  },
   SET_CIDADE(state, value) {
     state.cidade = value;
   },
@@ -165,6 +196,9 @@ const mutations = {
   SET_STEP(state, value) {
     state.step = value;
   },
+  SET_ADDRESSS_LOADING(state, value) {
+    state.addressLoading = value;
+  },
   RESET_STATES(state) {
     state.createUserLoading = false;
     state.nome = '';
@@ -178,6 +212,7 @@ const mutations = {
     state.cep = '';
     state.endereco = '';
     state.bairro = '';
+    state.bairros = [];
     state.cidade = '';
     state.estado = '';
     state.email = '';

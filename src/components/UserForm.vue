@@ -183,16 +183,29 @@
               required
               v-model="endereco"
             ></v-text-field>
-            <v-text-field
-              :disabled="disapleForm()"
+            <v-select
+              item-value="id"
+              item-text="description"
+              :items="register.bairros"
+              v-model="bairro"
+              :readonly="register.bairros.length <= 1"
               outlined
+              menu-props="auto"
+              label="Bairro"
+              :rules="[$vln.requiredRule('Bairro')]"
+              required
+            ></v-select>
+
+            <!-- <v-text-field
+              outlined
+              :disabled="true"
               label="Bairro"
               :rules="[$vln.requiredRule('Bairro')]"
               required
               v-model="bairro"
-            ></v-text-field>
+            ></v-text-field> -->
             <v-text-field
-              :disabled="disapleForm()"
+              :readonly="true"
               outlined
               label="Cidade"
               :rules="[$vln.requiredRule('Cidade')]"
@@ -200,7 +213,7 @@
               v-model="cidade"
             ></v-text-field>
             <v-text-field
-              :disabled="disapleForm()"
+              :readonly="true"
               outlined
               label="Estado"
               :rules="[$vln.requiredRule('Estado')]"
@@ -213,7 +226,7 @@
               x-large
               color="primary"
               @click="stepThreeClick()"
-              :loading="register.loginLoading">Próximo</v-btn>
+              :loading="register.addressLoading">Próximo</v-btn>
           </v-form>
         </v-stepper-content>
       </v-stepper-items>
@@ -228,22 +241,13 @@ import StepperHeader from './StepperHeader.vue';
 export default {
   props: ['editavel'],
   components: { StepperHeader },
-  computed: mapState(['register', 'register.state']),
+  computed: mapState(['register']),
   watch: {
     datanascimentomenu(val) {
       // eslint-disable-next-line no-unused-expressions
       val && setTimeout(() => {
         this.$refs.picker.activePicker = 'YEAR';
       });
-    }, // stepper
-    steps(val) {
-      if (this.e1 > val) {
-        this.e1 = val;
-      }
-    },
-    vertical() {
-      this.e1 = 2;
-      requestAnimationFrame(() => { this.e1 = 1; }); // Workarounds
     },
     cep(cep) {
       if (cep.length === 9) {
@@ -276,12 +280,6 @@ export default {
       password: '',
       repassword: '',
       checkbox: false,
-      // stepper
-      e1: 1,
-      steps: 3,
-      vertical: false,
-      altLabels: false,
-      editable: true,
     };
   },
   methods: {
@@ -341,6 +339,7 @@ export default {
       // eslint-disable-next-line radix
       this.steps = parseInt(val);
     },
+
     getAddressData(map) {
       console.log('google places', map);
       // if (map.postal_code) this.cep = map.postal_code;
@@ -366,18 +365,10 @@ export default {
     this.$store.watch(
       (state) => state.register,
       (val) => {
-        if (this.endereco !== val.endereco) {
-          this.endereco = val.endereco;
-        }
-        if (this.bairro !== val.bairro) {
-          this.bairro = val.bairro;
-        }
-        if (this.cidade !== val.cidade) {
-          this.cidade = val.cidade;
-        }
-        if (this.estado !== val.estado) {
-          this.estado = val.estado;
-        }
+        if (this.endereco !== val.endereco) this.endereco = val.endereco;
+        if (this.bairros !== val.bairros) this.bairro = val.bairro;
+        if (this.cidade !== val.cidade) this.cidade = val.cidade;
+        if (this.estado !== val.estado) this.estado = val.estado;
       }, { deep: true },
     );
   },
