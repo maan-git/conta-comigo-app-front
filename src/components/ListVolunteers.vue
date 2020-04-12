@@ -15,7 +15,7 @@
         <Slide v-for="(user, i) in user.users" :key="i">
             <div class="volunteer">
               <div class="volunteer__img">
-                <v-img width="60" height="60" :src="require('../assets/logo.png')"></v-img>
+                <v-img width="60" height="60" :src="user.avatar"></v-img>
               </div>
               <span>{{user.first_name}}</span>
             </div>

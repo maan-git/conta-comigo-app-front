@@ -8,6 +8,11 @@ const state = {
   helpCategoryError: null,
   helpCategoryLoading: false,
   helpDetails: null,
+  helpDetailsLoading: false,
+  helpDetailsError: null,
+  requestLoad: false,
+  requestError: null,
+  helpCategory: null,
 };
 
 const getters = {
@@ -34,15 +39,29 @@ const actions = {
       commit('SET_HELP_LOADING', false);
     });
   },
-  register({ commit }, data) {
-    commit('SET_LOADING', true);
-    return api().post('register', data).then((success) => {
-      commit('SET_TOKEN', success);
-      commit('SET_LOGIN_ERROR', null);
-      commit('SET_LOADING', false);
+  getHelpCategory({ commit }) {
+    commit('SET_HELP_LOADING', true);
+    api().get('/help/helpcategory/').then((success) => {
+      commit('SET_HELP_CATEGORY_LIST', success.data.results);
+      commit('SET_HELP_ERROR', null);
+      commit('SET_HELP_CATEGORY_LOADING', false);
     }).catch((error) => {
-      commit('SET_LOGIN_ERROR', error.response.data.error);
-      commit('SET_LOADING', false);
+      if (error.response.data.detail) commit('SET_HELP_ERROR', error.response.data.detail);
+      else commit('SET_HELP_ERROR', error.response.statusText);
+      commit('SET_HELP_LOADING', false);
+    });
+  },
+  requestHelpSave({ commit }, data) {
+    commit('SET_REQUEST_LOAD', true);
+    console.log(data);
+    return api().post('/help/helprequest/', data).then((success) => {
+      commit('SET_REQUEST_ERROR', null);
+      commit('SET_REQUEST_LOAD', false);
+      console.log(success);
+      console.log(data);
+    }).catch((error) => {
+      commit('SET_REQUEST_ERROR', error.response.data.error);
+      commit('SET_REQUEST_LOAD', false);
     });
   },
   requestHelpDetails({ commit }, data) {
@@ -56,13 +75,15 @@ const actions = {
     commit('SET_HELP_DETAILS', null);
   },
   applyToHelpRequest({ commit }, data) {
+    commit('SET_HELP_DETAILS_LOADING', true);
     return api().post(`help/helprequest/${data}/applytohelp/`, data).then((success) => {
-      commit('SET_TOKEN', success);
-      commit('SET_LOGIN_ERROR', null);
-      commit('SET_LOADING', false);
+      console.log(success);
+      commit('SET_HELP_DETAILS_LOADING', false);
+      commit('SET_HELP_DETAILS_ERROR', null);
+      console.log('Sucesso!');
     }).catch((error) => {
-      commit('SET_LOGIN_ERROR', error.response.data.error);
-      commit('SET_LOADING', false);
+      commit('SET_HELP_DETAILS_LOADING', false);
+      commit('SET_HELP_DETAILS_ERROR', error.response.data.detail);
     });
   },
 };
@@ -74,6 +95,12 @@ const mutations = {
   },
   SET_TOKEN(state, value) {
     state.token = value;
+  },
+  SET_REQUEST_LOAD(state, value) {
+    state.requestLoad = value;
+  },
+  SET_REQUEST_ERROR(state, value) {
+    state.requestError = value;
   },
   SET_HELPLIST(state, value) {
     state.helpList = value;
@@ -89,6 +116,15 @@ const mutations = {
   },
   SET_HELP_DETAILS(state, value) {
     state.helpDetails = value;
+  },
+  SET_HELP_DETAILS_LOADING(state, value) {
+    state.helpDetailsLoading = value;
+  },
+  SET_HELP_DETAILS_ERROR(state, value) {
+    state.helpDetailsError = value;
+  },
+  SET_HELP_CATEGORY_LIST(state, value) {
+    state.helpCategory = value;
   },
 };
 

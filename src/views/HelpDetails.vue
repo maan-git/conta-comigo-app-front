@@ -3,12 +3,13 @@
     <CardContainer :hideLogo="true">
       <div class="text-center">
         <p class="primary--text font-weight-bold title">
-          {{help.helpDetails.request_user.first_name}}</p>
+          {{help.helpDetails.request_user.first_name}},
+          {{$filters.calcAge(help.helpDetails.created)}} anos</p>
       </div>
 
       <v-flex class="how-to">
         <v-img width="350" class="img-center"
-          center :src="require('../assets/intro/step1.svg')"></v-img>
+          center :src="help.helpDetails.request_user.avatar"></v-img>
         <div class="text-center margin-text">
           <span
             class="subtitle-1 grey--text"
@@ -23,11 +24,17 @@
         </div>
       </v-flex>
       <v-btn
+              @click="applyToHelp()"
         rounded v-if="!newHelp"
+        :disabled="!!help.helpDetailsError"
+        :loading="help.helpDetailsLoading"
         class="v-btn v-btn--block v-btn--contained
         v-btn--rounded theme--light v-size--x-large primary">
-        OK
+        Conta Comigo
+        <v-icon right dark>$heart</v-icon>
       </v-btn>
+    <p v-if="help.helpDetailsError"
+       class="block text-center mt-4 red--text">{{help.helpDetailsError}}</p>
 
     </CardContainer>
   </div>
@@ -53,9 +60,21 @@ export default {
     async requestHelp() {
       await this.$store.dispatch('help/getHelp');
     },
+    async applyToHelp() {
+      await this.$store.dispatch('help/applyToHelpRequest', this.$route.query.id);
+    },
   },
   created() {
     this.$store.dispatch('help/requestHelpDetails', this.$route.query.id);
   },
 };
 </script>
+
+<style lang="scss">
+.margin-text{
+  margin:12% 0;
+}
+.img-center{
+  margin:0 auto;
+}
+</style>
