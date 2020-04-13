@@ -59,6 +59,12 @@ const routes = [
     beforeEnter: guard,
   },
   {
+    path: '/volunteer-details',
+    name: 'VolunteerDetails',
+    component: () => import('../views/HelpDetails.vue'),
+    beforeEnter: guard,
+  },
+  {
     path: '*',
     redirect: '/login',
   },
