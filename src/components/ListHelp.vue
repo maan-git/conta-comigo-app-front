@@ -16,7 +16,7 @@
             :avatar="help.request_user.avatar"
             :id="help.id"
             :name="help.request_user.first_name"
-            :age="$filters.calcAge(help.created)"
+            :age="$filters.calcAge(help.request_user.birth_date)"
             :createdat="$filters.formatDate(help.created)"
             :description="help.category.description"
           />
