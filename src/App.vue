@@ -33,6 +33,9 @@ export default {
       this.$refs.sidemenu.toogleMenu();
     },
   },
+  created() {
+    this.$store.dispatch('register/resetForm');
+  },
 };
 </script>
 <style lang="scss" scoped>
