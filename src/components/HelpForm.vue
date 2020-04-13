@@ -27,13 +27,13 @@
         outlined
         required
         :rules="[$vln.requiredRule('Selecionar a categoria')]"
-        :disabled = "!newHelp"
+        :disabled="help.helpRequestSuccess"
       ></v-select>
       <v-textarea
         outlined
         v-model="requestDescription"
         label="Descrição"
-        :disabled = "!newHelp"
+        :disabled = "help.helpRequestSuccess"
         :rules="[$vln.requiredRule('Descrição'), $vln.moreThanRule(20)]"
         required
       ></v-textarea>
@@ -43,6 +43,7 @@
         class="mt-5"
         block
         @click="requestHelpSave()"
+        :disabled = "help.helpRequestSuccess"
         color="primary" x-large>Salvar</v-btn>
       <v-btn
         rounded
@@ -55,6 +56,13 @@
       <v-btn rounded v-if="!newHelp" class="mt-5" block outlined color="red" x-large>
         <v-icon dark>mdi-heart
       </v-icon>Conta Comigo!</v-btn>
+      <p v-if="help.helpDetailsError"
+       class="block text-center mt-4 red--text">{{help.requestError}}</p>
+      <p v-if="help.helpRequestSuccess"
+       class="block text-center mt-4 blue--text">Solicitação realizada com sucesso!
+        <br />Agora é so aguardar que um voluntário irá ajudá-lo.
+        <br /><a href="#" @click="requestHelpNew()">Realizar um novo cadastro</a>
+      </p>
     </v-form>
   </CardContainer>
 </template>
@@ -71,7 +79,7 @@ import { mapState } from 'vuex';
 import CardContainer from '@/components/CardContainer.vue';
 
 export default {
-  computed: mapState(['help']),
+  computed: mapState(['help', 'user']),
   components: {
     CardContainer,
   },
@@ -88,8 +96,12 @@ export default {
         this.$store.dispatch('help/requestHelpSave', {
           category: this.requestCategory,
           description: this.requestDescription,
+          address_id: this.user.user.addresses[0],
         });
       }
+    },
+    requestHelpNew() {
+      this.$store.dispatch('help/requestHelpNew');
     },
   },
   created() {

@@ -9,10 +9,13 @@ const state = {
   helpCategoryLoading: false,
   helpDetails: null,
   helpDetailsLoading: false,
+  helpDetailsDisable: null,
   helpDetailsError: null,
   requestLoad: false,
   requestError: null,
   helpCategory: null,
+  helpRequestSuccess: null,
+  helpDetailsSuccess: null,
 };
 
 const getters = {
@@ -53,19 +56,19 @@ const actions = {
   },
   requestHelpSave({ commit }, data) {
     commit('SET_REQUEST_LOAD', true);
-    console.log(data);
-    return api().post('/help/helprequest/', data).then((success) => {
-      console.log('Ajudar!');
-      console.log(data);
+    return api().post('/help/helprequest/', data).then(() => {
       commit('SET_REQUEST_ERROR', null);
       commit('SET_REQUEST_LOAD', false);
-      console.log(success);
-      console.log(data);
+      commit('SET_REQUEST_SUCCESS', true);
     }).catch((error) => {
       console.log(error.response.data);
       commit('SET_REQUEST_ERROR', error.response.data.error);
       commit('SET_REQUEST_LOAD', false);
+      commit('SET_REQUEST_SUCCESS', false);
     });
+  },
+  requestHelpNew({ commit }) {
+    commit('SET_REQUEST_SUCCESS', false);
   },
   requestHelpDetails({ commit }, data) {
     return api().get(`/help/helprequest/${data}/`, data).then((success) => {
@@ -79,13 +82,14 @@ const actions = {
   },
   applyToHelpRequest({ commit }, data) {
     commit('SET_HELP_DETAILS_LOADING', true);
-    return api().post(`help/helprequest/${data}/applytohelp/`, data).then((success) => {
-      console.log(success);
+    commit('SET_HELP_DETAILS_DISABLE', true);
+    return api().post(`help/helprequest/${data}/applytohelp/`, data).then(() => {
       commit('SET_HELP_DETAILS_LOADING', false);
-      commit('SET_HELP_DETAILS_ERROR', null);
-      console.log('Sucesso!');
+      commit('SET_HELP_DETAILS_SUCCESS', true);
+      commit('SET_HELP_DETAILS_ERROR', false);
     }).catch((error) => {
       commit('SET_HELP_DETAILS_LOADING', false);
+      commit('SET_HELP_DETAILS_SUCCESS', false);
       commit('SET_HELP_DETAILS_ERROR', error.response.data.detail);
     });
   },
@@ -94,7 +98,6 @@ const actions = {
 const mutations = {
   SET_HELP(state, value) {
     state.help = value;
-    // console.log('mutations SET_Help', state.data);
   },
   SET_TOKEN(state, value) {
     state.token = value;
@@ -120,14 +123,23 @@ const mutations = {
   SET_HELP_DETAILS(state, value) {
     state.helpDetails = value;
   },
+  SET_HELP_DETAILS_SUCCESS(state, value) {
+    state.helpDetailsSuccess = value;
+  },
   SET_HELP_DETAILS_LOADING(state, value) {
-    state.helpDetailsLoading = value;
+    state.helpDetailsSuccess = value;
   },
   SET_HELP_DETAILS_ERROR(state, value) {
     state.helpDetailsError = value;
   },
+  SET_HELP_DETAILS_DISABLE(state, value) {
+    state.helpDetailsDisable = value;
+  },
   SET_HELP_CATEGORY_LIST(state, value) {
     state.helpCategory = value;
+  },
+  SET_REQUEST_SUCCESS(state, value) {
+    state.helpRequestSuccess = value;
   },
 };
 

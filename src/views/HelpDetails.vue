@@ -33,9 +33,9 @@
         </div>
       </v-flex>
       <v-btn
-              @click="applyToHelp()"
+        @click="applyToHelp()"
         rounded v-if="!newHelp"
-        :disabled="!!help.helpDetailsError"
+        :disabled="!!help.helpDetailsDisable"
         :loading="help.helpDetailsLoading"
         class="v-btn v-btn--block v-btn--contained
         v-btn--rounded theme--light v-size--x-large primary">
@@ -44,7 +44,9 @@
       </v-btn>
     <p v-if="help.helpDetailsError"
        class="block text-center mt-4 red--text">{{help.helpDetailsError}}</p>
-
+    <p v-if="help.helpDetailsSuccess"
+       class="block text-center mt-4 blue--text">
+      Obrigado <b>{{user.user.first_name}}</b> pele força!</p>
     </CardContainer>
   </div>
 </template>
@@ -58,7 +60,7 @@ export default {
   components: {
     CardContainer,
   },
-  computed: mapState(['help']),
+  computed: mapState(['help', 'user']),
   data() {
     return {
       newHelp: false,
