@@ -2,7 +2,7 @@
   <v-navigation-drawer
       v-model="drawer"
       absolute
-      :color="'primary'"
+      :color="'#532594'"
     >
       <v-list nav dense>
         <v-btn @click="toogleMenu()" x-large icon color="white">
