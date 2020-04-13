@@ -1,9 +1,9 @@
 <template>
   <v-app :class="purple()">
     <!--  -->
-    <NavBar v-on:toogle="toogleMenu()"/>
     <SideMenu ref="sidemenu"/>
-    <v-content>
+    <NavBar v-on:toogle="toogleMenu()"/>
+    <v-content class="content-width">
       <router-view></router-view>
     </v-content>
   </v-app>
@@ -33,11 +33,19 @@ export default {
       this.$refs.sidemenu.toogleMenu();
     },
   },
+  created() {
+    this.$store.dispatch('register/resetForm');
+  },
 };
 </script>
 <style lang="scss" scoped>
 .theme--light.purple {
   background-color: #532594;
   background-image: url('./assets/pattern.svg');
+  transition: all .3s ease-in-out;
+}
+.content-width {
+  margin: 0 auto;
+  max-width: 1200px;
 }
 </style>

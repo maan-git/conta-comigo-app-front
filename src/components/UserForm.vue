@@ -16,7 +16,7 @@
               :disabled="disapleForm()"
               outlined
               label="Nome"
-              :rules="[$vln.requiredRule('Nome'), $vln.moreThanRule(6)]"
+              :rules="[$vln.requiredRule('Nome'), $vln.moreThanRule(2)]"
               required
               v-model="nome"
             ></v-text-field>
@@ -24,7 +24,7 @@
               :disabled="disapleForm()"
               outlined
               label="Sobrenome"
-              :rules="[$vln.requiredRule('Nome'), $vln.moreThanRule(6)]"
+              :rules="[$vln.requiredRule('Nome'), $vln.moreThanRule(2)]"
               required
               v-model="sobrenome"
             ></v-text-field>
@@ -112,7 +112,6 @@
         <v-stepper-content class="px-0" step="2">
           <v-form ref="steptwodata" class="mt-3">
             <v-text-field
-              :disabled="disapleForm()"
               outlined
               label="Email"
               required
@@ -256,6 +255,11 @@ export default {
     cep(cep) {
       if (cep.length === 9) {
         this.$store.dispatch('register/findByZip', cep);
+      }
+    },
+    email(email) {
+      if (email) {
+        this.email = email.toLowerCase();
       }
     },
   },
