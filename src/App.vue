@@ -45,7 +45,8 @@ export default {
   transition: all .3s ease-in-out;
 }
 .content-width {
-  margin: 0 auto;
-  max-width: 1200px;
+  width: 100%;
+  max-width: 1000px;
+  align-self: center;
 }
 </style>

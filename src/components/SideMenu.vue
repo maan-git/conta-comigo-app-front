@@ -17,7 +17,7 @@
             block
             right
             elevation="0"
-            @click="$store.dispatch('user/logout')">Logout</v-btn>
+            @click="logout()">Logout</v-btn>
         </v-list-item-group>
       </v-list>
     </v-navigation-drawer>
@@ -28,6 +28,10 @@ export default {
   methods: {
     toogleMenu() {
       this.drawer = !this.drawer;
+    },
+    logout() {
+      this.toogleMenu();
+      this.$store.dispatch('user/logout');
     },
   },
 };

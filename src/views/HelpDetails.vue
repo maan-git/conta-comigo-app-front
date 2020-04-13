@@ -1,51 +1,42 @@
 <template>
   <div v-if="help.helpDetails">
     <CardContainer :hideLogo="true">
-      <div class="text-center">
-        <p class="primary--text font-weight-bold title">
-          {{help.helpDetails.request_user.first_name}},
-          {{$filters.calcAge(help.helpDetails.request_user.birth_date)}} anos</p>
-      </div>
+      <v-card max-width="400" elevation="0">
+        <v-card-title
+          class="primary--text"
+          v-text="`${help.helpDetails.request_user.first_name},
+          ${$filters.calcAge(help.helpDetails.created)} anos`">
+        </v-card-title>
+        <v-img
+          :src="help.helpDetails.request_user.avatar"
+        ></v-img>
+        <v-card-text class="grey--text text--darken-2">
+          <div>Criado em {{$filters.formatDate(help.helpDetails.created)}}</div>
+          <div>{{help.helpDetails.category.description}}</div>
+          <div> Descrição: {{help.helpDetails.description}}</div>
+        </v-card-text>
 
-      <v-flex class="how-to">
-        <v-img width="350" class="img-center"
-          center :src="help.helpDetails.request_user.avatar"></v-img>
-        <div class="text-center margin-text">
-          <ul>
-            <li>
-              <span
-            class="subtitle-1 grey--text"
-          >Criado em {{$filters.formatDate(help.helpDetails.created)}}</span>
-            </li>
-            <li>
-              <span
-            class="subtitle-1 grey--text"
-          >{{help.helpDetails.category.description}}</span>
-            </li>
-          </ul>
-          <span
-            class="subtitle-1 grey--text"
-          >Descrição: </span>
-          <br />
-          <span
-            class="subtitle-1 grey--text"
-          >{{help.helpDetails.description}}</span>
-        </div>
-      </v-flex>
-      <v-btn
-        @click="applyToHelp()"
-        rounded v-if="!newHelp"
-        :disabled="!!help.helpDetailsDisable"
-        :loading="help.helpDetailsLoading"
-        class="v-btn v-btn--block v-btn--contained
-        v-btn--rounded theme--light v-size--x-large primary">
-        Conta Comigo
-        <v-icon right dark>$heart</v-icon>
-      </v-btn>
+        <v-card-actions>
+          <v-spacer></v-spacer>
+
+        <v-btn
+          @click="applyToHelp()"
+          rounded v-if="!newHelp"
+          :disabled="!!help.helpDetailsDisable"
+          :loading="help.helpDetailsLoading"
+          block
+          color="primary"
+          large
+        >
+          Conta Comigo
+          <v-icon right dark>$heart</v-icon>
+        </v-btn>
+        </v-card-actions>
+      </v-card>
     <p v-if="help.helpDetailsError"
        class="block text-center mt-4 red--text">{{help.helpDetailsError}}</p>
     <p v-if="help.helpDetailsSuccess"
-       class="block text-center mt-4 blue--text">
+       class="block text-center mt-4 success--text">
       Obrigado <b>{{user.user.first_name}}</b> pele força!</p>
     </CardContainer>
   </div>
@@ -81,11 +72,5 @@ export default {
 };
 </script>
 
-<style lang="scss">
-.margin-text{
-  margin:12% 0;
-}
-.img-center{
-  margin:0 auto;
-}
+<style lang="scss" scoped>
 </style>
