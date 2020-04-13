@@ -9,13 +9,13 @@ const state = {
   helpCategoryLoading: false,
   helpDetails: null,
   helpDetailsLoading: false,
-  helpDetailsDisable: null,
+  helpDetailsDisable: false,
   helpDetailsError: null,
   requestLoad: false,
   requestError: null,
   helpCategory: null,
   helpRequestSuccess: null,
-  helpDetailsSuccess: null,
+  helpDetailsSuccess: false,
 };
 
 const getters = {
