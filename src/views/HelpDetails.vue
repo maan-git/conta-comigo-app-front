@@ -4,7 +4,7 @@
       <div class="text-center">
         <p class="primary--text font-weight-bold title">
           {{help.helpDetails.request_user.first_name}},
-          {{$filters.calcAge(help.helpDetails.created)}} anos</p>
+          {{$filters.calcAge(help.helpDetails.request_user.birth_date)}} anos</p>
       </div>
 
       <v-flex class="how-to">

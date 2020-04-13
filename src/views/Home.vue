@@ -1,5 +1,5 @@
 <template>
-  <v-container class="home">
+  <v-container class="home" @load="listHelp()">
     <ListHelp/>
     <ListVolunteers/>
   </v-container>
@@ -7,6 +7,7 @@
 
 <script>
 // @ is an alias to /src
+import { mapState } from 'vuex';
 import ListHelp from '@/components/ListHelp.vue';
 import ListVolunteers from '@/components/ListVolunteers.vue';
 
@@ -15,6 +16,12 @@ export default {
   components: {
     ListHelp,
     ListVolunteers,
+  },
+  computed: mapState(['help', 'user']),
+  methods: {
+    async listHelp() {
+      await this.$store.dispatch('help/getHelp', this.user.user.id);
+    },
   },
 };
 </script>
