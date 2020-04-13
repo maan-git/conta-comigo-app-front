@@ -12,7 +12,6 @@
         ></v-img>
         <v-card-text class="grey--text text--darken-2">
           <div>Criado em {{$filters.formatDate(help.helpDetails.created)}}</div>
-
           <div>{{help.helpDetails.category.description}}</div>
           <div> Descrição: {{help.helpDetails.description}}</div>
         </v-card-text>
@@ -37,7 +36,7 @@
     <p v-if="help.helpDetailsError"
        class="block text-center mt-4 red--text">{{help.helpDetailsError}}</p>
     <p v-if="help.helpDetailsSuccess"
-       class="block text-center mt-4 blue--text">
+       class="block text-center mt-4 success--text">
       Obrigado <b>{{user.user.first_name}}</b> pele força!</p>
     </CardContainer>
   </div>

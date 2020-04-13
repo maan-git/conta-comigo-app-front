@@ -13,7 +13,7 @@
       </div>
     </div>
     <div class="help-card--content">
-      <p class="help-card--content__title">{{name}}, {{age}}</p>
+      <p class="help-card--content__title">{{name}}, {{age}} anos</p>
       <p class="help-card--content__text">{{mydescription}}</p>
     </div>
     <div class="help-card--footer">
