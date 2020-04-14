@@ -13,16 +13,12 @@
         :spacePaddingMaxOffsetFactor="1"
       >
         <Slide v-for="(user, i) in user.users" :key="i">
-            <div class="volunteer">
-              <div class="volunteer__img">
-                <v-img width="60" height="60" :src="user.avatar"></v-img>
-              </div>
-              <a v-link='{name: user.first_name}'
-                 v-on:click="volunteerDetails()"
-                 :to="volunteerDetails()"
-                 class="volunteer-btn">
-                {{user.first_name}}</a>
+          <div class="volunteer" @click="volunteerDetails(user.id)">
+            <div class="volunteer__img">
+              <v-img width="60" height="60" :src="user.avatar"></v-img>
             </div>
+            <span>{{user.first_name}}</span>
+          </div>
         </Slide>
       </Carousel>
       <ButtonRouter
@@ -53,8 +49,8 @@ export default {
   },
   computed: mapState(['user']),
   methods: {
-    volunteerDetails() {
-      return `/volunteer-details?id=${this.user.user.id}`;
+    volunteerDetails(id) {
+      this.$router.push(`/volunteer-details?id=${id}`);
     },
   },
   created() {
@@ -68,6 +64,7 @@ export default {
   display: flex;
   flex-direction: column;
   align-items: center;
+  cursor: pointer;
   &__img {
     width: 60px;
     height: 60px;
@@ -79,25 +76,12 @@ export default {
     margin-top: 15px;
     font-size: 14px;
     color: #5f5f5f;
+    transition: all .5s ease-in-out;
   }
-  a {
-    text-decoration: none;
-    margin-top: 15px;
-    font-size: 14px;
-    color: #532594;
+  &:hover {
+    span {
+      color: #532594;
+    }
   }
-  a:hover {
-    color: #481b87;
-  }
-}
-
-.volunteer-btn {
-  text-decoration: none;
-  margin-top: 15px;
-  font-size: 14px;
-  color: #532594;
-}
-volunteer-btn:hover {
-  color: #481b87;
 }
 </style>
