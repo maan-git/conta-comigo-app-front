@@ -137,8 +137,7 @@ const actions = {
 
   getUserDetails({ commit }, id) {
     commit('SET_USER_DETAILS_LOADING', true);
-    let url = `app/user/${id}`;
-    return api().get(url).then((success) => {
+    return api().get(`app/user/${id}`).then((success) => {
       commit('SET_USER_DETAILS_ERROR', null);
       commit('SET_USER_DETAILS_LOADING', false);
       commit('SET_USER_DETAILS', success.data.results);
