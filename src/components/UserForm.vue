@@ -11,7 +11,19 @@
       <v-stepper-items>
         <v-stepper-content class="px-0" step="1">
           <!-- TODO imagem -->
-          <p class="primary--text">Adicione uma foto para o seu perfil</p>
+          <v-row>
+            <v-col cols="3" class="text-center">
+              <v-btn
+                fab
+                color="primary"
+                @click="dialog = true"
+              ></v-btn>
+              <p class="mt-1 mb-0 text-center primary--text">Editar</p>
+            </v-col>
+            <v-col class=" d-flex justify-start align-center">
+              <p class="secondary--text">Adicione uma foto para o seu perfil</p>
+            </v-col>
+          </v-row>
           <v-form ref="steponedata" class="mt-3">
             <v-text-field
               :disabled="disapleForm()"
@@ -236,7 +248,7 @@
       </v-stepper-items>
     </v-stepper>
 
-    <v-dialog v-model="dialog" persistent max-width="520">
+    <v-dialog v-model="dialog" max-width="520">
       <v-card max-width="520" raised>
         <v-card-title class="headline primary--text">
           Use Google's location service?</v-card-title>
@@ -281,9 +293,12 @@
         </v-card-text>
         <v-card-actions>
           <v-spacer></v-spacer>
-          <v-btn rounded color="primary" :disabled="!objectUrl">
+          <v-btn rounded color="primary"
+            :disabled="!objectUrl"
+            @click="dialog = false"
+          >
             <span>Submit</span>
-            <v-icon small>$heart</v-icon>
+            <!-- <v-icon small>$heart</v-icon> -->
           </v-btn>
         </v-card-actions>
       </v-card>
@@ -349,7 +364,7 @@ export default {
       password: '',
       repassword: '',
       checkbox: false,
-      dialog: true,
+      dialog: false,
     };
   },
   methods: {
