@@ -12,6 +12,9 @@ const state = {
   users: null,
   usersError: null,
   usersLoginLoading: false,
+  userDetails: null,
+  userDetailsError: null,
+  userDetailsLoading: false,
 };
 
 const getters = {
@@ -23,6 +26,9 @@ const getters = {
   getUsers(state) { return state.users; },
   getUsersError(state) { return state.usersError; },
   getUsersLoginLoading(state) { return state.usersLoginLoading; },
+  getUserDetails(state) { return state.userDetails; },
+  getUserDetailsError(state) { return state.userDetailsError; },
+  getUserDetailsLoading(state) { return state.userDetailsLoading; },
 };
 
 const actions = {
@@ -128,6 +134,20 @@ const actions = {
       commit('SET_USERS_LOGIN_LOADING', false);
     });
   },
+
+  getUserDetails({ commit }, id) {
+    commit('SET_USER_DETAILS_LOADING', true);
+    let url = `app/user/${id}`;
+    return api().get(url).then((success) => {
+      commit('SET_USER_DETAILS_ERROR', null);
+      commit('SET_USER_DETAILS_LOADING', false);
+      commit('SET_USER_DETAILS', success.data.results);
+    }).catch((error) => {
+      if (error.response.data.detail) commit('SET_USER_DETAILS_ERROR', error.response.data.detail);
+      else commit('SET_USER_DETAILS_ERROR', error.response.statusText);
+      commit('SET_USER_DETAILS_LOADING', false);
+    });
+  },
 };
 
 const mutations = {
@@ -155,6 +175,15 @@ const mutations = {
   },
   SET_USERS_LOGIN_LOADING(state, value) {
     state.usersLoginLoading = value;
+  },
+  SET_USER_DETAILS(state, value) {
+    state.userDetails = value;
+  },
+  SET_USER_DETAILS_ERROR(state, value) {
+    state.userDetailsError = value;
+  },
+  SET_USER_DETAILS_LOADING(state, value) {
+    state.userDetailsLoading = value;
   },
 };
 
