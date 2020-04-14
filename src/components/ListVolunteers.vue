@@ -17,8 +17,11 @@
               <div class="volunteer__img">
                 <v-img width="60" height="60" :src="user.avatar"></v-img>
               </div>
-<!--              <v-btn @click="volunteerDetails()"><span>{{user.first_name}}</span></v-btn>-->
-              <span>{{user.first_name}}</span>
+              <a v-link='{name: user.first_name}'
+                 v-on:click="volunteerDetails()"
+                 :to="volunteerDetails()"
+                 class="volunteer-btn">
+                {{user.first_name}}</a>
             </div>
         </Slide>
       </Carousel>
@@ -77,5 +80,24 @@ export default {
     font-size: 14px;
     color: #5f5f5f;
   }
+  a {
+    text-decoration: none;
+    margin-top: 15px;
+    font-size: 14px;
+    color: #532594;
+  }
+  a:hover {
+    color: #481b87;
+  }
+}
+
+.volunteer-btn {
+  text-decoration: none;
+  margin-top: 15px;
+  font-size: 14px;
+  color: #532594;
+}
+volunteer-btn:hover {
+  color: #481b87;
 }
 </style>
