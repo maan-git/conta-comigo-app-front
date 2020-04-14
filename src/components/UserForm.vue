@@ -11,6 +11,7 @@
       <v-stepper-items>
         <v-stepper-content class="px-0" step="1">
           <!-- TODO imagem -->
+          <p class="primary--text">Adicione uma foto para o seu perfil</p>
           <v-form ref="steponedata" class="mt-3">
             <v-text-field
               :disabled="disapleForm()"
@@ -235,25 +236,63 @@
       </v-stepper-items>
     </v-stepper>
 
-    <!-- <v-dialog v-model="dialog" persistent max-width="290">
-      <template v-slot:activator="{ on }">
-        <v-btn color="primary" dark v-on="on">Open Dialog</v-btn>
-      </template>
-      <v-card>
-        <v-card-title class="headline">Use Google's location service?</v-card-title>
-        <v-card-text>This means sending anonymous location data to Google.</v-card-text>
+    <v-dialog v-model="dialog" persistent max-width="520">
+      <v-card max-width="520" raised>
+        <v-card-title class="headline primary--text">
+          Use Google's location service?</v-card-title>
+        <v-card-text>
+          <v-file-input
+            v-model="selectedFile"
+            accept="image/png, image/jpeg"
+            label="File"
+            placeholder="Select a file"
+            outlined
+            :show-size="1024"
+            class="my-4"
+            @change="setupCropper"
+          ></v-file-input>
+          <v-row v-if="objectUrl">
+            <v-col cols="12" sm="6" class="text-center">
+              <div class="overline">Original</div>
+              <div class="image-container elevation-4">
+                <img class="image-preview" ref="source" :src="objectUrl">
+              </div>
+              <div class="d-flex justify-center">
+                <v-btn icon small @click="resetCropper">
+                  <v-icon small>mdi-aspect-ratio</v-icon>
+                </v-btn>
+                <div class="mx-2">
+                  <v-btn icon small @click="rotateLeft">
+                    <v-icon small>mdi-rotate-left</v-icon>
+                  </v-btn>
+                  <v-btn icon small @click="rotateRight">
+                    <v-icon small>mdi-rotate-right</v-icon>
+                  </v-btn>
+                </div>
+              </div>
+            </v-col>
+            <v-col cols="12" sm="6" class="text-center">
+              <div class="overline">Preview</div>
+              <div class="image-container elevation-4">
+                <img class="image-preview" :src="previewCropped">
+              </div>
+            </v-col>
+          </v-row>
+        </v-card-text>
         <v-card-actions>
           <v-spacer></v-spacer>
-          <v-btn color="green darken-1" text @click="dialog = false">Disagree</v-btn>
-          <v-btn color="green darken-1" text @click="dialog = false">Agree</v-btn>
+          <v-btn rounded color="primary" :disabled="!objectUrl">
+            <span>Submit</span>
+            <v-icon small>$heart</v-icon>
+          </v-btn>
         </v-card-actions>
       </v-card>
-    </v-dialog> -->
-    <!-- https://lobotuerto.com/blog/cropping-images-with-vuejs-and-cropperjs/ -->
+    </v-dialog>
   </div>
 </template>
 <script>
-
+import Cropper from 'cropperjs';
+import debounce from 'lodash/debounce';
 import { mapState } from 'vuex';
 import StepperHeader from './StepperHeader.vue';
 
@@ -281,6 +320,12 @@ export default {
   },
   data() {
     return {
+      cropper: null,
+      objectUrl: null,
+      previewCropped: null,
+      selectedFile: null,
+      debouncedUpdatePreview: debounce(this.updatePreview, 257),
+
       nome: '',
       sobrenome: '',
       cpf: '',
@@ -364,6 +409,45 @@ export default {
       // if (map.administrative_area_level_1) this.estado = map.administrative_area_level_1;
       // if (map.name) this.endereco = map.name;
     },
+
+    setupCropper(selectedFile) {
+      if (this.cropper) {
+        this.cropper.destroy();
+      }
+
+      if (this.objectUrl) {
+        window.URL.revokeObjectURL(this.objectUrl);
+      }
+
+      if (!selectedFile) {
+        this.cropper = null;
+        this.objectUrl = null;
+        this.previewCropped = null;
+        return;
+      }
+
+      this.objectUrl = window.URL.createObjectURL(selectedFile);
+      this.$nextTick(this.setupCropperInstance);
+    },
+    setupCropperInstance() {
+      this.cropper = new Cropper(this.$refs.source, {
+        aspectRatio: 1,
+        crop: this.debouncedUpdatePreview,
+      });
+    },
+    updatePreview() {
+      const canvas = this.cropper.getCroppedCanvas();
+      this.previewCropped = canvas.toDataURL('image/png');
+    },
+    resetCropper() {
+      this.cropper.reset();
+    },
+    rotateLeft() {
+      this.cropper.rotate(-90);
+    },
+    rotateRight() {
+      this.cropper.rotate(90);
+    },
   },
   created() {
     this.nome = this.register.nome ? this.register.nome : '';
@@ -406,4 +490,17 @@ export default {
     display: flex;
   }
 }
+
+.image-container {
+  display: inline-block;
+}
+
+.image-preview {
+  display: block;
+  max-height: 229px;
+  max-width: 100%;
+}
+</style>
+<style lang="scss">
+  @import './../../node_modules/cropperjs/dist/cropper.css';
 </style>
