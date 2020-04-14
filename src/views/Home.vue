@@ -1,5 +1,6 @@
 <template>
   <v-container class="home">
+    <!-- <ListHelpAssociate /> -->
     <ListHelp/>
     <ListVolunteers/>
   </v-container>
@@ -9,10 +10,12 @@
 // @ is an alias to /src
 import ListHelp from '@/components/ListHelp.vue';
 import ListVolunteers from '@/components/ListVolunteers.vue';
+// import ListHelpAssociate from '@/components/ListHelpAssociate.vue';
 
 export default {
   name: 'Home',
   components: {
+    // ListHelpAssociate,
     ListHelp,
     ListVolunteers,
   },

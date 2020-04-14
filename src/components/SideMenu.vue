@@ -15,7 +15,8 @@
               block
               right
               elevation="0"
-              to="/">Home</v-btn>
+              to="/"
+              @click="toogleMenu()">Home</v-btn>
           </v-list-item>
           <v-list-item>
             <v-btn
@@ -35,6 +36,9 @@ export default {
   methods: {
     toogleMenu() {
       this.drawer = !this.drawer;
+    },
+    logout() {
+
     },
   },
 };
