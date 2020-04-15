@@ -17,7 +17,14 @@
                 fab
                 color="primary"
                 @click="dialog = true"
-              ></v-btn>
+              >
+                <v-avatar v-if="this.register.avatar">
+                  <img
+                    :src="this.register.avatar"
+                    alt="avatar"
+                  >
+                </v-avatar>
+              </v-btn>
               <p class="mt-1 mb-0 text-center primary--text">Editar</p>
             </v-col>
             <v-col class=" d-flex justify-start align-center">
@@ -251,13 +258,20 @@
     <v-dialog v-model="dialog" max-width="520">
       <v-card max-width="520" raised>
         <v-card-title class="headline primary--text">
-          Use Google's location service?</v-card-title>
+          <span>Adicione uma foto para o seu perfil</span>
+          <v-spacer></v-spacer>
+          <v-btn
+            icon
+            @click="dialog=false"
+          ><v-icon>mdi-close</v-icon></v-btn>
+        </v-card-title>
         <v-card-text>
           <v-file-input
+            :prepend-icon="null"
             v-model="selectedFile"
             accept="image/png, image/jpeg"
-            label="File"
-            placeholder="Select a file"
+            label="Foto"
+            placeholder="Selecione a imagem"
             outlined
             :show-size="1024"
             class="my-4"
@@ -295,9 +309,9 @@
           <v-spacer></v-spacer>
           <v-btn rounded color="primary"
             :disabled="!objectUrl"
-            @click="dialog = false"
+            @click="saveCrop"
           >
-            <span>Submit</span>
+            <span>Adicionar</span>
             <!-- <v-icon small>$heart</v-icon> -->
           </v-btn>
         </v-card-actions>
@@ -462,6 +476,10 @@ export default {
     },
     rotateRight() {
       this.cropper.rotate(90);
+    },
+    saveCrop() {
+      this.$store.dispatch('register/setAvatar', this.previewCropped);
+      this.dialog = false;
     },
   },
   created() {
