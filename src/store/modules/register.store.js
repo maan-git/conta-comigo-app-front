@@ -22,6 +22,7 @@ const state = {
   email: '',
   password: '',
   id: '',
+  avatar: null,
 
   // error handling
   createUserError: '',
@@ -73,7 +74,7 @@ const actions = {
       email: state.email,
       first_name: state.nome,
       last_name: state.sobrenome,
-      // avatar: string,
+      avatar: state.avatar,
       is_superuser: false,
       cpf: state.cpf.replace(/\./g, '').replace(/-/, ''),
       birth_date: state.datanascimento,
@@ -167,7 +168,7 @@ const actions = {
       commit('SET_CREATE_USER_LOADING', false);
     });
   },
-
+  setAvatar({ commit }, avatar) { commit('SET_AVATAR', avatar); },
   resetForm({ commit }) {
     commit('RESET_STATES');
   },
@@ -237,6 +238,9 @@ const mutations = {
   SET_ID(state, value) {
     state.id = value;
   },
+  SET_AVATAR(state, value) {
+    state.avatar = value;
+  },
   SET_CREATE_USER_LOADING(state, value) {
     state.createUserLoading = value;
   },
@@ -259,6 +263,7 @@ const mutations = {
     state.email = '';
     state.password = '';
     state.id = '';
+    state.avatar = null;
     // error handling
     state.createUserError = '';
     state.step = 1;
