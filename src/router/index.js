@@ -61,7 +61,13 @@ const routes = [
   {
     path: '/volunteer-details',
     name: 'VolunteerDetails',
-    component: () => import('../views/HelpDetails.vue'),
+    component: () => import('../views/VolunteerDetails.vue'),
+    beforeEnter: guard,
+  },
+  {
+    path: '/user-details',
+    name: 'UserDetails',
+    component: () => import('../views/UserDetails.vue'),
     beforeEnter: guard,
   },
   {

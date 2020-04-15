@@ -56,7 +56,7 @@
       <v-btn rounded v-if="!newHelp" class="mt-5" block outlined color="red" x-large>
         <v-icon dark>mdi-heart
       </v-icon>Conta Comigo!</v-btn>
-      <p v-if="help.helpDetailsError"
+      <p v-if="help.requestError"
        class="block text-center mt-4 red--text">{{help.requestError}}</p>
       <p v-if="help.helpRequestSuccess"
        class="block text-center mt-4 blue--text">Solicitação realizada com sucesso!

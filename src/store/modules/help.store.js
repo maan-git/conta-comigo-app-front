@@ -61,8 +61,7 @@ const actions = {
       commit('SET_REQUEST_LOAD', false);
       commit('SET_REQUEST_SUCCESS', true);
     }).catch((error) => {
-      console.log(error.response.data);
-      commit('SET_REQUEST_ERROR', error.response.data.error);
+      commit('SET_REQUEST_ERROR', error.response.data);
       commit('SET_REQUEST_LOAD', false);
       commit('SET_REQUEST_SUCCESS', false);
     });
