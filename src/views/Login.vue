@@ -50,6 +50,13 @@ export default {
     CardContainer,
   },
   computed: mapState(['user']),
+  watch: {
+    email(email) {
+      if (email) {
+        this.email = email.toLowerCase();
+      }
+    },
+  },
   data() {
     return {
       email: '',
@@ -62,6 +69,9 @@ export default {
         this.$store.dispatch('user/login', { username: this.email, password: this.password });
       }
     },
+  },
+  created() {
+    this.$store.dispatch('register/resetForm');
   },
 };
 </script>

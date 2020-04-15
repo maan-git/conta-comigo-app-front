@@ -167,6 +167,10 @@ const actions = {
       commit('SET_CREATE_USER_LOADING', false);
     });
   },
+
+  resetForm({ commit }) {
+    commit('RESET_STATES');
+  },
 };
 
 const mutations = {

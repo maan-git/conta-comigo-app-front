@@ -4,10 +4,10 @@
       absolute
       :color="'#532594'"
     >
-      <div class="text-center mt-5">
-        <img width="178" :src="require('../assets/logo_completa.svg')">
-      </div>
       <v-list nav dense>
+        <v-btn @click="toogleMenu()" x-large icon color="white">
+          <v-icon>mdi-close</v-icon>
+        </v-btn>
         <v-list-item-group active-class="deep-purple--text text--accent-4">
           <v-list-item>
             <v-btn
@@ -25,7 +25,15 @@
               right
               elevation="0"
               @click="$store.dispatch('user/logout')">Logout</v-btn>
+          <v-list-item to="/" >
+            <v-img :max-width="500" :src="require('../assets/logo_completa.svg')"></v-img>
           </v-list-item>
+          <v-btn
+            color="primary"
+            block
+            right
+            elevation="0"
+            @click="logout()">Logout</v-btn>
         </v-list-item-group>
       </v-list>
     </v-navigation-drawer>
@@ -38,7 +46,8 @@ export default {
       this.drawer = !this.drawer;
     },
     logout() {
-
+      this.toogleMenu();
+      this.$store.dispatch('user/logout');
     },
   },
 };

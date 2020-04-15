@@ -16,7 +16,7 @@
               :disabled="disapleForm()"
               outlined
               label="Nome"
-              :rules="[$vln.requiredRule('Nome'), $vln.moreThanRule(6)]"
+              :rules="[$vln.requiredRule('Nome'), $vln.moreThanRule(2)]"
               required
               v-model="nome"
             ></v-text-field>
@@ -24,7 +24,7 @@
               :disabled="disapleForm()"
               outlined
               label="Sobrenome"
-              :rules="[$vln.requiredRule('Nome'), $vln.moreThanRule(6)]"
+              :rules="[$vln.requiredRule('Nome'), $vln.moreThanRule(2)]"
               required
               v-model="sobrenome"
             ></v-text-field>
@@ -112,7 +112,6 @@
         <v-stepper-content class="px-0" step="2">
           <v-form ref="steptwodata" class="mt-3">
             <v-text-field
-              :disabled="disapleForm()"
               outlined
               label="Email"
               required
@@ -235,6 +234,22 @@
         </v-stepper-content>
       </v-stepper-items>
     </v-stepper>
+
+    <!-- <v-dialog v-model="dialog" persistent max-width="290">
+      <template v-slot:activator="{ on }">
+        <v-btn color="primary" dark v-on="on">Open Dialog</v-btn>
+      </template>
+      <v-card>
+        <v-card-title class="headline">Use Google's location service?</v-card-title>
+        <v-card-text>This means sending anonymous location data to Google.</v-card-text>
+        <v-card-actions>
+          <v-spacer></v-spacer>
+          <v-btn color="green darken-1" text @click="dialog = false">Disagree</v-btn>
+          <v-btn color="green darken-1" text @click="dialog = false">Agree</v-btn>
+        </v-card-actions>
+      </v-card>
+    </v-dialog> -->
+    <!-- https://lobotuerto.com/blog/cropping-images-with-vuejs-and-cropperjs/ -->
   </div>
 </template>
 <script>
@@ -256,6 +271,11 @@ export default {
     cep(cep) {
       if (cep.length === 9) {
         this.$store.dispatch('register/findByZip', cep);
+      }
+    },
+    email(email) {
+      if (email) {
+        this.email = email.toLowerCase();
       }
     },
   },
@@ -284,6 +304,7 @@ export default {
       password: '',
       repassword: '',
       checkbox: false,
+      dialog: true,
     };
   },
   methods: {

@@ -1,10 +1,10 @@
 <template>
   <v-app-bar v-if="user.user" app color="primary" dark prominent dense>
     <div class="nav-container">
-      <v-btn text fab large @click="$emit('toogle')">
+      <v-btn icon fab large @click="$emit('toogle')">
         <v-img
           alt="conta comigo"
-          class="shrink mr-2"
+          class="shrink "
           contain
           :src="require('../assets/icone.svg')"
           transition="scale-transition"
@@ -20,7 +20,7 @@
       <v-avatar :size="46">
         <v-img
           alt="Vuetify Logo"
-          class="shrink mr-2"
+          class="shrink"
           contain
           :src="user.user.avatar"
           transition="scale-transition"
@@ -51,6 +51,8 @@ export default {
 .v-toolbar {
   border-bottom-right-radius: 40px;
   border-bottom-left-radius: 40px;
+  max-width: 1200px;
+  margin: 0 auto;
 }
 
 .nav-container {
