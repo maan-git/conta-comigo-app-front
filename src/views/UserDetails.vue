@@ -9,29 +9,33 @@
 
       <v-flex class="how-to">
         <v-img width="350" class="img-center"
-          center :src="user.userDetails.avatar"></v-img>
+          center :src="user.userDetails.avatar"
+        >
+          <template v-slot:placeholder>
+            <v-row
+              class="fill-height ma-0"
+              align="center"
+              justify="center"
+            >
+              <v-progress-circular indeterminate color="danger"></v-progress-circular>
+            </v-row>
+          </template>
+        </v-img>
         <div class="text-center margin-text">
-          <ul>
-            <li>
-              <span
-            class="subtitle-1 grey--text"
-          >Cadastrou-se em {{$filters.formatDate(user.userDetails.date_joined)}}</span>
-            </li>
-            <li>
-              <span
-            class="subtitle-1 grey--text"
-          >Grupo de risco: {{$filters.isRiskGroup(user.userDetails.is_at_risk_group)}}</span>
-            </li>
-            <li>
-              <span
-            class="subtitle-1 grey--text"
-          >Telefone: {{user.userDetails.phone_number}}</span>
-            </li>
-          </ul>
+          <p class="subtitle-1 grey--text">
+            Cadastrou-se em {{$filters.formatDate(user.userDetails.date_joined)}}
+          </p>
+          <p class="subtitle-1 grey--text">
+            Grupo de risco: {{$filters.isRiskGroup(user.userDetails.is_at_risk_group)}}
+          </p>
+          <p class="subtitle-1 grey--text">
+            Telefone: {{user.userDetails.phone_number}}
+          </p>
         </div>
       </v-flex>
-    <p v-if="user.userDetailsError"
-       class="block text-center mt-4 red--text">{{user.userDetailsError}}</p>
+      <p v-if="user.userDetailsError" class="block text-center mt-4 red--text">
+        {{user.userDetailsError}}
+      </p>
     </CardContainer>
   </div>
 </template>

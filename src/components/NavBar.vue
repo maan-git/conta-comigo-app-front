@@ -9,7 +9,17 @@
           :src="require('../assets/icone.svg')"
           transition="scale-transition"
           width="45"
-        />
+        >
+          <template v-slot:placeholder>
+            <v-row
+              class="fill-height ma-0"
+              align="center"
+              justify="center"
+            >
+              <v-progress-circular indeterminate color="danger"></v-progress-circular>
+            </v-row>
+          </template>
+        </v-img>
       </v-btn>
       <div class="nav-container__text">
         <p class="title mb-0">Olá, {{user.user.first_name}}
@@ -17,7 +27,7 @@
           <span class="subtitle-1">Conta comigo!</span>
         </p>
       </div>
-      <v-avatar :size="46" @click="userDetails()" class="nav-avatar">
+      <v-avatar :size="46" class="nav-avatar">
         <v-img
           alt="Vuetify Logo"
           class="shrink"
@@ -25,7 +35,17 @@
           :src="user.user.avatar"
           transition="scale-transition"
           width="48"
-        />
+        >
+          <template v-slot:placeholder>
+            <v-row
+              class="fill-height ma-0"
+              align="center"
+              justify="center"
+            >
+              <v-progress-circular indeterminate color="danger"></v-progress-circular>
+            </v-row>
+          </template>
+        </v-img>
       </v-avatar>
     </div>
   </v-app-bar>
@@ -38,9 +58,6 @@ export default {
   methods: {
     logout() {
       this.$store.dispatch('user/logout');
-    },
-    userDetails() {
-      this.$router.push('user-details');
     },
   },
   created() {
