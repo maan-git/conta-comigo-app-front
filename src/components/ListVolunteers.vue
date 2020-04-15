@@ -50,11 +50,11 @@ export default {
   computed: mapState(['user']),
   methods: {
     volunteerDetails(id) {
-      this.$router.push(`/volunteer-details?id=${id}`);
+      this.$router.push(`/volunteer-details?userId=${id}`);
     },
   },
   created() {
-    this.$store.dispatch('user/getUsers', 'limit=10');
+    this.$store.dispatch('user/getUsers', 'limit=10&ordering=-date_joined');
   },
 };
 </script>
