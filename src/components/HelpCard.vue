@@ -2,9 +2,19 @@
   <div class="help-card">
     <div class="help-card--header">
       <div class="help-card--header__avatar">
-        <v-img width="46" height="46" :lazy-src="`${avatar}?vuetify-preload`"
-               :src="`${avatar}?vuetify-preload`"
-               ></v-img>
+        <v-img width="46" height="46" :lazy-src="`${avatar}`"
+          :src="`${avatar}`"
+          >
+          <template v-slot:placeholder>
+            <v-row
+              class="fill-height ma-0"
+              align="center"
+              justify="center"
+            >
+              <v-progress-circular indeterminate color="danger"></v-progress-circular>
+            </v-row>
+          </template>
+      </v-img>
       </div>
       <div class="help-card--header__text">
         <p>

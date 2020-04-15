@@ -9,7 +9,17 @@
         </v-card-title>
         <v-img
           :src="help.helpDetails.request_user.avatar"
-        ></v-img>
+        >
+          <template v-slot:placeholder>
+            <v-row
+              class="fill-height ma-0"
+              align="center"
+              justify="center"
+            >
+              <v-progress-circular indeterminate color="danger"></v-progress-circular>
+            </v-row>
+          </template>
+        </v-img>
         <v-card-text class="grey--text text--darken-2">
           <div>Criado em {{$filters.formatDate(help.helpDetails.created)}}</div>
           <div>{{help.helpDetails.category.description}}</div>
