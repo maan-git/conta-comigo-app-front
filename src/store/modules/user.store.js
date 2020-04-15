@@ -12,6 +12,9 @@ const state = {
   users: null,
   usersError: null,
   usersLoginLoading: false,
+  userDetails: null,
+  userDetailsError: null,
+  userDetailsLoginLoading: false,
   volunteerDetails: null,
   volunteerDetailsError: null,
   volunteerDetailsLoading: false,
@@ -133,11 +136,9 @@ const actions = {
       commit('SET_USERS_LOGIN_LOADING', false);
     });
   },
-
   getVolunteerDetails({ commit }, id) {
     commit('SET_VOLUNTEER_DETAILS_LOADING', true);
     return api().get(`/app/user/${id}/`).then((success) => {
-      console.log(success.data);
       commit('SET_VOLUNTEER_DETAILS_ERROR', null);
       commit('SET_VOLUNTEER_DETAILS_LOADING', false);
       commit('SET_VOLUNTEER_DETAILS', success.data);
@@ -147,12 +148,23 @@ const actions = {
       commit('SET_VOLUNTEER_DETAILS_LOADING', false);
     });
   },
+  getUserDetails({ commit }) {
+    commit('SET_USER_DETAILS_LOADING', true);
+    return api().get('app/user/current/').then((success) => {
+      commit('SET_USER_DETAILS_ERROR', null);
+      commit('SET_USER_DETAILS_LOADING', false);
+      commit('SET_USER_DETAILS', success.data);
+    }).catch((error) => {
+      if (error.response.data) commit('SET_USER_DETAILS_ERROR', error.response.data);
+      else commit('SET_USER_DETAILS_ERROR', error.response.statusText);
+      commit('SET_USER_DETAILS_LOADING', false);
+    });
+  },
 };
 
 const mutations = {
   SET_USER(state, value) {
     state.user = value;
-    // console.log('mutations SET_USER', state.data);
   },
   SET_TOKEN(state, value) {
     state.token = value;
@@ -174,6 +186,15 @@ const mutations = {
   },
   SET_USERS_LOGIN_LOADING(state, value) {
     state.usersLoginLoading = value;
+  },
+  SET_USER_DETAILS(state, value) {
+    state.userDetails = value;
+  },
+  SET_USER_DETAILS_ERROR(state, value) {
+    state.userDetailsError = value;
+  },
+  SET_USER_DETAILS_LOADING(state, value) {
+    state.userDetailsLoading = value;
   },
   SET_VOLUNTEER_DETAILS(state, value) {
     state.volunteerDetails = value;

@@ -17,7 +17,7 @@
           <span class="subtitle-1">Conta comigo!</span>
         </p>
       </div>
-      <v-avatar :size="46">
+      <v-avatar :size="46" @click="userDetails()" class="nav-avatar">
         <v-img
           alt="Vuetify Logo"
           class="shrink"
@@ -38,6 +38,9 @@ export default {
   methods: {
     logout() {
       this.$store.dispatch('user/logout');
+    },
+    userDetails() {
+      this.$router.push('user-details');
     },
   },
   created() {
@@ -66,6 +69,9 @@ export default {
     text-align: center;
     vertical-align: middle;
   }
+}
+.nav-avatar {
+  cursor: pointer;
 }
 
 </style>
