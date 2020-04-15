@@ -50,7 +50,7 @@ export default {
   computed: mapState(['user']),
   methods: {
     volunteerDetails(id) {
-      this.$router.push(`/volunteer-details?id=${id}`);
+      this.$router.push(`/volunteer-details?userId=${id}`);
     },
   },
   created() {

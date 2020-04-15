@@ -12,9 +12,9 @@ const state = {
   users: null,
   usersError: null,
   usersLoginLoading: false,
-  userDetails: null,
-  userDetailsError: null,
-  userDetailsLoading: false,
+  volunteerDetails: null,
+  volunteerDetailsError: null,
+  volunteerDetailsLoading: false,
 };
 
 const getters = {
@@ -26,9 +26,8 @@ const getters = {
   getUsers(state) { return state.users; },
   getUsersError(state) { return state.usersError; },
   getUsersLoginLoading(state) { return state.usersLoginLoading; },
-  getUserDetails(state) { return state.userDetails; },
-  getUserDetailsError(state) { return state.userDetailsError; },
-  getUserDetailsLoading(state) { return state.userDetailsLoading; },
+  getVolunteerDetailsError(state) { return state.volunteerDetailsError; },
+  getVolunteerDetailsLoading(state) { return state.volunteerDetailsLoading; },
 };
 
 const actions = {
@@ -135,16 +134,17 @@ const actions = {
     });
   },
 
-  getUserDetails({ commit }, id) {
-    commit('SET_USER_DETAILS_LOADING', true);
-    return api().get(`app/user/${id}`).then((success) => {
-      commit('SET_USER_DETAILS_ERROR', null);
-      commit('SET_USER_DETAILS_LOADING', false);
-      commit('SET_USER_DETAILS', success.data.results);
+  getVolunteerDetails({ commit }, id) {
+    commit('SET_VOLUNTEER_DETAILS_LOADING', true);
+    return api().get(`/app/user/${id}/`).then((success) => {
+      console.log(success.data);
+      commit('SET_VOLUNTEER_DETAILS_ERROR', null);
+      commit('SET_VOLUNTEER_DETAILS_LOADING', false);
+      commit('SET_VOLUNTEER_DETAILS', success.data);
     }).catch((error) => {
-      if (error.response.data.detail) commit('SET_USER_DETAILS_ERROR', error.response.data.detail);
-      else commit('SET_USER_DETAILS_ERROR', error.response.statusText);
-      commit('SET_USER_DETAILS_LOADING', false);
+      if (error.response.data) commit('SET_VOLUNTEER_DETAILS_ERROR', error.response.data);
+      else commit('SET_VOLUNTEER_DETAILS_ERROR', error.response.statusText);
+      commit('SET_VOLUNTEER_DETAILS_LOADING', false);
     });
   },
 };
@@ -175,14 +175,14 @@ const mutations = {
   SET_USERS_LOGIN_LOADING(state, value) {
     state.usersLoginLoading = value;
   },
-  SET_USER_DETAILS(state, value) {
-    state.userDetails = value;
+  SET_VOLUNTEER_DETAILS(state, value) {
+    state.volunteerDetails = value;
   },
-  SET_USER_DETAILS_ERROR(state, value) {
-    state.userDetailsError = value;
+  SET_VOLUNTEER_DETAILS_ERROR(state, value) {
+    state.volunteerDetailsError = value;
   },
-  SET_USER_DETAILS_LOADING(state, value) {
-    state.userDetailsLoading = value;
+  SET_VOLUNTEER_DETAILS_LOADING(state, value) {
+    state.volunteerDetailsLoading = value;
   },
 };
 
