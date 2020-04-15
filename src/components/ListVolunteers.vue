@@ -64,7 +64,7 @@ export default {
     },
   },
   created() {
-    this.$store.dispatch('user/getUsers', 'limit=10&ordering=-date_joined');
+    this.$store.dispatch('user/getUsers', `limit=10&ordering=-date_joined&id__ne=${this.user.user.id}`);
   },
 };
 </script>

@@ -27,7 +27,7 @@
           <span class="subtitle-1">Conta comigo!</span>
         </p>
       </div>
-      <v-avatar :size="46" class="nav-avatar">
+      <v-avatar :size="46">
         <v-img
           alt="Vuetify Logo"
           class="shrink"
@@ -86,9 +86,6 @@ export default {
     text-align: center;
     vertical-align: middle;
   }
-}
-.nav-avatar {
-  cursor: pointer;
 }
 
 </style>
