@@ -44,6 +44,9 @@ export default {
         left: 10px;
         bottom: 0;
       }
+      img {
+        margin: 0 auto;
+      }
     }
     @media screen and ( max-width: 600px) {
       .card-container {

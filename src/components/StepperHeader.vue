@@ -4,6 +4,7 @@
     <div v-for="(step, i) in steps" :key="i"
       class="stepper-head__step"
       :class="{'current-step': ( i + 1 === currenctStep) || i < currenctStep }"
+      @click="gotoStep(i + 1)"
     >
       <div class="step__number">
         {{i + 1}}
@@ -17,6 +18,11 @@
 <script>
 export default {
   props: ['currenctStep', 'steps'],
+  methods: {
+    gotoStep(step) {
+      this.$store.dispatch('register/setStep', step);
+    },
+  },
 };
 </script>
 <style lang="scss" scoped>
@@ -28,6 +34,7 @@ export default {
   padding: 0 3%;
   &__step {
     z-index: 10;
+    cursor: pointer;
     display: flex;
     flex-direction: column;
     align-items: center;
