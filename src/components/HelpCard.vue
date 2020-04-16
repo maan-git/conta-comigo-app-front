@@ -1,5 +1,5 @@
 <template>
-  <div class="help-card">
+  <div class="help-card" :class="{'help-card--bloq': block}">
     <div class="help-card--header">
       <div class="help-card--header__avatar">
         <v-img width="46" height="46" :lazy-src="`${avatar}`"
@@ -39,7 +39,7 @@
 </template>
 <script>
 export default {
-  props: ['id', 'description', 'name', 'age', 'createdat', 'user_request', 'avatar'],
+  props: ['id', 'description', 'name', 'age', 'createdat', 'user_request', 'avatar', 'block'],
   data() {
     return {
       timeago: 'há 10 minutos',
@@ -106,6 +106,9 @@ export default {
       font-size: 16px;
       font-weight: 500;
     }
+  }
+  &--bloq{
+    max-width: 100%;
   }
 }
 </style>
