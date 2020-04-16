@@ -71,6 +71,12 @@ const routes = [
     beforeEnter: guard,
   },
   {
+    path: '/requested-helps',
+    name: 'RequestedHelps',
+    component: () => import('../views/RequestedHelps.vue'),
+    beforeEnter: guard,
+  },
+  {
     path: '*',
     redirect: '/login',
   },
