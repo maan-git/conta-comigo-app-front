@@ -18,6 +18,9 @@ const state = {
   volunteerDetails: null,
   volunteerDetailsError: null,
   volunteerDetailsLoading: false,
+  userAddress: null,
+  userAddressError: null,
+  userAddressLoading: false,
 };
 
 const getters = {
@@ -31,6 +34,8 @@ const getters = {
   getUsersLoginLoading(state) { return state.usersLoginLoading; },
   getVolunteerDetailsError(state) { return state.volunteerDetailsError; },
   getVolunteerDetailsLoading(state) { return state.volunteerDetailsLoading; },
+  getUsersAddressError(state) { return state.userAddressError; },
+  getUsersAddressLoading(state) { return state.userAddressLoading; },
 };
 
 const actions = {
@@ -160,6 +165,19 @@ const actions = {
       commit('SET_USER_DETAILS_LOADING', false);
     });
   },
+  getUserAddress({ commit }, id) {
+    commit('SET_USER_ADDRESS_LOADING', true);
+    return api().get(`app/user/${id}/getaddresses/`).then((success) => {
+      console.log(success);
+      commit('SET_USER_ADDRESS_ERROR', null);
+      commit('SET_USER_ADDRESS_LOADING', false);
+      commit('SET_USER_ADDRESS', success.data[0]);
+    }).catch((error) => {
+      if (error.response.data) commit('SET_USER_ADDRESS_ERROR', error.response.data);
+      else commit('SET_USER_ADDRESS_ERROR', error.response.statusText);
+      commit('SET_USER_ADDRESS_LOADING', false);
+    });
+  },
 };
 
 const mutations = {
@@ -205,6 +223,15 @@ const mutations = {
   SET_VOLUNTEER_DETAILS_LOADING(state, value) {
     state.volunteerDetailsLoading = value;
   },
+  SET_USER_ADDRESS(state, value) {
+    state.userAddress = value;
+  },
+  SET_USER_ADDRESS_ERROR(state, value) {
+    state.userAddressError = value;
+  },
+  SET_USER_ADDRESS_LOADING(state, value) {
+    state.userAddressLoading = value;
+  },
 };
 
 
@@ -215,3 +242,4 @@ export default {
   actions,
   mutations,
 };
+
