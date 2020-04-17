@@ -3,6 +3,7 @@
     <v-tabs
       v-model="tab"
       background-color="primary"
+      centered
       dark
     >
       <v-tab
@@ -18,9 +19,13 @@
         v-for="item in items"
         :key="item.tab"
       >
-        <v-card flat>
-          <v-card-text>{{ item.content }}<ListItensCard /></v-card-text>
-        </v-card>
+        <v-tab-item
+          v-for="content in item.contents"
+          :key="content.text">
+          <v-card flat>
+            <v-card-text>{{ content.text }} <ListItensCard /></v-card-text>
+          </v-card>
+        </v-tab-item>
       </v-tab-item>
     </v-tabs-items>
   </v-card>
@@ -34,14 +39,15 @@ export default {
     ListItensCard,
   },
   data: () => ({
-    item: [
+    tab: null,
+    items: [
       {
         tab: 'teste 1',
-        content: ['teste content'],
+        contents: [{ text: 'teste content' }, { text: 'teste content 3' }, { text: 'teste content 4' }],
       },
       {
         tab: 'teste 2',
-        content: ['teste content 2'],
+        contents: [{ text: 'teste content' }],
       },
     ],
   }),

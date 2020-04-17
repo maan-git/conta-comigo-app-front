@@ -25,6 +25,7 @@
               right
               elevation="0"
               @click="$store.dispatch('user/logout')">Logout</v-btn>
+          </v-list-item>
           <v-list-item to="/" >
             <v-img :max-width="500" :src="require('../assets/logo_completa.svg')"></v-img>
           </v-list-item>
