@@ -2,7 +2,7 @@
   <div class="login">
     <CardContainer>
       <v-form ref="formLogin" class="ma-5 text-center" @keyup.enter.native="loginClick()">
-        <p class="primary--text font-weight-medium headline">Login</p>
+        <p class="primary--text font-weight-medium headline">Recuperar Senha</p>
         <v-text-field
           outlined
           v-model="email"
@@ -10,27 +10,17 @@
           required
           :rules="[$vln.requiredRule('Email')]"
         ></v-text-field>
-        <v-text-field
-          class="mb-0"
-          outlined
-          v-model="password"
-          label="Senha"
-          type="password"
-          required
-          @keypress:enter="loginClick()"
-          :rules="[$vln.requiredRule('Senha')]"
-        ></v-text-field>
-        <v-btn small class="mb-2" color="primary" to="/forgot-user-pass" text>
-          <span class="">Esqueci a senha</span>
+       <v-btn small class="mt-1" color="primary" to="/login" text>
+          <span class="">Login</span>
         </v-btn>
         <v-btn
           class="my-4"
           block
           rounded
           x-large
-          @click="loginClick()"
+          @click="forgotLoginPassClick()"
           color="primary" :loading="user.loginLoading">
-          <span class="text-capitalize">Entrar</span>
+          <span class="text-capitalize">Enviar</span>
         </v-btn>
         <v-btn small class="mt-1" color="primary" to="/create-account" text>
           <span class="">Cadastre-se e seja um voluntário</span>

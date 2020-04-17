@@ -71,6 +71,12 @@ const routes = [
     beforeEnter: guard,
   },
   {
+    path: '/forgot-user-pass',
+    name: 'ForgotUserPass',
+    component: () => import('../views/ForgotUserPass.vue'),
+    beforeEnter: notGuard,
+  },
+  {
     path: '*',
     redirect: '/login',
   },
