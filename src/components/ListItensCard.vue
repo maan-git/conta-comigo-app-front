@@ -1,40 +1,72 @@
 <template>
     <v-container>
-        <div>
-            <div>
-                <div class="help-card--header__avatar">
-                    <img />
+        <div v-if="help.helpList">
+            <div class="card-info">
+                <div>
+                    <img width="178" :src="require('../assets/logo_completa.svg')">
                 </div>
                 <div>
-                    <label>Luis Mauro</label>
-                    <span>Pagar Contas na Lotérias</span>
-                </div>
-                <div>
-                    <span>23/11</span>
-                    <span>18m</span>
+                    <div class="card-description">
+                        <label>Luis Mauro</label>
+                        <span>Pagar Contas na Lotérias</span>
+                    </div>
+                    <div class="card-date">
+                        <span>23/11</span>
+                        <br />
+                        <span>18m</span>
+                    </div>
                 </div>
             </div>
-            <div>
+            <div v-if="!accepts" class="card-button">
                 <ButtonRouter
                     url='/create-help'
                     text='Conta Comigo'
                     heart=$heart>
                 </ButtonRouter>
             </div>
+            <div v-if="accepts">
+            </div>
         </div>
     </v-container>
 </template>
 
 <script>
+import { mapState } from 'vuex';
 import ButtonRouter from '@/components/ButtonRouter.vue';
 
 export default {
   name: 'ListItensCard',
+  props: ['accepts', 'user'],
+  computed: mapState(['help']),
   components: {
     ButtonRouter,
+  },
+  methods: {
+    async listHelp() {
+      await this.$store.dispatch('help/getHelp', {
+        userId: this.user.user.id,
+        limit: 10,
+      });
+    },
   },
 };
 </script>
 <style scoped>
-
+.card-info {
+    width: 100%;
+    height: 100px;
+}
+.card-button {
+    width: 100%;
+    height: 100px;
+    position: static;
+}
+.card-description {
+    position: relative;
+    float: left;
+}
+.card-date {
+    position: relative;
+    float: right;
+}
 </style>

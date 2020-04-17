@@ -10,19 +10,20 @@
 import { mapState } from 'vuex';
 import ListHelp from '@/components/ListHelp.vue';
 import ListVolunteers from '@/components/ListVolunteers.vue';
-// import ListHelpAssociate from '@/components/ListHelpAssociate.vue';
 
 export default {
   name: 'Home',
   components: {
-    // ListHelpAssociate,
     ListHelp,
     ListVolunteers,
   },
   computed: mapState(['help', 'user']),
   methods: {
     async listHelp() {
-      await this.$store.dispatch('help/getHelp', this.user.user.id);
+      await this.$store.dispatch('help/getHelp', {
+        userId: this.user.user.id,
+        limit: 10,
+      });
     },
   },
 };
