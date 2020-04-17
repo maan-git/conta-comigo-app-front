@@ -15,7 +15,17 @@
         <Slide v-for="(user, i) in user.users" :key="i">
           <div class="volunteer" @click="volunteerDetails(user.id)">
             <div class="volunteer__img">
-              <v-img width="60" height="60" :src="user.avatar"></v-img>
+              <v-img width="60" height="60" :src="user.avatar">
+                <template v-slot:placeholder>
+                  <v-row
+                    class="fill-height ma-0"
+                    align="center"
+                    justify="center"
+                  >
+                    <v-progress-circular indeterminate color="danger"></v-progress-circular>
+                  </v-row>
+                </template>
+              </v-img>
             </div>
             <span>{{user.first_name}}</span>
           </div>
@@ -54,7 +64,7 @@ export default {
     },
   },
   created() {
-    this.$store.dispatch('user/getUsers', 'limit=10&ordering=-date_joined');
+    this.$store.dispatch('user/getUsers', `limit=10&ordering=-date_joined&id__ne=${this.user.user.id}`);
   },
 };
 </script>

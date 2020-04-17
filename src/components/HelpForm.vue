@@ -57,9 +57,9 @@
         <v-icon dark>mdi-heart
       </v-icon>Conta Comigo!</v-btn>
       <p v-if="help.requestError"
-       class="block text-center mt-4 red--text">{{help.requestError}}</p>
+       class="block text-center mt-4 danger--text">{{help.requestError}}</p>
       <p v-if="help.helpRequestSuccess"
-       class="block text-center mt-4 blue--text">Solicitação realizada com sucesso!
+       class="block text-center mt-4 success--text">Solicitação realizada com sucesso!
         <br />Agora é so aguardar que um voluntário irá ajudá-lo.
         <br /><a href="#" @click="requestHelpNew()">Realizar um novo cadastro</a>
       </p>
@@ -101,6 +101,8 @@ export default {
       }
     },
     requestHelpNew() {
+      this.requestCategory = '';
+      this.$store.dispatch('help/clearHelpState');
       this.$store.dispatch('help/requestHelpNew');
     },
   },
@@ -110,6 +112,9 @@ export default {
       this.requestCategory = this.category;
     }
     this.$store.dispatch('help/getHelpCategory');
+  },
+  beforeDestroy() {
+    this.$store.dispatch('help/clearHelpState');
   },
 };
 </script>

@@ -1,10 +1,20 @@
 <template>
-  <div class="help-card">
+  <div class="help-card" :class="{'help-card--bloq': block}">
     <div class="help-card--header">
       <div class="help-card--header__avatar">
-        <v-img width="46" height="46" :lazy-src="`${avatar}?vuetify-preload`"
-               :src="`${avatar}?vuetify-preload`"
-               ></v-img>
+        <v-img width="46" height="46" :lazy-src="`${avatar}`"
+          :src="`${avatar}`"
+          >
+          <template v-slot:placeholder>
+            <v-row
+              class="fill-height ma-0"
+              align="center"
+              justify="center"
+            >
+              <v-progress-circular indeterminate color="danger"></v-progress-circular>
+            </v-row>
+          </template>
+      </v-img>
       </div>
       <div class="help-card--header__text">
         <p>
@@ -29,7 +39,7 @@
 </template>
 <script>
 export default {
-  props: ['id', 'description', 'name', 'age', 'createdat', 'user_request', 'avatar'],
+  props: ['id', 'description', 'name', 'age', 'createdat', 'user_request', 'avatar', 'block'],
   data() {
     return {
       timeago: 'há 10 minutos',
@@ -96,6 +106,9 @@ export default {
       font-size: 16px;
       font-weight: 500;
     }
+  }
+  &--bloq{
+    max-width: 100%;
   }
 }
 </style>

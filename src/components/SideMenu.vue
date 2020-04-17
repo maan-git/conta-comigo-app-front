@@ -33,6 +33,18 @@
             block
             right
             elevation="0"
+            to="/user-details">Perfil</v-btn>
+          <v-btn
+            color="primary"
+            block
+            right
+            elevation="0"
+            to="/requested-helps">Pedidos</v-btn>
+          <v-btn
+            color="primary"
+            block
+            right
+            elevation="0"
             @click="logout()">Logout</v-btn>
         </v-list-item-group>
       </v-list>

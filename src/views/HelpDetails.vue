@@ -5,11 +5,21 @@
         <v-card-title
           class="primary--text"
           v-text="`${help.helpDetails.request_user.first_name},
-          ${$filters.calcAge(help.helpDetails.created)} anos`">
+          ${$filters.calcAge(help.helpDetails.request_user.birth_date)} anos`">
         </v-card-title>
         <v-img
           :src="help.helpDetails.request_user.avatar"
-        ></v-img>
+        >
+          <template v-slot:placeholder>
+            <v-row
+              class="fill-height ma-0"
+              align="center"
+              justify="center"
+            >
+              <v-progress-circular indeterminate color="danger"></v-progress-circular>
+            </v-row>
+          </template>
+        </v-img>
         <v-card-text class="grey--text text--darken-2">
           <div>Criado em {{$filters.formatDate(help.helpDetails.created)}}</div>
           <div>{{help.helpDetails.category.description}}</div>
@@ -37,7 +47,7 @@
        class="block text-center mt-4 red--text">{{help.helpDetailsError}}</p>
     <p v-if="help.helpDetailsSuccess"
        class="block text-center mt-4 success--text">
-      Obrigado <b>{{user.user.first_name}}</b> pele força!</p>
+      Obrigado <b>{{user.user.first_name}}</b> pela força!</p>
     </CardContainer>
   </div>
 </template>

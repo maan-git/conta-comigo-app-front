@@ -63,11 +63,11 @@ const actions = {
     commit('SET_STEP', 2);
   },
   registerStep2({ commit, dispatch, state }, data) {
-    console.log(state);
+    // console.log(state);
     commit('SET_LI_E_ACEITO', data.lieAceito);
     commit('SET_EMAIL', data.email);
     commit('SET_PASSWORD', data.password);
-    console.log('registerStep2 data', data);
+    // console.log('registerStep2 data', data);
     const phoneNumber = `+55${state.telefone.replace(/\(/g, '').replace(/\)/g, '').replace(/ /g, '').replace(/-/g, '')}`;
     const payload = {
       password: data.password,
@@ -99,10 +99,10 @@ const actions = {
   },
   fakelogin({ commit }, data) {
     commit('SET_CREATE_USER_LOADING', true);
-    console.log('fakelogin data', data);
+    // console.log('fakelogin data', data);
     return api().post('app/login/', data).then((s) => {
       commit('SET_CREATE_USER_LOADING', false);
-      console.log('fakelogin success', s);
+      // console.log('fakelogin success', s);
       commit('SET_ID', s.data.id);
       commit('SET_STEP', 3);
     }).catch((err) => {
@@ -149,9 +149,11 @@ const actions = {
       commit('SET_CIDADE', s.data.city.description);
       commit('SET_ESTADO', s.data.state.description);
       commit('SET_CREATE_USER_LOADING', false);
-    }).catch((err) => {
+    }).catch((error) => {
       commit('SET_CREATE_USER_LOADING', false);
-      console.log('searchByCep error', err);
+      if (error.response.data.detail) commit('SET_CREATE_USER_ERROR', error.response.data.detail);
+      else commit('SET_CREATE_USER_ERROR', error.response.statusText);
+      // console.log('searchByCep error', err);
     });
   },
 

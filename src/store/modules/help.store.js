@@ -92,6 +92,9 @@ const actions = {
       commit('SET_HELP_DETAILS_ERROR', error.response.data.detail);
     });
   },
+  clearHelpState({ commit }) {
+    commit('SET_CLEAR_STATE');
+  },
 };
 
 const mutations = {
@@ -139,6 +142,22 @@ const mutations = {
   },
   SET_REQUEST_SUCCESS(state, value) {
     state.helpRequestSuccess = value;
+  },
+  SET_CLEAR_STATE(state) {
+    state.help = null;
+    state.token = '';
+    state.helpList = null;
+    state.helpCategoryError = null;
+    state.helpCategoryLoading = false;
+    state.helpDetails = null;
+    state.helpDetailsLoading = false;
+    state.helpDetailsDisable = false;
+    state.helpDetailsError = null;
+    state.requestLoad = false;
+    state.requestError = null;
+    state.helpCategory = null;
+    state.helpRequestSuccess = null;
+    state.helpDetailsSuccess = false;
   },
 };
 
