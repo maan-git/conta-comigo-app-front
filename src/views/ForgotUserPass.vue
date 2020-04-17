@@ -28,8 +28,8 @@
         </v-btn>
         <p v-if="user.forgotUserPassError" class="block text-center mt-4 red--text">
             {{user.forgotUserPassError}}</p>
-        <p v-if="user.forgotUserPassSuccess" class="block text-center mt-4 blue--text">
-            E-mail de recuperação de senha enviado para {{this.email}}, </p>
+        <p v-if="user.forgotUserPassSuccess" class="block text-center mt-4 primary--text">
+            E-mail de recuperação de senha enviado para <b>{{this.email}}</b>. </p>
       </v-form>
     </CardContainer>
   </div>
