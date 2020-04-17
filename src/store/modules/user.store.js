@@ -103,13 +103,14 @@ const actions = {
   //   commit('SET_PASSWORD', data.password);
   // },
 
-  getCurrentUser({ commit }) {
+  getCurrentUser({ commit, dispatch }) {
     commit('SET_LOGIN_LOADING', false);
     let isValidated = false;
     const userInfo = localStorage.getItem('userInfo');
     if (userInfo && (Date.now() - JSON.parse(userInfo).xpd) <= 900000) {
       isValidated = true;
       commit('SET_USER', JSON.parse(userInfo));
+      dispatch('getUserAddress', JSON.parse(userInfo).id);
     } else {
       api().get('app/user/current/').then((success) => {
         const userInfo = success.data;
@@ -118,6 +119,7 @@ const actions = {
         Object.assign(userInfo, { xpd: expDate });
         localStorage.setItem('userInfo', JSON.stringify(userInfo));
         commit('SET_USER', userInfo);
+        dispatch('getUserAddress', userInfo.id);
       }).catch((error) => {
         localStorage.removeItem('userInfo');
         commit('SET_LOGIN_ERROR', error.response.data.error);
