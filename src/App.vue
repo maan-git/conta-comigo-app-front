@@ -6,6 +6,9 @@
     <v-content class="content-width">
       <router-view></router-view>
     </v-content>
+    <v-btn v-scroll="onScroll" v-show="fab" fab
+      dark fixed bottom right color="danger" @click="toTop"
+    ><v-icon>mdi-arrow-up</v-icon></v-btn>
   </v-app>
 </template>
 
@@ -21,7 +24,9 @@ export default {
     SideMenu,
   },
   computed: mapState(['user']),
-  data: () => ({}),
+  data: () => ({
+    fab: false,
+  }),
   methods: {
     purple() {
       if (this.$router.history.current.name !== 'Home') {
@@ -31,6 +36,14 @@ export default {
     },
     toogleMenu() {
       this.$refs.sidemenu.toogleMenu();
+    },
+    onScroll(e) {
+      if (typeof window === 'undefined') return;
+      const top = window.pageYOffset || e.target.scrollTop || 0;
+      this.fab = top > 20;
+    },
+    toTop() {
+      this.$vuetify.goTo(0);
     },
   },
   created() {
