@@ -6,19 +6,9 @@
     <v-content class="content-width">
       <router-view></router-view>
     </v-content>
-    <v-btn
-      v-scroll="onScroll"
-      v-show="fab"
-      fab
-      dark
-      fixed
-      bottom
-      right
-      color="danger"
-      @click="toTop"
-    >
-      <v-icon>mdi-arrow-up</v-icon>
-    </v-btn>
+    <v-btn v-scroll="onScroll" v-show="fab" fab
+      dark fixed bottom right color="danger" @click="toTop"
+    ><v-icon>mdi-arrow-up</v-icon></v-btn>
   </v-app>
 </template>
 
