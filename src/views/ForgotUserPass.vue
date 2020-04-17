@@ -1,7 +1,8 @@
 <template>
   <div class="login">
     <CardContainer>
-      <v-form ref="formLogin" class="ma-5 text-center" @keyup.enter.native="loginClick()">
+      <v-form ref="formForgotUserPass" class="ma-5 text-center"
+        @keyup.enter.native="forgotUserPassClick()">
         <p class="primary--text font-weight-medium headline">Recuperar Senha</p>
         <v-text-field
           outlined
@@ -18,14 +19,17 @@
           block
           rounded
           x-large
-          @click="forgotLoginPassClick()"
-          color="primary" :loading="user.loginLoading">
+          @click="forgotUserPassClick()"
+          color="primary" :loading="user.forgotUserPassLoading">
           <span class="text-capitalize">Enviar</span>
         </v-btn>
         <v-btn small class="mt-1" color="primary" to="/create-account" text>
           <span class="">Cadastre-se e seja um voluntário</span>
         </v-btn>
-        <p v-if="user.loginError" class="block text-center mt-4 red--text">{{user.loginError}}</p>
+        <p v-if="user.forgotUserPassError" class="block text-center mt-4 red--text">
+            {{user.forgotUserPassError}}</p>
+        <p v-if="user.forgotUserPassSuccess" class="block text-center mt-4 blue--text">
+            E-mail de recuperação de senha enviado para {{this.email}}, </p>
       </v-form>
     </CardContainer>
   </div>
@@ -50,13 +54,13 @@ export default {
   data() {
     return {
       email: '',
-      password: '',
     };
   },
   methods: {
-    loginClick() {
-      if (this.$refs.formLogin.validate()) {
-        this.$store.dispatch('user/login', { username: this.email, password: this.password });
+    async forgotUserPassClick() {
+      if (this.$refs.formForgotUserPass.validate()) {
+        console.log(this.email);
+        await this.$store.dispatch('user/regeneratePass', { username: this.email });
       }
     },
   },
