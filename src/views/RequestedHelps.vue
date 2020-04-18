@@ -16,6 +16,7 @@
               :createdat="$filters.formatDate(help.created)"
               :description="help.category.description"
               :block="true"
+              :templateAccount="false"
             />
           </v-col>
         </v-row>
@@ -33,6 +34,10 @@
               :createdat="$filters.formatDate(help.created)"
               :description="help.category.description"
               :block="true"
+              :templateAccount="true"
+              :nameAssociate="nameAss"
+              :stateAssociate="statusAss"
+              :imageAssociate="imageAss"
             />
           </v-col>
         </v-row>
@@ -51,6 +56,9 @@ export default {
   data() {
     return {
       hidden: true,
+      nameAss: 'testando',
+      statusAss: 'aprovado',
+      imageAss: 'testand ima',
     };
   },
   methods: {

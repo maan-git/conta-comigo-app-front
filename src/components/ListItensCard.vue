@@ -7,13 +7,13 @@
                 </div>
                 <div>
                     <div class="card-description">
-                        <label>Luis Mauro</label>
+                        <label>Nome</label>
                         <span>Pagar Contas na Lotérias</span>
                     </div>
                     <div class="card-date">
-                        <span>23/11</span>
+                        <span>Nome</span>
                         <br />
-                        <span>18m</span>
+                        <span>Está ajudando</span>
                     </div>
                 </div>
             </div>
