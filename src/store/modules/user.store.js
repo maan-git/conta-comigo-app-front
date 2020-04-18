@@ -18,6 +18,12 @@ const state = {
   volunteerDetails: null,
   volunteerDetailsError: null,
   volunteerDetailsLoading: false,
+  userAddress: null,
+  userAddressError: null,
+  userAddressLoading: false,
+  forgotUserPassLoading: false,
+  forgotUserPassError: null,
+  forgotUserPassSuccess: false,
 };
 
 const getters = {
@@ -31,6 +37,8 @@ const getters = {
   getUsersLoginLoading(state) { return state.usersLoginLoading; },
   getVolunteerDetailsError(state) { return state.volunteerDetailsError; },
   getVolunteerDetailsLoading(state) { return state.volunteerDetailsLoading; },
+  getUsersAddressError(state) { return state.userAddressError; },
+  getUsersAddressLoading(state) { return state.userAddressLoading; },
 };
 
 const actions = {
@@ -64,40 +72,12 @@ const actions = {
     });
   },
 
-  register({ commit }, data) {
+  register({ commit }) {
     commit('SET_LOGIN_LOADING', true);
-    /* return api().post('register/', data).then((success) => {
-      console.log(success);
-      commit('SET_TOKEN', success);
-      commit('SET_LOGIN_ERROR', null);
-      commit('SET_LOGIN_LOADING', false);
-    }).catch((error) => {
-      commit('SET_LOGIN_ERROR', error.response.data.error);
-      commit('SET_LOGIN_LOADING', false);
-    }); */
-    console.log(data);
   },
-  // registerStep1({ commit }, data) {
-  //   commit('SET_NOME', data.nome);
-  //   commit('SET_CPF', data.cpf);
-  //   commit('SET_DATANASCIMENTO', data.datanascimento);
-  //   commit('SET_TELEFONE', data.telefone);
-  //   commit('SET_WHATSAPP', data.whatsapp);
-  //   commit('SET_MORASO', data.moraso);
-  //   commit('SET_GRUPORISCO', data.grupoderisco);
-  // },
-  // registerStep2({ commit }, data) {
-  //   commit('SET_CEP', data.cep);
-  //   commit('SET_ENDERECO', data.endereco);
-  //   commit('SET_BAIRRO', data.bairro);
-  //   commit('SET_CIDADE', data.cidade);
-  //   commit('SET_ESTADO', data.estado);
-  // },
-  // registerStep3({ commit }, data) {
-  //   commit('SET_EMAIL', data.email);
-  //   commit('SET_PASSWORD', data.password);
-  // },
-
+  regeneratePass({ commit }) {
+    commit('SET_FORGOT_USER_PASS_SUCCESS', true);
+  },
   getCurrentUser({ commit }) {
     commit('SET_LOGIN_LOADING', false);
     let isValidated = false;
@@ -160,6 +140,19 @@ const actions = {
       commit('SET_USER_DETAILS_LOADING', false);
     });
   },
+  getUserAddress({ commit }, id) {
+    commit('SET_USER_ADDRESS_LOADING', true);
+    return api().get(`app/user/${id}/getaddresses/`).then((success) => {
+      console.log(success);
+      commit('SET_USER_ADDRESS_ERROR', null);
+      commit('SET_USER_ADDRESS_LOADING', false);
+      commit('SET_USER_ADDRESS', success.data[0]);
+    }).catch((error) => {
+      if (error.response.data) commit('SET_USER_ADDRESS_ERROR', error.response.data);
+      else commit('SET_USER_ADDRESS_ERROR', error.response.statusText);
+      commit('SET_USER_ADDRESS_LOADING', false);
+    });
+  },
 };
 
 const mutations = {
@@ -204,6 +197,24 @@ const mutations = {
   },
   SET_VOLUNTEER_DETAILS_LOADING(state, value) {
     state.volunteerDetailsLoading = value;
+  },
+  SET_USER_ADDRESS(state, value) {
+    state.userAddress = value;
+  },
+  SET_USER_ADDRESS_ERROR(state, value) {
+    state.userAddressError = value;
+  },
+  SET_USER_ADDRESS_LOADING(state, value) {
+    state.userAddressLoading = value;
+  },
+  SET_FORGOT_USER_PASS_SUCCESS(state, value) {
+    state.forgotUserPassSuccess = value;
+  },
+  SET_FORGOT_USER_PASS_ERROR(state, value) {
+    state.forgotUserPassError = value;
+  },
+  SET_FORGOT_USER_PASS_LOADING(state, value) {
+    state.forgotUserPassLoading = value;
   },
 };
 

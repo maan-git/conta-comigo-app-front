@@ -2,7 +2,7 @@
   <div class="login">
     <CardContainer>
       <v-form ref="formLogin" class="ma-5 text-center" @keyup.enter.native="loginClick()">
-        <p class="primary--text font-weight-medium headline">Login</p>
+        <p class="primary--text font-weight-medium title mb-5">Login</p>
         <v-text-field
           outlined
           v-model="email"

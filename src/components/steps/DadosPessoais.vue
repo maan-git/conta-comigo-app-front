@@ -7,12 +7,7 @@
           color="primary"
           @click="$emit('openDialog')"
         >
-          <v-avatar v-if="this.register.avatar">
-            <img
-              :src="this.register.avatar"
-              alt="avatar"
-            >
-          </v-avatar>
+          <DefaultAvatar v-if="this.register.avatar" :src="this.register.avatar"/>
         </v-btn>
         <p class="mt-1 mb-0 text-center primary--text">Editar</p>
       </v-col>
@@ -114,9 +109,12 @@
 </template>
 <script>
 import { mapState } from 'vuex';
+import DefaultAvatar from '@/components/DefaultAvatar.vue';
+
 
 export default {
   computed: mapState(['register']),
+  components: { DefaultAvatar },
   watch: {
     datanascimentomenu(val) {
       // eslint-disable-next-line no-unused-expressions

@@ -22,7 +22,7 @@
           />
         </Slide>
       </Carousel>
-      <v-btn text color="primary">Ver todos</v-btn>
+      <v-btn to="/requested-helps" text color="primary">Ver todos</v-btn>
     </div>
     <p
       v-if="help.helpCategoryError"

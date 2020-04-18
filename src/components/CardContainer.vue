@@ -6,7 +6,8 @@
           <v-icon>mdi-arrow-left</v-icon>
         </v-btn>
       </div>
-      <img width="178" :src="require('../assets/logo_completa.svg')">
+      <img v-if="!title" width="178" :src="require('../assets/logo_completa.svg')">
+      <div v-else class="title title-txt white--text text-center mt-5 mb-0">{{title}}</div>
     </div>
     <div class="card-container__card" :class="{'mt-5' : hideLogo}">
       <slot></slot>
@@ -16,7 +17,7 @@
 <script>
 export default {
   name: 'CardContainer',
-  props: ['hideLogo', 'backTo'],
+  props: ['hideLogo', 'backTo', 'title'],
 };
 </script>
 <style lang="scss" scoped>
@@ -33,7 +34,7 @@ export default {
       background-color: white;
       border-radius: 54px;
       padding: 20px;
-      max-width: 800px;
+      max-width: 500px;
       margin-bottom: 100px;
     }
     &__img {
@@ -44,7 +45,7 @@ export default {
         left: 10px;
         bottom: 0;
       }
-      img {
+      img, .title-txt {
         margin: 0 auto;
       }
     }

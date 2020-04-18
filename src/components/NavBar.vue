@@ -27,33 +27,19 @@
           <span class="subtitle-1">Conta comigo!</span>
         </p>
       </div>
-      <v-avatar :size="46">
-        <v-img
-          alt="Vuetify Logo"
-          class="shrink"
-          contain
-          :src="user.user.avatar"
-          transition="scale-transition"
-          width="48"
-        >
-          <template v-slot:placeholder>
-            <v-row
-              class="fill-height ma-0"
-              align="center"
-              justify="center"
-            >
-              <v-progress-circular indeterminate color="danger"></v-progress-circular>
-            </v-row>
-          </template>
-        </v-img>
-      </v-avatar>
+
+      <DefaultAvatar :src="user.user.avatar"/>
     </div>
   </v-app-bar>
 </template>
 <script>
+
 import { mapState } from 'vuex';
+import DefaultAvatar from '@/components/DefaultAvatar.vue';
 
 export default {
+  name: 'NavBar',
+  components: { DefaultAvatar },
   computed: mapState(['user']),
   methods: {
     logout() {
