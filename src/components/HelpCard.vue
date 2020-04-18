@@ -1,21 +1,7 @@
 <template>
   <div class="help-card" :class="{'help-card--bloq': block}">
     <div class="help-card--header">
-      <div class="help-card--header__avatar">
-        <v-img width="46" height="46" :lazy-src="`${avatar}`"
-          :src="`${avatar}`"
-          >
-          <template v-slot:placeholder>
-            <v-row
-              class="fill-height ma-0"
-              align="center"
-              justify="center"
-            >
-              <v-progress-circular indeterminate color="danger"></v-progress-circular>
-            </v-row>
-          </template>
-      </v-img>
-      </div>
+      <DefaultAvatar :src="avatar"/>
       <div class="help-card--header__text">
         <p>
           {{createdat}}<br>{{timeago}}
@@ -38,8 +24,11 @@
   </div>
 </template>
 <script>
+import DefaultAvatar from '@/components/DefaultAvatar.vue';
+
 export default {
   props: ['id', 'description', 'name', 'age', 'createdat', 'user_request', 'avatar', 'block'],
+  components: { DefaultAvatar },
   data() {
     return {
       timeago: 'há 10 minutos',
@@ -81,13 +70,6 @@ export default {
     align-content: center;
     justify-content: space-between;
     margin-bottom: 10px;
-    &__avatar {
-      width: $quadsize;
-      height: $quadsize;
-      border-radius: 100%;
-      overflow: hidden;
-      background-color: #532594;
-    }
     &__text{
       color: $txtcolor;
       font-size: 12px;
