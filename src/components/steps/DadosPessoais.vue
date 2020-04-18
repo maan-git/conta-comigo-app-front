@@ -7,7 +7,9 @@
           color="primary"
           @click="$emit('openDialog')"
         >
-          <DefaultAvatar v-if="this.register.avatar" :src="this.register.avatar"/>
+          <DefaultAvatar v-if="this.register.avatar"
+          :src="this.register.avatar"
+          />
         </v-btn>
         <p class="mt-1 mb-0 text-center primary--text">Editar</p>
       </v-col>
