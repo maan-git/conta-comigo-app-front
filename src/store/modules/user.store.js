@@ -21,6 +21,9 @@ const state = {
   userAddress: null,
   userAddressError: null,
   userAddressLoading: false,
+  forgotUserPassLoading: false,
+  forgotUserPassError: null,
+  forgotUserPassSuccess: false,
 };
 
 const getters = {
@@ -102,7 +105,23 @@ const actions = {
   //   commit('SET_EMAIL', data.email);
   //   commit('SET_PASSWORD', data.password);
   // },
-
+  regeneratePass({ commit }, userLogin) {
+    console.log(userLogin);
+    commit('SET_FORGOT_USER_PASS_SUCCESS', true);
+  //    commit('SET_FORGOT_USER_PASS_LOADING', true);
+  //    return api().get(`app/user/${id}/fogortuserpass/`).then((success) => {
+  //      console.log(success);
+  //      commit('SET_FORGOT_USER_PASS_ERROR', null);
+  //      commit('SET_FORGOT_USER_PASS_LOADING', false);
+  //      commit('SET_FORGOT_USER_PASS_SUCCESS', true);
+  //    }).catch((error) => {
+  //      if (error.response.data) {
+  //        commit('SET_FORGOT_USER_PASS_ERROR', error.response.data);
+  //        commit('SET_FORGOT_USER_PASS_SUCCESS', false);
+  //      } else commit('SET_FORGOT_USER_PASS_ERROR', error.response.statusText);
+  //      commit('SET_FORGOT_USER_PASS_LOADING', false);
+  //    });
+  },
   getCurrentUser({ commit }) {
     commit('SET_LOGIN_LOADING', false);
     let isValidated = false;
@@ -231,6 +250,15 @@ const mutations = {
   },
   SET_USER_ADDRESS_LOADING(state, value) {
     state.userAddressLoading = value;
+  },
+  SET_FORGOT_USER_PASS_SUCCESS(state, value) {
+    state.forgotUserPassSuccess = value;
+  },
+  SET_FORGOT_USER_PASS_ERROR(state, value) {
+    state.forgotUserPassError = value;
+  },
+  SET_FORGOT_USER_PASS_LOADING(state, value) {
+    state.forgotUserPassLoading = value;
   },
 };
 
