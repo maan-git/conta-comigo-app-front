@@ -1,6 +1,6 @@
 <template>
-  <div v-if="user.userDetails">
-    <CardContainer :hideLogo="true">
+  <div v-if="user.userDetails" class="user-details">
+    <CardContainer :title="'Perfil'" >
       <div class="text-center">
         <p class="primary--text font-weight-bold title">
           {{user.userDetails.first_name}},
@@ -8,19 +8,11 @@
       </div>
 
       <v-flex class="how-to">
-        <v-img width="350" class="img-center"
-          center :src="user.userDetails.avatar"
-        >
-          <template v-slot:placeholder>
-            <v-row
-              class="fill-height ma-0"
-              align="center"
-              justify="center"
-            >
-              <v-progress-circular indeterminate color="danger"></v-progress-circular>
-            </v-row>
-          </template>
-        </v-img>
+
+        <v-btn large fab color="primary" @click="$emit('openDialog')">
+          <DefaultAvatar :src="user.userDetails.avatar" :size="60"/>
+        </v-btn>
+
         <div class="text-center margin-text">
           <p class="subtitle-1 grey--text">
             Cadastrou-se em {{$filters.formatDate(user.userDetails.date_joined)}}
@@ -43,10 +35,11 @@
 
 import { mapState } from 'vuex';
 import CardContainer from '@/components/CardContainer.vue';
+import DefaultAvatar from '@/components/DefaultAvatar.vue';
 
 export default {
   components: {
-    CardContainer,
+    CardContainer, DefaultAvatar,
   },
   computed: mapState(['user']),
   created() {
@@ -55,7 +48,11 @@ export default {
 };
 </script>
 
-<style lang="scss">
+<style lang="scss" scoped>
+.user-details {
+  width: 100%;
+  height: 100%;
+}
 .margin-text{
   margin:12% 0;
 }
