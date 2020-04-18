@@ -72,55 +72,11 @@ const actions = {
     });
   },
 
-  register({ commit }, data) {
+  register({ commit }) {
     commit('SET_LOGIN_LOADING', true);
-    /* return api().post('register/', data).then((success) => {
-      console.log(success);
-      commit('SET_TOKEN', success);
-      commit('SET_LOGIN_ERROR', null);
-      commit('SET_LOGIN_LOADING', false);
-    }).catch((error) => {
-      commit('SET_LOGIN_ERROR', error.response.data.error);
-      commit('SET_LOGIN_LOADING', false);
-    }); */
-    console.log(data);
   },
-  // registerStep1({ commit }, data) {
-  //   commit('SET_NOME', data.nome);
-  //   commit('SET_CPF', data.cpf);
-  //   commit('SET_DATANASCIMENTO', data.datanascimento);
-  //   commit('SET_TELEFONE', data.telefone);
-  //   commit('SET_WHATSAPP', data.whatsapp);
-  //   commit('SET_MORASO', data.moraso);
-  //   commit('SET_GRUPORISCO', data.grupoderisco);
-  // },
-  // registerStep2({ commit }, data) {
-  //   commit('SET_CEP', data.cep);
-  //   commit('SET_ENDERECO', data.endereco);
-  //   commit('SET_BAIRRO', data.bairro);
-  //   commit('SET_CIDADE', data.cidade);
-  //   commit('SET_ESTADO', data.estado);
-  // },
-  // registerStep3({ commit }, data) {
-  //   commit('SET_EMAIL', data.email);
-  //   commit('SET_PASSWORD', data.password);
-  // },
-  regeneratePass({ commit }, userLogin) {
-    console.log(userLogin);
+  regeneratePass({ commit }) {
     commit('SET_FORGOT_USER_PASS_SUCCESS', true);
-  //    commit('SET_FORGOT_USER_PASS_LOADING', true);
-  //    return api().get(`app/user/${id}/fogortuserpass/`).then((success) => {
-  //      console.log(success);
-  //      commit('SET_FORGOT_USER_PASS_ERROR', null);
-  //      commit('SET_FORGOT_USER_PASS_LOADING', false);
-  //      commit('SET_FORGOT_USER_PASS_SUCCESS', true);
-  //    }).catch((error) => {
-  //      if (error.response.data) {
-  //        commit('SET_FORGOT_USER_PASS_ERROR', error.response.data);
-  //        commit('SET_FORGOT_USER_PASS_SUCCESS', false);
-  //      } else commit('SET_FORGOT_USER_PASS_ERROR', error.response.statusText);
-  //      commit('SET_FORGOT_USER_PASS_LOADING', false);
-  //    });
   },
   getCurrentUser({ commit }) {
     commit('SET_LOGIN_LOADING', false);

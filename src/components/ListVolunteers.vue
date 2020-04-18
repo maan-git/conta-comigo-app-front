@@ -14,19 +14,7 @@
       >
         <Slide v-for="(user, i) in user.users" :key="i">
           <div class="volunteer" @click="volunteerDetails(user.id)">
-            <div class="volunteer__img">
-              <v-img width="60" height="60" :src="user.avatar">
-                <template v-slot:placeholder>
-                  <v-row
-                    class="fill-height ma-0"
-                    align="center"
-                    justify="center"
-                  >
-                    <v-progress-circular indeterminate color="danger"></v-progress-circular>
-                  </v-row>
-                </template>
-              </v-img>
-            </div>
+            <DefaultAvatar :src="user.avatar" :size="60" />
             <span>{{user.first_name}}</span>
           </div>
         </Slide>
@@ -50,12 +38,15 @@
 import { mapState } from 'vuex';
 import { Carousel, Slide } from 'vue-carousel';
 import ButtonRouter from '@/components/ButtonRouter.vue';
+import DefaultAvatar from '@/components/DefaultAvatar.vue';
+
 
 export default {
   components: {
     Carousel,
     Slide,
     ButtonRouter,
+    DefaultAvatar,
   },
   computed: mapState(['user']),
   methods: {
@@ -75,13 +66,6 @@ export default {
   flex-direction: column;
   align-items: center;
   cursor: pointer;
-  &__img {
-    width: 60px;
-    height: 60px;
-    overflow: hidden;
-    border-radius: 100%;
-    background-color: #532594;
-  }
   span {
     margin-top: 15px;
     font-size: 14px;
