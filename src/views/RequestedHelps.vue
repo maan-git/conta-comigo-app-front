@@ -28,6 +28,7 @@
             :description="help.category.description"
             :block="true"
             :templateAccount="false"
+            :btnDisable="btnDisable"
           />
         </v-col>
       </v-row>
@@ -63,6 +64,7 @@ export default {
   data() {
     return {
       hidden: true,
+      btnDisable: false,
     };
   },
   methods: {
@@ -73,6 +75,7 @@ export default {
       };
       if (this.$route.query.userRequest) {
         data.userId = this.user.user.id;
+        this.btnDisable = true;
       } else {
         data.userIdNe = this.user.user.id;
       }
