@@ -9,23 +9,6 @@
           <v-icon>mdi-close</v-icon>
         </v-btn>
         <v-list-item-group active-class="deep-purple--text text--accent-4">
-          <v-list-item>
-            <v-btn
-              color="primary"
-              block
-              right
-              elevation="0"
-              to="/"
-              @click="toogleMenu()">Home</v-btn>
-          </v-list-item>
-          <v-list-item>
-            <v-btn
-              color="primary"
-              block
-              right
-              elevation="0"
-              @click="$store.dispatch('user/logout')">Logout</v-btn>
-          </v-list-item>
           <v-list-item to="/" >
             <v-img :max-width="500" :src="require('../assets/logo_completa.svg')"></v-img>
           </v-list-item>
@@ -35,12 +18,12 @@
             right
             elevation="0"
             to="/user-details">Perfil</v-btn>
-<!--          <v-btn-->
-<!--            color="primary"-->
-<!--            block-->
-<!--            right-->
-<!--            elevation="0"-->
-<!--            to="/requested-helps">Pedidos</v-btn>-->
+          <v-btn
+            color="primary"
+            block
+            right
+            elevation="0"
+            to="/requested-helps">Pedidos</v-btn>
           <v-btn
             color="primary"
             block

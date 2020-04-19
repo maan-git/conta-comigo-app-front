@@ -21,14 +21,13 @@
         <v-icon right dark>$heart</v-icon>
       </v-btn>
     </div>
-    <div v-if="templateAccount" class="help-card--footer account">
-      <div class="content">
-        <span>{{nameAssociate}}</span>
-        <br />
-        <span>{{stateAssociate}}</span>
+    <div v-else class="help-card--footer account">
+      <div class="content secondary-text">
+        <p class="subtitle-2 mb-0">{{nameAssociate}}</p>
+        <p class="caption mb-0">{{stateAssociate}}</p>
       </div>
       <div class="image">
-        <v-icon right dark>{{imageAssociate}}</v-icon>
+        <DefaultAvatar :size="34" :src="imageAssociate"/>
       </div>
     </div>
   </div>
@@ -104,11 +103,13 @@ export default {
   }
 }
 .account {
-  width: 80%;
-  right: 0;
+  width: 100%;
+  display: flex;
+  justify-content: flex-end;
+  align-items: center;
   .content {
     display: inline-block;
-    font-size: 10px;
+    text-align: right;
   }
   .image {
     display: inline-block;

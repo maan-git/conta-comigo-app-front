@@ -46,6 +46,7 @@ export default {
       await this.$store.dispatch('help/getHelp', {
         userId: this.user.user.id,
         limit: 10,
+        statusId: 1,
       });
     },
   },
