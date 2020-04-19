@@ -12,14 +12,23 @@
       <p class="help-card--content__title">{{name}}, {{age}} anos</p>
       <p class="help-card--content__text">{{mydescription}}</p>
     </div>
-    <div class="help-card--footer">
-    <v-btn
-      :to="getUrl()"
-      block
-      rounded
-      color="primary">Conta Comigo
-      <v-icon right dark>$heart</v-icon>
-    </v-btn>
+    <div v-if="!templateAccount" class="help-card--footer">
+      <v-btn
+        :to="getUrl()"
+        block
+        rounded
+        color="primary">Conta Comigo
+        <v-icon right dark>$heart</v-icon>
+      </v-btn>
+    </div>
+    <div v-else class="help-card--footer account">
+      <div class="content secondary-text">
+        <p class="subtitle-2 mb-0">{{nameAssociate}}</p>
+        <p class="caption mb-0">{{stateAssociate}}</p>
+      </div>
+      <div class="image">
+        <DefaultAvatar :size="34" :src="imageAssociate"/>
+      </div>
     </div>
   </div>
 </template>
@@ -27,7 +36,7 @@
 import DefaultAvatar from '@/components/DefaultAvatar.vue';
 
 export default {
-  props: ['id', 'description', 'name', 'age', 'createdat', 'user_request', 'avatar', 'block'],
+  props: ['id', 'description', 'name', 'age', 'createdat', 'user_request', 'avatar', 'block', 'templateAccount', 'nameAssociate', 'stateAssociate', 'imageAssociate'],
   components: { DefaultAvatar },
   data() {
     return {
@@ -91,6 +100,19 @@ export default {
   }
   &--bloq{
     max-width: 100%;
+  }
+}
+.account {
+  width: 100%;
+  display: flex;
+  justify-content: flex-end;
+  align-items: center;
+  .content {
+    display: inline-block;
+    text-align: right;
+  }
+  .image {
+    display: inline-block;
   }
 }
 </style>

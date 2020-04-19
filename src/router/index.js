@@ -71,6 +71,12 @@ const routes = [
     beforeEnter: guard,
   },
   {
+    path: '/list-helpextended',
+    name: 'ListHelpExtended',
+    component: () => import('../views/ListHelpExtended.vue'),
+    beforeEnter: guard,
+  },
+  {
     path: '/requested-helps',
     name: 'RequestedHelps',
     component: () => import('../views/RequestedHelps.vue'),
