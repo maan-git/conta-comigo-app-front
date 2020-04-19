@@ -25,9 +25,6 @@
         heart=$heart>
       </ButtonRouter>
     </div>
-    <!-- <p
-      v-if="user && user.usersError"
-      class="block text-center mt-4 red--text">{{help.usersError}}</p> -->
     <v-btn
       v-if="user.usersLoginLoading"
       text block x-large
@@ -55,7 +52,8 @@ export default {
     },
   },
   created() {
-    this.$store.dispatch('user/getUsers', `limit=10&ordering=-date_joined&id__ne=${this.user.user.id}`);
+    this.$store.dispatch('user/getUsers',
+      `limit=10&ordering=-date_joined&id__ne=${this.user.user.id}`);
   },
 };
 </script>
