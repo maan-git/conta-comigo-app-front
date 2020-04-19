@@ -6,12 +6,21 @@
           {{user.userDetails.first_name}},
           {{$filters.calcAge(user.userDetails.birth_date)}} anos</p>
       </div>
+      <v-tabs vertical>
+        <v-tab>
+          <v-icon left>mdi-account</v-icon>
+        </v-tab>
+        <v-tab>
+          <v-icon left>mdi-lock</v-icon>
+        </v-tab>
+        <v-tab>
+          <v-icon left>mdi-access-point</v-icon>
+        </v-tab>
+        <v-tab-item>
+          <TabPessoal/>
+        </v-tab-item>
+      </v-tabs>
 
-      <v-flex class="how-to">
-
-        <v-btn large fab color="primary" @click="$emit('openDialog')">
-          <DefaultAvatar :src="user.userDetails.avatar" :size="60"/>
-        </v-btn>
 
         <div class="text-center margin-text">
           <p class="subtitle-1 grey--text">
@@ -24,7 +33,6 @@
             Telefone: {{user.userDetails.phone_number}}
           </p>
         </div>
-      </v-flex>
       <p v-if="user.userDetailsError" class="block text-center mt-4 red--text">
         {{user.userDetailsError}}
       </p>
@@ -35,13 +43,28 @@
 
 import { mapState } from 'vuex';
 import CardContainer from '@/components/CardContainer.vue';
-import DefaultAvatar from '@/components/DefaultAvatar.vue';
+import TabPessoal from '@/components/detailstabs/TabPessoal.vue';
 
 export default {
   components: {
-    CardContainer, DefaultAvatar,
+    CardContainer, TabPessoal,
   },
   computed: mapState(['user']),
+  date() {
+    return {
+      cpfMask: '###.###.###-##',
+      datanascimento: null,
+      datanascimentomenu: false,
+    };
+  },
+  methods: {
+    saveDate(date) {
+      const mdate = new Date(date);
+      const dia = mdate.getDay() < 0 ? `0${mdate.getDay()}` : mdate.getDay();
+      const mes = (mdate.getMonth() + 1) < 0 ? `0${(mdate.getMonth() + 1)}` : (mdate.getMonth() + 1);
+      this.$refs.dpnascimento.save(`${dia}-${mes}-${mdate.getFullYear()}`);
+    },
+  },
   created() {
     this.$store.dispatch('user/getUserDetails');
   },

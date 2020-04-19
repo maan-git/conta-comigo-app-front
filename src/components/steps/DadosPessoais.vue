@@ -28,7 +28,7 @@
       <v-text-field
         outlined
         label="Sobrenome"
-        :rules="[$vln.requiredRule('Nome'), $vln.moreThanRule(2)]"
+        :rules="[$vln.requiredRule('Sobrenome'), $vln.moreThanRule(2)]"
         required
         v-model="sobrenome"
       ></v-text-field>
