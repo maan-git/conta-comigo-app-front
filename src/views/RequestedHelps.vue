@@ -28,6 +28,7 @@
             :description="help.category.description"
             :block="true"
             :templateAccount="false"
+            :btnDisable="btnDisable"
           />
         </v-col>
       </v-row>
@@ -63,26 +64,35 @@ export default {
   data() {
     return {
       hidden: true,
-      nameAss: 'testando',
-      statusAss: 'aprovado',
-      imageAss: 'testand ima',
+      btnDisable: false,
     };
   },
   methods: {
     async listHelp() {
-      await this.$store.dispatch('help/getHelp', {
-        userId: 1,
-        limit: 10,
+      const data = {
+        limit: 20,
         statusId: 1,
-      });
+      };
+      if (this.$route.query.userRequest) {
+        data.userId = this.user.user.id;
+        this.btnDisable = true;
+      } else {
+        data.userIdNe = this.user.user.id;
+      }
+      await this.$store.dispatch('help/getHelp', data);
       this.hidden = true;
     },
     async listApproved() {
-      await this.$store.dispatch('help/getHelp', {
-        userId: 1,
-        limit: 10,
+      const data = {
+        limit: 20,
         statusId: 20,
-      });
+      };
+      if (this.$route.query.userRequest) {
+        data.userId = this.user.user.id;
+      } else {
+        data.userIdNe = this.user.user.id;
+      }
+      await this.$store.dispatch('help/getHelp', data);
       this.hidden = false;
     },
   },

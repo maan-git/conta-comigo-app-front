@@ -16,6 +16,7 @@ const state = {
   helpCategory: null,
   helpRequestSuccess: null,
   helpDetailsSuccess: false,
+  urlRequests: null,
 };
 
 const getters = {
@@ -32,7 +33,12 @@ const getters = {
 const actions = {
   getHelp({ commit }, data) {
     commit('SET_HELP_CATEGORY_LOADING', true);
-    api().get(`/help/helprequest/?limit=${data.limit}&status_id=${data.statusId}&owner_user_id__ne=${data.userId}&ordering=-created`).then((success) => {
+    if (data.userIdNe) {
+      state.urlRequests = `/help/helprequest/?limit=${data.limit}&status_id=${data.statusId}&owner_user_id__ne=${data.userIdNe}&ordering=-created`;
+    } else {
+      state.urlRequests = `/help/helprequest/?limit=${data.limit}&status_id=${data.statusId}&owner_user_id=${data.userId}&ordering=-created`;
+    }
+    api().get(state.urlRequests).then((success) => {
       commit('SET_HELPLIST', success.data.results);
       commit('SET_HELP_ERROR', null);
       commit('SET_HELP_LOADING', false);

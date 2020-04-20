@@ -23,7 +23,7 @@
             block
             right
             elevation="0"
-            to="/requested-helps">Pedidos</v-btn>
+            to="/requested-helps?userRequest=true">Meus pedidos</v-btn>
           <v-btn
             color="primary"
             block

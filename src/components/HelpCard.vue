@@ -17,7 +17,8 @@
         :to="getUrl()"
         block
         rounded
-        color="primary">Conta Comigo
+        color="primary"
+        :disabled="btnDisable">Conta Comigo
         <v-icon right dark>$heart</v-icon>
       </v-btn>
     </div>
@@ -36,7 +37,10 @@
 import DefaultAvatar from '@/components/DefaultAvatar.vue';
 
 export default {
-  props: ['id', 'description', 'name', 'age', 'createdat', 'user_request', 'avatar', 'block', 'templateAccount', 'nameAssociate', 'stateAssociate', 'imageAssociate'],
+  props: ['id', 'description',
+    'name', 'age', 'createdat', 'user_request', 'avatar', 'block',
+    'templateAccount', 'nameAssociate', 'stateAssociate', 'imageAssociate',
+    'btnDisable'],
   components: { DefaultAvatar },
   data() {
     return {
