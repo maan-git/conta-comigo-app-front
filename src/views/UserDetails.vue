@@ -1,41 +1,30 @@
 <template>
-  <div v-if="user.userDetails" class="user-details">
+  <div v-if="user.user" class="user-details">
     <CardContainer :title="'Perfil'" >
       <div class="text-center">
         <p class="primary--text font-weight-bold title">
-          {{user.userDetails.first_name}},
-          {{$filters.calcAge(user.userDetails.birth_date)}} anos</p>
+          {{tabName}}</p>
       </div>
-      <v-tabs vertical>
+      <v-tabs @change="change">
         <v-tab>
           <v-icon left>mdi-account</v-icon>
         </v-tab>
         <v-tab>
-          <v-icon left>mdi-lock</v-icon>
+          <v-icon left>mdi-map</v-icon>
         </v-tab>
         <v-tab>
-          <v-icon left>mdi-access-point</v-icon>
+          <v-icon left>mdi-lock</v-icon>
         </v-tab>
         <v-tab-item>
           <TabPessoal/>
         </v-tab-item>
+        <v-tab-item>
+          <TabEndereco/>
+        </v-tab-item>
+        <v-tab-item>
+          <TabConta/>
+        </v-tab-item>
       </v-tabs>
-
-
-        <div class="text-center margin-text">
-          <p class="subtitle-1 grey--text">
-            Cadastrou-se em {{$filters.formatDate(user.userDetails.date_joined)}}
-          </p>
-          <p class="subtitle-1 grey--text">
-            Grupo de risco: {{$filters.isRiskGroup(user.userDetails.is_at_risk_group)}}
-          </p>
-          <p class="subtitle-1 grey--text">
-            Telefone: {{user.userDetails.phone_number}}
-          </p>
-        </div>
-      <p v-if="user.userDetailsError" class="block text-center mt-4 red--text">
-        {{user.userDetailsError}}
-      </p>
     </CardContainer>
   </div>
 </template>
@@ -44,29 +33,43 @@
 import { mapState } from 'vuex';
 import CardContainer from '@/components/CardContainer.vue';
 import TabPessoal from '@/components/detailstabs/TabPessoal.vue';
+import TabEndereco from '@/components/detailstabs/TabEndereco.vue';
+import TabConta from '@/components/detailstabs/TabConta.vue';
 
 export default {
   components: {
-    CardContainer, TabPessoal,
+    CardContainer, TabPessoal, TabEndereco, TabConta,
   },
   computed: mapState(['user']),
-  date() {
+  data() {
     return {
-      cpfMask: '###.###.###-##',
-      datanascimento: null,
-      datanascimentomenu: false,
+      tabName: 'Dados Pessoais',
     };
   },
   methods: {
-    saveDate(date) {
-      const mdate = new Date(date);
-      const dia = mdate.getDay() < 0 ? `0${mdate.getDay()}` : mdate.getDay();
-      const mes = (mdate.getMonth() + 1) < 0 ? `0${(mdate.getMonth() + 1)}` : (mdate.getMonth() + 1);
-      this.$refs.dpnascimento.save(`${dia}-${mes}-${mdate.getFullYear()}`);
+    change(tab) {
+      console.log('change tab', tab);
+      switch (tab) {
+        case 0:
+          this.tabName = 'Dados Pessoais';
+          break;
+        case 1:
+          this.tabName = 'Endereço';
+          break;
+        case 2:
+          this.tabName = 'Dados da Conta';
+          break;
+        default:
+          break;
+      }
+
+      if (tab === 0) { this.tabName = 'Dados Pessoais'; }
+      if (tab === 1) { this.tabName = 'Endereço'; }
+      if (tab === 2) { this.tabName = 'Dados da Conta'; }
     },
   },
   created() {
-    this.$store.dispatch('user/getUserDetails');
+    this.$store.dispatch('user/getCurrentUser');
   },
 };
 </script>
