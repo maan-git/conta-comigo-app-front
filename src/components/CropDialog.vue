@@ -123,6 +123,7 @@ export default {
       this.cropper.rotate(90);
     },
     saveCrop() {
+      this.$emit('avatar', this.previewCropped);
       this.$store.dispatch('register/setAvatar', this.previewCropped);
       this.dialog = false;
     },

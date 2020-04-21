@@ -1,8 +1,14 @@
 <template>
   <div>
-    <v-form>
+    <v-form ref="pessoalform">
       <v-row justify="space-between" class="mb-0 pa-4">
-        <v-btn large fab color="primary">
+        <v-btn
+          large
+          fab
+          color="primary"
+          :disabled="!edit"
+          @click="$refs.dialog.open()"
+        >
           <DefaultAvatar :src="avatar" :size="56"/>
         </v-btn>
         <v-switch
@@ -108,20 +114,29 @@
             :label="'Grupo de risco'"></v-checkbox>
         </v-col>
       </v-row>
+      <p v-if="user.userError"
+       class="block text-center mt-4 red--text">{{user.userError}}</p>
       <v-row justify="end" class="px-5" v-if="edit">
-        <v-btn large color="primary" rounded>Salvar</v-btn>
+        <v-btn
+          large
+          color="primary"
+          :loading="user.userLoading"
+          rounded
+          @click="updateData">Salvar</v-btn>
       </v-row>
     </v-form>
+    <CropDialog ref="dialog" v-on:avatar="avatar = $event" />
   </div>
 </template>
 <script>
 import { mapState } from 'vuex';
 import DefaultAvatar from '@/components/DefaultAvatar.vue';
+import CropDialog from '@/components/CropDialog.vue';
 
 export default {
   name: 'TabPessoal',
   components: {
-    DefaultAvatar,
+    DefaultAvatar, CropDialog,
   },
   computed: mapState(['user']),
   methods: {
@@ -130,6 +145,31 @@ export default {
       const dia = mdate.getDay() < 0 ? `0${mdate.getDay()}` : mdate.getDay();
       const mes = (mdate.getMonth() + 1) < 0 ? `0${(mdate.getMonth() + 1)}` : (mdate.getMonth() + 1);
       this.$refs.dpnascimento.save(`${dia}-${mes}-${mdate.getFullYear()}`);
+    },
+    updateData() {
+      // password: string,
+      // email: string,
+      // is_superuser: true,
+      console.log('updateData', this.$refs.pessoalform.validate());
+      if (this.$refs.pessoalform.validate()) {
+        const data = {
+          avatar: this.avatar,
+          first_name: this.first_name,
+          last_name: this.last_name,
+          cpf: this.cpf,
+          birth_date: this.birth_date,
+          phone_number: `+55${this.phone_number}`,
+          is_phone_whatsapp: this.is_phone_whatsapp,
+          is_at_risk_group: this.is_at_risk_group,
+          live_alone: this.live_alone,
+        };
+        this.$store.dispatch('user/updatePersonalData', data)
+          .then((s) => console.log('.$store.dispatch success', s))
+          .catch((err) => console.log('.$store.dispatch error', err));
+      }
+    },
+    resetData() {
+      this.edit = false;
     },
   },
   data() {

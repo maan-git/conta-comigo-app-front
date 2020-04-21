@@ -10,10 +10,10 @@
           <v-icon left>mdi-account</v-icon>
         </v-tab>
         <v-tab>
-          <v-icon left>mdi-map</v-icon>
+          <v-icon left>mdi-map-marker</v-icon>
         </v-tab>
         <v-tab>
-          <v-icon left>mdi-lock</v-icon>
+          <v-icon left>mdi-at</v-icon>
         </v-tab>
         <v-tab-item>
           <TabPessoal/>
@@ -62,10 +62,7 @@ export default {
         default:
           break;
       }
-
-      if (tab === 0) { this.tabName = 'Dados Pessoais'; }
-      if (tab === 1) { this.tabName = 'Endereço'; }
-      if (tab === 2) { this.tabName = 'Dados da Conta'; }
+      this.$store.dispatch('user/clearUserUtils');
     },
   },
   created() {

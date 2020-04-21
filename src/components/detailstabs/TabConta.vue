@@ -72,6 +72,9 @@ export default {
       const mes = (mdate.getMonth() + 1) < 0 ? `0${(mdate.getMonth() + 1)}` : (mdate.getMonth() + 1);
       this.$refs.dpnascimento.save(`${dia}-${mes}-${mdate.getFullYear()}`);
     },
+    resetData() {
+      this.edit = false;
+    },
   },
   data() {
     return {

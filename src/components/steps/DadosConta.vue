@@ -7,7 +7,7 @@
         required
         :rules="[$vln.requiredRule('E-mail'), $vln.emailRule()]"
         v-model="email"
-        ></v-text-field>
+      ></v-text-field>
       <v-text-field
         outlined
         label="Senha"
@@ -23,12 +23,12 @@
         type="password"
         :rules="[$vln.requiredRule('Repitir Senha'), $vln.mustBeEqualPass(password),]"
         v-model="repassword"
-        ></v-text-field>
-        <v-checkbox
-          v-model="lieAceito"
-          :rules="[$vln.requiredRule('Ler o contrato')]"
-          label="Li e aceito os termos de uso do Conta Comigo app"
-        ></v-checkbox>
+      ></v-text-field>
+      <v-checkbox
+        v-model="lieAceito"
+        :rules="[$vln.requiredRule('Ler o contrato')]"
+        label="Li e aceito os termos de uso do Conta Comigo app"
+      ></v-checkbox>
       <v-btn
         block
         rounded

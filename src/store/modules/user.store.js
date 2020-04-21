@@ -5,6 +5,8 @@ import api from '../api';
 
 const state = {
   user: null,
+  userLoading: false,
+  userError: null,
   token: '',
   list: null,
   loginError: null,
@@ -140,11 +142,35 @@ const actions = {
       commit('SET_USER_ADDRESS_LOADING', false);
     });
   },
+  /** Edit User Methods */
+  updatePersonalData({ commit, state }, data) {
+    commit('SET_USER_LOADING', true);
+    // console.log(state.user);
+    // console.log(data);
+    return api().patch(`app/user/${state.user.id}`, data).then((success) => {
+      console.log('updatePersonalData success', success);
+      commit('SET_USER_LOADING', false);
+    }).catch((error) => {
+      if (error.response.data.detail) commit('SET_USER_ERROR', error.response.data.detail);
+      else commit('SET_USER_ERROR', error.response.statusText);
+      commit('SET_USER_LOADING', false);
+    });
+  },
+  clearUserUtils({ commit }) {
+    commit('SET_USER_LOADING', false);
+    commit('SET_USER_ERROR', null);
+  },
 };
 
 const mutations = {
   SET_USER(state, value) {
     state.user = value;
+  },
+  SET_USER_LOADING(state, value) {
+    state.userLoading = value;
+  },
+  SET_USER_ERROR(state, value) {
+    state.userError = value;
   },
   SET_TOKEN(state, value) {
     state.token = value;
