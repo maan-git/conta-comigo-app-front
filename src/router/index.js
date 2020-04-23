@@ -89,6 +89,12 @@ const routes = [
     beforeEnter: notGuard,
   },
   {
+    path: '/regenerate-user-pass',
+    name: 'RegenerateUserPass',
+    component: () => import('../views/RegenerateUserPass.vue'),
+    beforeEnter: notGuard,
+  },
+  {
     path: '*',
     redirect: '/login',
   },
