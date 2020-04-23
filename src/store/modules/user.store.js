@@ -41,18 +41,20 @@ const getters = {
 };
 
 const actions = {
-  async login({ commit }, data) {
+  setUserInfo({ commit }, data) {
+    const expDate = Date.now();
+    // xpd stands for expiration Date
+    Object.assign(data, { xpd: expDate });
+    localStorage.setItem('userInfo', JSON.stringify(data));
+    commit('SET_USER', data);
+  },
+  async login({ commit, dispatch }, data) {
     commit('SET_LOGIN_LOADING', true);
     await api().post('app/login/', data).then((success) => {
-      const userInfo = success.data;
-      const expDate = Date.now();
-      // xpd stands for expiration Date
-      Object.assign(userInfo, { xpd: expDate });
-      localStorage.setItem('userInfo', JSON.stringify(userInfo));
+      dispatch('setUserInfo', success.data);
       commit('SET_TOKEN', success);
       commit('SET_LOGIN_ERROR', null);
       commit('SET_LOGIN_LOADING', false);
-      commit('SET_USER', success.data);
       routes.push({ path: '/' });
     }).catch((error) => {
       console.log('error', error.response);
@@ -77,23 +79,16 @@ const actions = {
   regeneratePass({ commit }) {
     commit('SET_FORGOT_USER_PASS_SUCCESS', true);
   },
-  getCurrentUser({ commit }) {
+  getCurrentUser({ commit, dispatch }) {
     commit('SET_LOGIN_LOADING', false);
     let isValidated = false;
     const userInfo = localStorage.getItem('userInfo');
     if (userInfo && (Date.now() - JSON.parse(userInfo).xpd) <= 900000) {
       isValidated = true;
       commit('SET_USER', JSON.parse(userInfo));
-    //  dispatch('getUserAddress', JSON.parse(userInfo).id);
     } else {
       api().get('app/user/current/').then((success) => {
-        const userInfo = success.data;
-        const expDate = Date.now();
-        // xpd stands for expiration Date
-        Object.assign(userInfo, { xpd: expDate });
-        localStorage.setItem('userInfo', JSON.stringify(userInfo));
-        commit('SET_USER', userInfo);
-      //  dispatch('getUserAddress', userInfo.id);
+        dispatch('setUserInfo', success.data);
       }).catch((error) => {
         localStorage.removeItem('userInfo');
         commit('SET_LOGIN_ERROR', error.response.data.error);
@@ -143,15 +138,14 @@ const actions = {
     });
   },
   /** Edit User Methods */
-  updatePersonalData({ commit, state }, data) {
+  updatePersonalData({ commit, state, dispatch }, data) {
     commit('SET_USER_LOADING', true);
-    // console.log(state.user);
-    // console.log(data);
     return api().patch(`app/user/${state.user.id}/`, data).then((success) => {
       console.log('updatePersonalData success', success);
       commit('SET_USER_ERROR', null);
       commit('SET_USER_LOADING', false);
       commit('SET_USER', success.data);
+      dispatch('setUserInfo', success.data);
     }).catch((error) => {
       if (error.response.data.detail) commit('SET_USER_ERROR', error.response.data.detail);
       else commit('SET_USER_ERROR', error.response.statusText);
@@ -159,11 +153,9 @@ const actions = {
     });
   },
   updateAddress({ commit, state }, data) {
-    return api().patch(`app/user/${state.user.id}/updateaddress/`, data).then((success) => {
-      console.log('updatePersonalData success', success);
+    return api().patch(`app/user/${state.user.id}/updateaddress/`, data).then(() => {
       commit('SET_USER_ERROR', null);
       commit('SET_USER_LOADING', false);
-      commit('SET_USER', success.data);
     }).catch((error) => {
       if (error.response.data.detail) commit('SET_USER_ERROR', error.response.data.detail);
       else commit('SET_USER_ERROR', error.response.statusText);

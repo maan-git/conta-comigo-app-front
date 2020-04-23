@@ -1,6 +1,6 @@
 <template>
   <div>
-    <v-form>
+    <v-form ref="enderecoform">
       <v-row justify="end" class="mb-0 pa-4">
         <v-switch
           color="primary"
@@ -78,8 +78,6 @@
           @click="updateData"
         >Salvar</v-btn>
       </v-row>
-      <p v-if="user.userError"
-       class="block text-center mt-4 red--text">{{user.userError}}</p>
     </v-form>
   </div>
 </template>
@@ -92,7 +90,7 @@ export default {
   computed: mapState(['user', 'address']),
   watch: {
     cep(cep) {
-      if (cep.length === 9) {
+      if (cep && cep.length === 9) {
         this.$store.dispatch('address/findByZip', cep);
       }
     },
@@ -102,12 +100,13 @@ export default {
       this.edit = false;
     },
     updateData() {
-      if (this.$refs.pessoalform.validate()) {
+      if (this.$refs.enderecoform.validate()) {
+        const cep = this.cep.replace(/-/g, '');
         const data = {
           user_address_id: this.user.user.addresses[0].id,
           neighborhood_id: this.bairro,
           address: this.endereco,
-          zip: this.cep,
+          zip: cep,
         };
         console.log('validated', data);
         this.$store.dispatch('user/updateAddress', data)
@@ -131,7 +130,7 @@ export default {
   created() {
     // this.$store.dispatch('user/getUserDetails');
     this.cep = this.user.user.addresses[0].zip_code;
-    // this.endereco = this.user.user.addresses[0].address;
+    this.endereco = this.user.user.addresses[0].address;
     // this.bairros = [this.user.user.addresses[0].neighborhood];
     // this.bairro = this.user.user.addresses[0].neighborhood.description;
     // this.bairros = [this.user.user.addresses[0].neighborhood];
@@ -141,7 +140,7 @@ export default {
     this.$store.watch(
       (state) => state.address,
       (val) => {
-        if (this.endereco !== val.endereco) this.endereco = val.endereco;
+        if (this.endereco !== val.endereco && this.edit) this.endereco = val.endereco;
         if (this.bairros !== val.bairros) this.bairro = val.bairro;
         if (this.cidade !== val.cidade) this.cidade = val.cidade;
         if (this.estado !== val.estado) this.estado = val.estado;
