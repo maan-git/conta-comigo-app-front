@@ -1,15 +1,9 @@
 <template>
   <div class="login">
-    <CardContainer>
+    <CardContainer :backTo="'/login'">
       <v-form ref="formRegenerateUserPass" class="ma-5 text-center"
         @keyup.enter.native="regenerateUserPassClick()">
         <p class="primary--text font-weight-medium headline">Recuperar Senha</p>
-        <v-text-field
-          outlined
-          v-model="email"
-          label="email@email.com"
-          disabled
-        ></v-text-field>
         <v-text-field
         outlined
         label="Senha"
