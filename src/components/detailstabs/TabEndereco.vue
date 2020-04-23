@@ -33,18 +33,18 @@
       </v-row>
       <v-row>
         <v-col :cols="12" class="py-0">
-          <v-text-field
+          <v-select
             :readonly="(bairros.length <= 1)"
             item-value="id"
             item-text="description"
-            :items="bairros"
+            :items="address.bairros"
             v-model="bairro"
             outlined
             menu-props="auto"
             label="Bairro"
             :rules="[$vln.requiredRule('Bairro')]"
             required
-          ></v-text-field>
+          ></v-select>
         </v-col>
         <v-col :cols="12" class="py-0">
           <v-text-field
@@ -89,11 +89,11 @@ import { mapState } from 'vuex';
 export default {
   name: 'TabPessoal',
   components: {},
-  computed: mapState(['user', 'register']),
+  computed: mapState(['user', 'address']),
   watch: {
     cep(cep) {
       if (cep.length === 9) {
-        this.$store.dispatch('register/findByZip', cep);
+        this.$store.dispatch('address/findByZip', cep);
       }
     },
   },
@@ -103,7 +103,16 @@ export default {
     },
     updateData() {
       if (this.$refs.pessoalform.validate()) {
-        console.log('validated');
+        const data = {
+          user_address_id: this.user.user.addresses[0].id,
+          neighborhood_id: this.bairro,
+          address: this.endereco,
+          zip: this.cep,
+        };
+        console.log('validated', data);
+        this.$store.dispatch('user/updateAddress', data)
+          .then(() => { this.edit = false; })
+          .catch((err) => console.log('.$store.dispatch error', err));
       }
     },
   },
@@ -130,16 +139,10 @@ export default {
     // this.estado = this.user.user.addresses[0].state.description;
 
     this.$store.watch(
-      (state) => state.register,
+      (state) => state.address,
       (val) => {
         if (this.endereco !== val.endereco) this.endereco = val.endereco;
-        if (this.bairros !== val.bairros) {
-          this.bairros = val.bairros;
-          console.log('this.bairros', this.bairros);
-          if (this.bairros.length === 1) {
-            this.bairro = this.bairros[0].description;
-          } else this.bairros = '';
-        }
+        if (this.bairros !== val.bairros) this.bairro = val.bairro;
         if (this.cidade !== val.cidade) this.cidade = val.cidade;
         if (this.estado !== val.estado) this.estado = val.estado;
       }, { deep: true },

@@ -1,6 +1,6 @@
 <template>
   <div>
-    <v-form>
+    <v-form ref="formemail">
       <v-switch
         color="primary"
         v-model="edit"
@@ -18,9 +18,18 @@
           ></v-text-field>
         </v-col>
       </v-row>
+      <p v-if="user.userError"
+       class="block text-center mt-4 red--text">{{user.userError}}</p>
       <v-row justify="end" class="px-5" v-if="edit">
-        <v-btn large color="primary" rounded>Salvar</v-btn>
+        <v-btn
+          large
+          color="primary"
+          :loading="user.userLoading"
+          rounded
+          @click="updateEmail">Salvar</v-btn>
       </v-row>
+    </v-form>
+    <v-form ref="formsenha">
       <v-row>
         <v-col :cols="12" class="py-0">
           <v-switch
@@ -52,8 +61,16 @@
           ></v-text-field>
         </v-col>
       </v-row>
+      <p v-if="user.userError"
+       class="block text-center mt-4 red--text">{{user.userError}}</p>
+
       <v-row justify="end" class="px-5" v-if="editPass">
-        <v-btn large color="primary" rounded>Salvar Senha</v-btn>
+        <v-btn
+          large
+          color="primary"
+          :loading="user.userLoading"
+          rounded
+          @click="updatePass">Salvar Senha</v-btn>
       </v-row>
     </v-form>
   </div>
@@ -66,14 +83,19 @@ export default {
   components: {},
   computed: mapState(['user']),
   methods: {
-    saveDate(date) {
-      const mdate = new Date(date);
-      const dia = mdate.getDay() < 0 ? `0${mdate.getDay()}` : mdate.getDay();
-      const mes = (mdate.getMonth() + 1) < 0 ? `0${(mdate.getMonth() + 1)}` : (mdate.getMonth() + 1);
-      this.$refs.dpnascimento.save(`${dia}-${mes}-${mdate.getFullYear()}`);
+    updateEmail() {
+      if (this.$refs.formemail.validate()) {
+        this.$store.dispatch('user/updatePersonalData', { email: this.email })
+          .then(() => { this.edit = false; })
+          .catch((err) => console.log('.$store.dispatch error', err));
+      }
     },
-    resetData() {
-      this.edit = false;
+    updatePass() {
+      if (this.$refs.formsenha.validate()) {
+        this.$store.dispatch('user/updatePersonalData', { password: this.password })
+          .then(() => { this.editPass = false; })
+          .catch((err) => console.log('.$store.dispatch error', err));
+      }
     },
   },
   data() {

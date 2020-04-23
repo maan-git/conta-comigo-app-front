@@ -147,9 +147,23 @@ const actions = {
     commit('SET_USER_LOADING', true);
     // console.log(state.user);
     // console.log(data);
-    return api().patch(`app/user/${state.user.id}`, data).then((success) => {
+    return api().patch(`app/user/${state.user.id}/`, data).then((success) => {
       console.log('updatePersonalData success', success);
+      commit('SET_USER_ERROR', null);
       commit('SET_USER_LOADING', false);
+      commit('SET_USER', success.data);
+    }).catch((error) => {
+      if (error.response.data.detail) commit('SET_USER_ERROR', error.response.data.detail);
+      else commit('SET_USER_ERROR', error.response.statusText);
+      commit('SET_USER_LOADING', false);
+    });
+  },
+  updateAddress({ commit, state }, data) {
+    return api().patch(`app/user/${state.user.id}/updateaddress/`, data).then((success) => {
+      console.log('updatePersonalData success', success);
+      commit('SET_USER_ERROR', null);
+      commit('SET_USER_LOADING', false);
+      commit('SET_USER', success.data);
     }).catch((error) => {
       if (error.response.data.detail) commit('SET_USER_ERROR', error.response.data.detail);
       else commit('SET_USER_ERROR', error.response.statusText);

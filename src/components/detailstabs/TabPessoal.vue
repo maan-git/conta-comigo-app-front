@@ -152,19 +152,27 @@ export default {
       // is_superuser: true,
       console.log('updateData', this.$refs.pessoalform.validate());
       if (this.$refs.pessoalform.validate()) {
-        const data = {
-          avatar: this.avatar,
+        const phone = `+55${this.phone_number.replace(/\(/g, '').replace(/\)/g, '').replace(/ /g, '').replace(/-/g, '')}`;
+        const cpf = this.cpf.replace(/\./g, '').replace(/-/g, '');
+        // eslint-disable-next-line prefer-const
+        let data;
+        const mockdata = {
           first_name: this.first_name,
           last_name: this.last_name,
-          cpf: this.cpf,
+          cpf,
           birth_date: this.birth_date,
-          phone_number: `+55${this.phone_number}`,
+          phone_number: phone,
           is_phone_whatsapp: this.is_phone_whatsapp,
           is_at_risk_group: this.is_at_risk_group,
           live_alone: this.live_alone,
         };
+        if (this.avatar !== this.user.user.avatar) {
+          data = { avatar: this.avatar, ...mockdata };
+        } else {
+          data = mockdata;
+        }
         this.$store.dispatch('user/updatePersonalData', data)
-          .then((s) => console.log('.$store.dispatch success', s))
+          .then(() => { this.edit = false; })
           .catch((err) => console.log('.$store.dispatch error', err));
       }
     },
