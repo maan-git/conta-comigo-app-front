@@ -108,7 +108,6 @@ export default {
           address: this.endereco,
           zip: cep,
         };
-        console.log('validated', data);
         this.$store.dispatch('user/updateAddress', data)
           .then(() => { this.edit = false; })
           .catch((err) => console.log('.$store.dispatch error', err));
