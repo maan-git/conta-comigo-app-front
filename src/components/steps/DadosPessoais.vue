@@ -174,6 +174,7 @@ export default {
     this.whatsapp = this.register.whatsapp;
     this.moraso = this.register.moraso;
     this.grupoderisco = this.register.grupoderisco;
+    if (!this.register.avatar) this.$store.dispatch('register/defaultAvatar');
   },
 };
 </script>

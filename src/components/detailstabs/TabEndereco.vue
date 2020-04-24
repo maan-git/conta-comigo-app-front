@@ -128,9 +128,10 @@ export default {
     };
   },
   created() {
-    // this.$store.dispatch('user/getUserDetails');
     this.cep = this.user.user.addresses[0].zip_code;
     this.endereco = this.user.user.addresses[0].address;
+
+    // this.$store.dispatch('user/getUserDetails');
     // this.bairros = [this.user.user.addresses[0].neighborhood];
     // this.bairro = this.user.user.addresses[0].neighborhood.description;
     // this.bairros = [this.user.user.addresses[0].neighborhood];

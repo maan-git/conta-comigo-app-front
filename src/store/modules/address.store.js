@@ -1,7 +1,6 @@
 /* eslint-disable no-shadow */
 import api from '../api';
 
-
 const state = {
   cep: '',
   endereco: '',

@@ -51,10 +51,11 @@ const actions = {
   async login({ commit, dispatch }, data) {
     commit('SET_LOGIN_LOADING', true);
     await api().post('app/login/', data).then((success) => {
-      dispatch('setUserInfo', success.data);
+      // dispatch('setUserInfo', success.data);
       commit('SET_TOKEN', success);
       commit('SET_LOGIN_ERROR', null);
       commit('SET_LOGIN_LOADING', false);
+      dispatch('getCurrentUser');
       routes.push({ path: '/' });
     }).catch((error) => {
       console.log('error', error.response);
@@ -81,21 +82,12 @@ const actions = {
   },
   getCurrentUser({ commit, dispatch }) {
     commit('SET_LOGIN_LOADING', false);
-    let isValidated = false;
-    const userInfo = localStorage.getItem('userInfo');
-    if (userInfo && (Date.now() - JSON.parse(userInfo).xpd) <= 900000) {
-      isValidated = true;
-      commit('SET_USER', JSON.parse(userInfo));
-    } else {
-      api().get('app/user/current/').then((success) => {
-        dispatch('setUserInfo', success.data);
-      }).catch((error) => {
-        localStorage.removeItem('userInfo');
-        commit('SET_LOGIN_ERROR', error.response.data.error);
-      });
-      isValidated = true;
-    }
-    return isValidated;
+    return api().get('app/user/current/').then((success) => {
+      dispatch('setUserInfo', success.data);
+    }).catch((error) => {
+      localStorage.removeItem('userInfo');
+      commit('SET_LOGIN_ERROR', error.response.data.error);
+    });
   },
 
   getUsers({ commit }, queryparams) {
@@ -145,17 +137,18 @@ const actions = {
       commit('SET_USER_ERROR', null);
       commit('SET_USER_LOADING', false);
       commit('SET_USER', success.data);
-      dispatch('setUserInfo', success.data);
+      dispatch('getCurrentUser');
     }).catch((error) => {
       if (error.response.data.detail) commit('SET_USER_ERROR', error.response.data.detail);
       else commit('SET_USER_ERROR', error.response.statusText);
       commit('SET_USER_LOADING', false);
     });
   },
-  updateAddress({ commit, state }, data) {
+  updateAddress({ commit, state, dispatch }, data) {
     return api().patch(`app/user/${state.user.id}/updateaddress/`, data).then(() => {
       commit('SET_USER_ERROR', null);
       commit('SET_USER_LOADING', false);
+      dispatch('getCurrentUser');
     }).catch((error) => {
       if (error.response.data.detail) commit('SET_USER_ERROR', error.response.data.detail);
       else commit('SET_USER_ERROR', error.response.statusText);
