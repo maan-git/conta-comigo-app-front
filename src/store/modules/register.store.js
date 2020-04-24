@@ -12,12 +12,7 @@ const state = {
   moraso: false,
   grupoderisco: false,
   lieAceito: false,
-  cep: '',
-  endereco: '',
-  bairro: '',
-  bairros: [],
-  cidade: '',
-  estado: '',
+
   email: '',
   password: '',
   id: null,
@@ -38,11 +33,6 @@ const getters = {
   getWhatsapp(state) { return state.whatsapp; },
   getMoraSo(state) { return state.moraso; },
   getGrupoRisco(state) { return state.grupoderisco; },
-  getCep(state) { return state.cep; },
-  getEndereco(state) { return state.endereco; },
-  getBairro(state) { return state.bairro; },
-  getCidade(state) { return state.cidade; },
-  getEstado(state) { return state.estado; },
   getEmail(state) { return state.email; },
   getCreateUserError(state) { return state.createUserError; },
   getStep(state) { return state.step; },
@@ -64,7 +54,7 @@ const actions = {
     commit('SET_CREATE_USER_ERROR', '');
     commit('SET_STEP', 2);
   },
-  registerStep2({ commit, dispatch, state }, data) {
+  registerStep3({ commit, dispatch, state }, data) {
     commit('SET_LI_E_ACEITO', data.lieAceito);
     commit('SET_EMAIL', data.email);
     commit('SET_PASSWORD', data.password);
@@ -98,14 +88,14 @@ const actions = {
       else commit('SET_CREATE_USER_ERROR', error.response.statusText);
     });
   },
-  fakelogin({ commit }, data) {
+  fakelogin({ commit, dispatch }, data) {
     commit('SET_CREATE_USER_LOADING', true);
     // console.log('fakelogin data', data);
     return api().post('app/login/', data).then((s) => {
       commit('SET_CREATE_USER_LOADING', false);
       // console.log('fakelogin success', s);
       commit('SET_ID', s.data.id);
-      commit('SET_STEP', 3);
+      dispatch('registerAddress');
     }).catch((err) => {
       if (err.response.data.detail) commit('SET_CREATE_USER_ERROR', err.response.data.detail);
       else commit('SET_CREATE_USER_ERROR', err.response.statusText);
@@ -115,7 +105,15 @@ const actions = {
   setStep({ commit }, step) {
     commit('SET_STEP', step);
   },
-  registerStep3({ commit, dispatch, state }, data) {
+  registerAddress({
+    commit, dispatch, state, rootState,
+  }) {
+    const data = {
+      neighborhood_id: rootState.address.bairro,
+      address: rootState.address.endereco,
+      zip: rootState.address.cep.replace(/-/g, ''),
+    };
+
     commit('SET_CREATE_USER_LOADING', true);
     return api().post(`/app/user/${state.id}/addaddress/`, data).then(() => {
       commit('SET_CREATE_USER_ERROR', null);
@@ -129,46 +127,6 @@ const actions = {
       commit('SET_LOGIN_LOADING', false);
       if (error.response.data.detail) commit('SET_CREATE_USER_ERROR', error.response.data.detail);
       else commit('SET_CREATE_USER_ERROR', error.response.statusText);
-    });
-  },
-
-  findByZip({ commit, dispatch }, cep) {
-    const zip = cep.replace('-', '');
-    commit('SET_CREATE_USER_LOADING', true);
-    return api().get(`/app/address/findbyzip/?zip=${zip}`).then((s) => {
-      commit('SET_CEP', zip);
-      commit('SET_ENDERECO', s.data.address);
-      if (s.data.neighborhood.description && s.data.neighborhood.description.length > 0) {
-        commit('SET_BAIRROS', [s.data.neighborhood]);
-        commit('SET_BAIRRO', s.data.neighborhood.id);
-      } else if (s.data.city.id) {
-        dispatch('findNeighborhood', s.data.city.id);
-      } else {
-        commit('SET_BAIRROS', []);
-        commit('SET_BAIRRO', '');
-      }
-      commit('SET_CIDADE', s.data.city.description);
-      commit('SET_ESTADO', s.data.state.description);
-      commit('SET_CREATE_USER_LOADING', false);
-    }).catch((error) => {
-      commit('SET_CREATE_USER_LOADING', false);
-      if (error.response.data.detail) commit('SET_CREATE_USER_ERROR', error.response.data.detail);
-      else commit('SET_CREATE_USER_ERROR', error.response.statusText);
-      // console.log('searchByCep error', err);
-    });
-  },
-
-  setBairros({ commit }, bairros) {
-    commit('SET_BAIRROS', bairros);
-  },
-
-  findNeighborhood({ commit }, cityid) {
-    commit('SET_CREATE_USER_LOADING', true);
-    return api().get(`/app/neighborhood/?city_id=${cityid}`).then((s) => {
-      commit('SET_BAIRROS', s.data.results);
-      commit('SET_CREATE_USER_LOADING', false);
-    }).catch(() => {
-      commit('SET_CREATE_USER_LOADING', false);
     });
   },
   setAvatar({ commit }, avatar) { commit('SET_AVATAR', avatar); },
@@ -205,24 +163,6 @@ const mutations = {
   SET_GRUPORISCO(state, value) {
     state.grupoderisco = value;
   },
-  SET_CEP(state, value) {
-    state.cep = value;
-  },
-  SET_ENDERECO(state, value) {
-    state.endereco = value;
-  },
-  SET_BAIRRO(state, value) {
-    state.bairro = value;
-  },
-  SET_BAIRROS(state, value) {
-    state.bairros = value;
-  },
-  SET_CIDADE(state, value) {
-    state.cidade = value;
-  },
-  SET_ESTADO(state, value) {
-    state.estado = value;
-  },
   SET_EMAIL(state, value) {
     state.email = value;
   },
@@ -257,12 +197,6 @@ const mutations = {
     state.whatsapp = false;
     state.moraso = false;
     state.grupoderisco = false;
-    state.cep = '';
-    state.endereco = '';
-    state.bairro = '';
-    state.bairros = [];
-    state.cidade = '';
-    state.estado = '';
     state.email = '';
     state.password = '';
     state.id = '';

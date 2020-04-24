@@ -35,7 +35,7 @@
         x-large
         color="primary"
         @click="sendFormData()"
-        :loading="register.createUserLoading">Próximo</v-btn>
+        :loading="register.createUserLoading">Registrar-se</v-btn>
       <p v-if="register.createUserError" class="block text-center mb-0 mt-4 red--text">
         {{register.createUserError}}
       </p>
@@ -60,7 +60,7 @@ export default {
     },
     sendFormData() {
       if (this.$refs.dadosconta.validate()) {
-        this.$store.dispatch('register/registerStep2', {
+        this.$store.dispatch('register/registerStep3', {
           email: this.email,
           password: this.password,
           lieAceito: this.lieAceito,

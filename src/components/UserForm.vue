@@ -13,10 +13,10 @@
           <DadosPessoais v-on:openDialog="$refs.dialog.open()"/>
         </v-stepper-content>
         <v-stepper-content class="px-0" step="2">
-          <DadosConta/>
+          <Endereco/>
         </v-stepper-content>
         <v-stepper-content class="px-0" step="3">
-          <Endereco/>
+          <DadosConta/>
         </v-stepper-content>
       </v-stepper-items>
     </v-stepper>

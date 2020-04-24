@@ -28,9 +28,9 @@
       <v-select
         item-value="id"
         item-text="description"
-        :items="register.bairros"
+        :items="address.bairros"
         v-model="bairro"
-        :readonly="register.bairros.length <= 1"
+        :readonly="address.bairros.length <= 1"
         outlined
         menu-props="auto"
         label="Bairro"
@@ -68,9 +68,9 @@
         x-large
         color="primary"
         @click="sendFormData()"
-        :loading="register.createUserLoading">Registrar-se</v-btn>
-      <p v-if="register.createUserError" class="block text-center mb-0 mt-4 red--text">
-        {{register.createUserError}}
+        :loading="address.createUserLoading">Próximo</v-btn>
+      <p v-if="address.createUserError" class="block text-center mb-0 mt-4 red--text">
+        {{address.createUserError}}
       </p>
     </v-form>
   </div>
@@ -79,11 +79,11 @@
 import { mapState } from 'vuex';
 
 export default {
-  computed: mapState(['register']),
+  computed: mapState(['address']),
   watch: {
     cep(cep) {
       if (cep.length === 9) {
-        this.$store.dispatch('register/findByZip', cep);
+        this.$store.dispatch('address/findByZip', cep);
       }
     },
   },
@@ -103,12 +103,13 @@ export default {
     },
     sendFormData() {
       if (this.$refs.enderecoform.validate()) {
-        const data = {
-          neighborhood_id: this.bairro,
-          address: this.endereco,
-          zip: this.cep.replace(/-/g, ''),
-        };
-        this.$store.dispatch('register/registerStep3', data);
+        this.$store.dispatch('register/setStep', 3);
+        // const data = {
+        //   neighborhood_id: this.bairro,
+        //   address: this.endereco,
+        //   zip: this.cep.replace(/-/g, ''),
+        // };
+        // this.$store.dispatch('register/registerStep3', data);
       }
     },
     getAddressData(map) {
@@ -120,14 +121,14 @@ export default {
     },
   },
   created() {
-    this.cep = this.register.cep ? this.register.cep : '';
-    this.endereco = this.register.endereco ? this.register.endereco : '';
-    this.bairro = this.register.bairro ? this.register.bairro : '';
-    this.cidade = this.register.cidade ? this.register.cidade : '';
-    this.estado = this.register.estado ? this.register.estado : '';
+    this.cep = this.address.cep ? this.address.cep : '';
+    this.endereco = this.address.endereco ? this.address.endereco : '';
+    this.bairro = this.address.bairro ? this.address.bairro : '';
+    this.cidade = this.address.cidade ? this.address.cidade : '';
+    this.estado = this.address.estado ? this.address.estado : '';
 
     this.$store.watch(
-      (state) => state.register,
+      (state) => state.address,
       (val) => {
         if (this.endereco !== val.endereco) this.endereco = val.endereco;
         if (this.bairros !== val.bairros) this.bairro = val.bairro;
