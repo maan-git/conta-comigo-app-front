@@ -45,7 +45,7 @@
             :readonly="!edit"
             outlined
             label="CPF"
-            required
+            disabled
             v-model="cpf"
             v-mask="'###.###.###-##'"
             :rules="[$vln.requiredRule('CPF'), $vln.cpflRule()]"
@@ -96,7 +96,7 @@
         <v-col class="py-0">
           <v-checkbox class=" pt-0"
             :readonly="!edit"
-            v-model="user.user.is_phone_whatsapp" label=" " prepend-icon="mdi-whatsapp"
+            v-model="is_phone_whatsapp" label=" " prepend-icon="mdi-whatsapp"
             ></v-checkbox>
         </v-col>
       </v-row>
@@ -104,13 +104,13 @@
         <v-col class="py-0 pr-0">
           <v-checkbox class="mt-0 pt-0"
             :readonly="!edit"
-            v-model="user.user.live_alone"
+            v-model="live_alone"
             :label="'Mora só'"></v-checkbox>
         </v-col>
         <v-col class="py-0 pl-0">
           <v-checkbox class="mt-0 pt-0"
             :readonly="!edit"
-            v-model="user.user.is_at_risk_group"
+            v-model="is_at_risk_group"
             :label="'Grupo de risco'"></v-checkbox>
         </v-col>
       </v-row>

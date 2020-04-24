@@ -1,18 +1,13 @@
 <template>
   <div>
     <v-form ref="formemail">
-      <v-switch
-        color="primary"
-        v-model="edit"
-        label="Editar"
-      />
       <v-row class="mb-0">
         <v-col :cols="12" class="py-0">
           <v-text-field
             :readonly="!edit"
             outlined
             label="Email"
-            required
+            disabled
             :rules="[$vln.requiredRule('E-mail'), $vln.emailRule()]"
             v-model="email"
           ></v-text-field>
@@ -20,14 +15,6 @@
       </v-row>
       <p v-if="user.userError"
        class="block text-center mt-4 red--text">{{user.userError}}</p>
-      <v-row justify="end" class="px-5" v-if="edit">
-        <v-btn
-          large
-          color="primary"
-          :loading="user.userLoading"
-          rounded
-          @click="updateEmail">Salvar</v-btn>
-      </v-row>
     </v-form>
     <v-form ref="formsenha">
       <v-row>
