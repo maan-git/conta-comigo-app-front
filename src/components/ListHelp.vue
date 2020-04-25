@@ -56,6 +56,7 @@ export default {
         userIdNe: this.user.user.id,
         limit: 10,
         statusId: 1,
+        cityId: this.user.user.addresses[0].city.id,
       });
     },
   },

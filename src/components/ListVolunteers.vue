@@ -53,7 +53,7 @@ export default {
   },
   created() {
     this.$store.dispatch('user/getUsers',
-      `limit=10&ordering=-date_joined&id__ne=${this.user.user.id}`);
+      `limit=10&ordering=-date_joined&id__ne=${this.user.user.id}&city_id=${this.user.user.addresses[0].city.id}`);
   },
 };
 </script>

@@ -72,6 +72,7 @@ export default {
       const data = {
         limit: 20,
         statusId: 1,
+        cityId: this.user.user.addresses[0].city.id,
       };
       if (this.$route.query.userRequest) {
         data.userId = this.user.user.id;
@@ -86,6 +87,7 @@ export default {
       const data = {
         limit: 20,
         statusId: 20,
+        cityId: this.user.user.addresses[0].city.id,
       };
       if (this.$route.query.userRequest) {
         data.userId = this.user.user.id;
