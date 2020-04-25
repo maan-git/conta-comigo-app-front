@@ -23,7 +23,9 @@
           required
         ></v-textarea>
         <div>
-          <p class="body-1 secondary--text px-1">Autorizar divulgar número de telefone?</p>
+          <p class="body-1 secondary--text px-1">
+            Autorizar divulgar número de telefone para todos?
+          </p>
           <v-switch
             v-model="divulgarFone"
             class="ma-4"
@@ -75,7 +77,7 @@ export default {
         this.$store.dispatch('help/requestHelpSave', {
           category: this.requestCategory,
           description: this.requestDescription,
-          address_id: this.user.user.addresses[0],
+          address_id: this.user.user.addresses[0].id,
           telephone_allowed: this.divulgarFone,
         });
       }

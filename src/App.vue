@@ -47,7 +47,7 @@ export default {
     },
   },
   created() {
-    this.$store.dispatch('register/resetForm');
+    // this.$store.dispatch('register/resetForm');
   },
 };
 </script>

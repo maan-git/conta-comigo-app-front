@@ -1,7 +1,7 @@
 <template>
   <div>
     <v-form ref="formemail">
-      <v-row class="mb-0">
+      <v-row class="mt-5 mb-0">
         <v-col :cols="12" class="py-0">
           <v-text-field
             :readonly="!edit"

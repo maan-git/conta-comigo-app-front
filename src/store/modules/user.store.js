@@ -14,12 +14,15 @@ const state = {
   users: null,
   usersError: null,
   usersLoginLoading: false,
+
   volunteerDetails: null,
   volunteerDetailsError: null,
   volunteerDetailsLoading: false,
+
   userAddress: null,
   userAddressError: null,
   userAddressLoading: false,
+
   forgotUserPassLoading: false,
   forgotUserPassError: null,
   forgotUserPassSuccess: false,
@@ -55,8 +58,7 @@ const actions = {
       commit('SET_TOKEN', success);
       commit('SET_LOGIN_ERROR', null);
       commit('SET_LOGIN_LOADING', false);
-      dispatch('getCurrentUser');
-      routes.push({ path: '/' });
+      dispatch('getCurrentUser', true);
     }).catch((error) => {
       console.log('error', error.response);
       if (error.response.data.detail) commit('SET_LOGIN_ERROR', error.response.data.detail);
@@ -80,10 +82,13 @@ const actions = {
   regeneratePass({ commit }) {
     commit('SET_FORGOT_USER_PASS_SUCCESS', true);
   },
-  getCurrentUser({ commit, dispatch }) {
+  getCurrentUser({ commit, dispatch }, login) {
     commit('SET_LOGIN_LOADING', false);
     return api().get('app/user/current/').then((success) => {
       dispatch('setUserInfo', success.data);
+      if (login) {
+        routes.push({ path: '/' });
+      }
     }).catch((error) => {
       localStorage.removeItem('userInfo');
       commit('SET_LOGIN_ERROR', error.response.data.error);

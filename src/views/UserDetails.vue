@@ -48,7 +48,6 @@ export default {
   },
   methods: {
     change(tab) {
-      console.log('change tab', tab);
       switch (tab) {
         case 0:
           this.tabName = 'Dados Pessoais';
