@@ -83,6 +83,12 @@ const routes = [
     beforeEnter: guard,
   },
   {
+    path: '/requested-helps-user',
+    name: 'RequestedHelpsUser',
+    component: () => import('../views/RequestedHelpsUser.vue'),
+    beforeEnter: guard,
+  },
+  {
     path: '/forgot-user-pass',
     name: 'ForgotUserPass',
     component: () => import('../views/ForgotUserPass.vue'),

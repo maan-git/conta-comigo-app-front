@@ -73,8 +73,9 @@ export default {
         limit: 20,
         statusId: 1,
         cityId: this.user.user.addresses[0].city.id,
-        userIdNe: this.user.user.id,
+        userId: this.user.user.id,
       };
+      this.btnDisable = true;
       await this.$store.dispatch('help/getHelp', data);
       this.hidden = true;
     },
@@ -83,9 +84,8 @@ export default {
         limit: 20,
         statusId: 20,
         cityId: this.user.user.addresses[0].city.id,
-        userIdNe: this.user.user.id,
+        userId: this.user.user.id,
       };
-
       await this.$store.dispatch('help/getHelp', data);
       this.hidden = false;
     },
