@@ -6,14 +6,14 @@
         :outlined="hidden"
         :text="!hidden"
         :disabled="hidden"
-        large
+        x-large
         rounded
         @click="listHelp()"><b>Aguardando<br />voluntários</b></v-btn>
         <v-btn color="primary"
         :outlined="!hidden"
         :text="hidden"
         :disabled="!hidden"
-        large
+        x-large
         rounded
         @click="listApproved()"><b>Aceitos</b></v-btn>
       </div>

@@ -6,19 +6,24 @@
         :outlined="hidden"
         :text="!hidden"
         :disabled="hidden"
-        large
+        x-large
         rounded
         @click="listHelp()"><b>Aguardando<br />voluntários</b></v-btn>
         <v-btn color="primary"
         :outlined="!hidden"
         :text="hidden"
         :disabled="!hidden"
-        large
+        x-large
         rounded
         @click="listApproved()"><b>Aceitos</b></v-btn>
       </div>
       <v-row v-if="hidden" class="row-list">
-        <v-col cols="12" sm="6" xs="12" v-for="(help) in help.helpList" :key="help.id_user">
+        <v-col
+          cols="12"
+          :sm="(help.helpList && help.helpList.length > 2) ? 6 : 12"
+          xs="12" v-for="(help) in help.helpList"
+          :key="help.id_user"
+        >
           <HelpCard
             :avatar="help.request_user.avatar"
             :id="help.id"
