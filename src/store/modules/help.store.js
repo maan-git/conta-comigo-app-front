@@ -33,12 +33,13 @@ const getters = {
 const actions = {
   getHelp({ commit }, data) {
     commit('SET_HELP_CATEGORY_LOADING', true);
+    let url = '';
     if (data.userIdNe) {
-      state.urlRequests = `/help/helprequest/?limit=${data.limit}&status_id=${data.statusId}&owner_user_id__ne=${data.userIdNe}&city=${data.cityId}&ordering=-created`;
+      url = `/help/helprequest/?limit=${data.limit}&status_id=${data.statusId}&owner_user_id__ne=${data.userIdNe}&city=${data.cityId}&ordering=-created`;
     } else {
-      state.urlRequests = `/help/helprequest/?limit=${data.limit}&status_id=${data.statusId}&owner_user_id=${data.userId}&city=${data.cityId}&ordering=-created`;
+      url = `/help/helprequest/?limit=${data.limit}&status_id=${data.statusId}&owner_user_id=${data.userId}&ordering=-created`;
     }
-    api().get(state.urlRequests).then((success) => {
+    api().get(url).then((success) => {
       commit('SET_HELPLIST', success.data.results);
       commit('SET_HELP_ERROR', null);
       commit('SET_HELP_LOADING', false);
