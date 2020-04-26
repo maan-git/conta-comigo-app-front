@@ -34,7 +34,7 @@ export const calcTimeCard = (dateCard) => {
     return resText.concat(dtMinutesCompare).concat(' minutos');
   }
 
-  return false;
+  return resText.concat(' pouco tempo');
 };
 
 export default {
