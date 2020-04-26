@@ -112,13 +112,6 @@ export default {
         // this.$store.dispatch('register/registerStep3', data);
       }
     },
-    getAddressData(map) {
-      console.log('google places', map);
-      // if (map.postal_code) this.cep = map.postal_code;
-      // if (map.administrative_area_level_2) this.cidade = map.administrative_area_level_2;
-      // if (map.administrative_area_level_1) this.estado = map.administrative_area_level_1;
-      // if (map.name) this.endereco = map.name;
-    },
   },
   created() {
     this.cep = this.address.cep ? this.address.cep : '';

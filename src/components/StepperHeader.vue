@@ -43,7 +43,7 @@ export default {
         $sizes: 30px;
         width: $sizes;
         height: $sizes;
-        line-height: calc($sizes - 1px);
+        line-height: 29px;
         color: #bfbfbf;
         border: solid 2px #bfbfbf;
         background-color: #ededed;

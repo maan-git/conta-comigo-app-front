@@ -59,7 +59,7 @@ export default {
   methods: {
     async forgotUserPassClick() {
       if (this.$refs.formForgotUserPass.validate()) {
-        console.log(this.email);
+        // console.log(this.email);
         await this.$store.dispatch('user/regeneratePass', { username: this.email });
       }
     },

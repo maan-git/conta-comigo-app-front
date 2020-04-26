@@ -73,15 +73,13 @@ export default {
     updateEmail() {
       if (this.$refs.formemail.validate()) {
         this.$store.dispatch('user/updatePersonalData', { email: this.email })
-          .then(() => { this.edit = false; })
-          .catch((err) => console.log('.$store.dispatch error', err));
+          .then(() => { this.edit = false; });
       }
     },
     updatePass() {
       if (this.$refs.formsenha.validate()) {
         this.$store.dispatch('user/updatePersonalData', { password: this.password })
-          .then(() => { this.editPass = false; })
-          .catch((err) => console.log('.$store.dispatch error', err));
+          .then(() => { this.editPass = false; });
       }
     },
   },

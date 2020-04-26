@@ -109,8 +109,7 @@ export default {
           zip: cep,
         };
         this.$store.dispatch('user/updateAddress', data)
-          .then(() => { this.edit = false; })
-          .catch((err) => console.log('.$store.dispatch error', err));
+          .then(() => { this.edit = false; });
       }
     },
   },
