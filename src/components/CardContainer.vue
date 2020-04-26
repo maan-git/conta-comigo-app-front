@@ -1,13 +1,13 @@
 <template>
   <div class="card-container" :class="{'justify-space-between': $vuetify.breakpoint.xs}">
     <div v-if="!hideLogo" class="card-container__img text-center my-5">
-      <div class="back-to" v-if="backTo">
-        <v-btn :to="backTo" x-large icon color="white">
+      <div class="back-to">
+        <v-btn v-if="backTo" :to="backTo" x-large icon color="white">
           <v-icon>mdi-arrow-left</v-icon>
         </v-btn>
       </div>
       <img v-if="!title" width="178" :src="require('../assets/logo_completa.svg')">
-      <div v-else class="title title-txt white--text text-center mt-5 mb-0">{{title}}</div>
+      <div v-else class="title title-txt white--text text-center">{{title}}</div>
     </div>
     <div class="card-container__card" :class="{'mt-5' : hideLogo}">
       <slot></slot>
@@ -38,10 +38,13 @@ export default {
       margin-bottom: 100px;
     }
     &__img {
-      position: relative;
+      // position: relative;
       width: 100%;
+      display: grid;
+      grid-template-columns: 20% 60% 20%;
+      align-items: center;
       .back-to {
-        position: absolute;
+        // position: absolute;
         left: 10px;
         bottom: 0;
       }
@@ -53,7 +56,7 @@ export default {
       .card-container {
         &__img {
           height: 100%;
-          display: flex;
+          // display: flex;
         }
         &__card {
           align-self: stretch;

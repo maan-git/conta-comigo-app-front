@@ -66,7 +66,7 @@ export default {
 .help-card {
   max-width: 200px;
   min-height: 216px;
-  height: 100%;
+  // height: 100%;
   border-radius: 10px;
   padding: 12px;
   box-shadow: 0px 0px 3px 0 rgba(0, 0, 0, 0.16);
