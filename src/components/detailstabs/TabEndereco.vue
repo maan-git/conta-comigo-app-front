@@ -109,8 +109,7 @@ export default {
           zip: cep,
         };
         this.$store.dispatch('user/updateAddress', data)
-          .then(() => { this.edit = false; })
-          .catch((err) => console.log('.$store.dispatch error', err));
+          .then(() => { this.edit = false; });
       }
     },
   },
@@ -129,13 +128,6 @@ export default {
   created() {
     this.cep = this.user.user.addresses[0].zip_code;
     this.endereco = this.user.user.addresses[0].address;
-
-    // this.$store.dispatch('user/getUserDetails');
-    // this.bairros = [this.user.user.addresses[0].neighborhood];
-    // this.bairro = this.user.user.addresses[0].neighborhood.description;
-    // this.bairros = [this.user.user.addresses[0].neighborhood];
-    // this.cidade = this.user.user.addresses[0].city.description;
-    // this.estado = this.user.user.addresses[0].state.description;
 
     this.$store.watch(
       (state) => state.address,

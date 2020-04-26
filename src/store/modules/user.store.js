@@ -61,7 +61,6 @@ const actions = {
       commit('SET_LOGIN_LOADING', false);
       dispatch('getCurrentUser', true);
     }).catch((error) => {
-      console.log('error', error.response);
       if (error.response.data.detail) commit('SET_LOGIN_ERROR', error.response.data.detail);
       else commit('SET_LOGIN_ERROR', error.response.statusText);
       commit('SET_LOGIN_LOADING', false);
@@ -125,7 +124,6 @@ const actions = {
   getUserAddress({ commit }, id) {
     commit('SET_USER_ADDRESS_LOADING', true);
     return api().get(`app/user/${id}/getaddresses/`).then((success) => {
-      console.log(success);
       commit('SET_USER_ADDRESS_ERROR', null);
       commit('SET_USER_ADDRESS_LOADING', false);
       commit('SET_USER_ADDRESS', success.data[0]);
@@ -139,7 +137,6 @@ const actions = {
   updatePersonalData({ commit, state, dispatch }, data) {
     commit('SET_USER_LOADING', true);
     return api().patch(`app/user/${state.user.id}/`, data).then((success) => {
-      console.log('updatePersonalData success', success);
       commit('SET_USER_ERROR', null);
       commit('SET_USER_LOADING', false);
       commit('SET_USER', success.data);

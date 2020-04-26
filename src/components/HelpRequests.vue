@@ -106,7 +106,6 @@ export default {
 
       await this.$store.dispatch('help/getHelp', this.dataListHelp);
       this.hidden = true;
-      console.log('help.helpList', this.help.helpList);
     },
     async listApproved() {
       this.dataListApproved = null;

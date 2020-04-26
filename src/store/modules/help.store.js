@@ -79,8 +79,6 @@ const actions = {
   requestHelpDetails({ commit }, data) {
     return api().get(`/help/helprequest/${data}/`, data).then((success) => {
       commit('SET_HELP_DETAILS', success.data);
-    }).catch((error) => {
-      console.log(error);
     });
   },
   deleteDetails({ commit }) {

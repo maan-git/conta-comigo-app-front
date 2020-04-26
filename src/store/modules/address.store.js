@@ -36,7 +36,6 @@ const actions = {
       commit('SET_ADDRESS_LOADING', false);
       if (error.response.data.detail) commit('SET_ADDRESS_ERROR', error.response.data.detail);
       else commit('SET_ADDRESS_ERROR', error.response.statusText);
-      // console.log('searchByCep error', err);
     });
   },
   findNeighborhood({ commit }, cityid) {

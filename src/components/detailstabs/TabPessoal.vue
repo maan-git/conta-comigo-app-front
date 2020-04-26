@@ -150,7 +150,6 @@ export default {
       // password: string,
       // email: string,
       // is_superuser: true,
-      console.log('updateData', this.$refs.pessoalform.validate());
       if (this.$refs.pessoalform.validate()) {
         const phone = `+55${this.phone_number.replace(/\(/g, '').replace(/\)/g, '').replace(/ /g, '').replace(/-/g, '')}`;
         const cpf = this.cpf.replace(/\./g, '').replace(/-/g, '');
@@ -172,8 +171,7 @@ export default {
           data = mockdata;
         }
         this.$store.dispatch('user/updatePersonalData', data)
-          .then(() => { this.edit = false; })
-          .catch((err) => console.log('.$store.dispatch error', err));
+          .then(() => { this.edit = false; });
       }
     },
     resetData() {

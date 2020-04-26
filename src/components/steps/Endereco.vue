@@ -1,15 +1,6 @@
 <template>
   <div>
     <v-form ref="enderecoform" class="mt-3">
-      <!-- <vuetify-google-autocomplete
-        :country="['br']"
-        id="map"
-        outlined
-        placeholder=""
-        label="Endereço"
-        :rules="[$vln.requiredRule('Endereço')]"
-        v-on:placechanged="getAddressData"
-      ></vuetify-google-autocomplete> -->
       <v-text-field
         outlined
         label="Cep"
@@ -38,14 +29,6 @@
         required
       ></v-select>
 
-      <!-- <v-text-field
-        outlined
-        :disabled="true"
-        label="Bairro"
-        :rules="[$vln.requiredRule('Bairro')]"
-        required
-        v-model="bairro"
-      ></v-text-field> -->
       <v-text-field
         :readonly="true"
         outlined
@@ -54,6 +37,7 @@
         required
         v-model="cidade"
       ></v-text-field>
+
       <v-text-field
         :readonly="true"
         outlined
@@ -104,20 +88,7 @@ export default {
     sendFormData() {
       if (this.$refs.enderecoform.validate()) {
         this.$store.dispatch('register/setStep', 3);
-        // const data = {
-        //   neighborhood_id: this.bairro,
-        //   address: this.endereco,
-        //   zip: this.cep.replace(/-/g, ''),
-        // };
-        // this.$store.dispatch('register/registerStep3', data);
       }
-    },
-    getAddressData(map) {
-      console.log('google places', map);
-      // if (map.postal_code) this.cep = map.postal_code;
-      // if (map.administrative_area_level_2) this.cidade = map.administrative_area_level_2;
-      // if (map.administrative_area_level_1) this.estado = map.administrative_area_level_1;
-      // if (map.name) this.endereco = map.name;
     },
   },
   created() {
