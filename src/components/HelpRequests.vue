@@ -17,7 +17,7 @@
         rounded
         @click="listApproved()"><b>Aceitos</b></v-btn>
       </div>
-      <div v-if="help && help.helpList.length">
+      <div class="request-helps-content" v-if="help && help.helpList.length">
         <v-row v-if="hidden" class="row-list">
           <v-col
             cols="12"
@@ -64,7 +64,7 @@
           </v-col>
         </v-row>
       </div>
-      <div v-else>
+      <div class="request-helps-content" v-else>
         <p class="title danger--text text-center pa-5">Sem pedidos disponíveis</p>
       </div>
     </CardContainer>
@@ -121,7 +121,6 @@ export default {
 
       await this.$store.dispatch('help/getHelp', this.dataListApproved);
       this.hidden = false;
-      console.log('help.helpList', this.help.helpList);
     },
   },
   created() {
@@ -132,9 +131,13 @@ export default {
   },
 };
 </script>
-<style scoped>
+<style lang="scss" scoped>
 .request-helps{
   height: 100%;
+  &-content {
+    min-width: 400px;
+    min-height: 500px;
+  }
 }
 .request-button{
   width: 100%;
