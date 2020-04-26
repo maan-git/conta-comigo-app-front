@@ -12,7 +12,33 @@ export const isRiskGroup = (value) => {
   return 'Sim';
 };
 
+export const calcTimeCard = (dateCard) => {
+  const resText = 'há ';
+  const dtMonthsCompare = moment().diff(moment(dateCard, 'YYYYMMDD'), 'months');
+  if (dtMonthsCompare > 1) {
+    return resText.concat(dtMonthsCompare).concat(' meses');
+  }
+
+  const dtDaysCompare = moment().diff(moment(dateCard, 'YYYYMMDD'), 'days');
+  if (dtDaysCompare > 1) {
+    return resText.concat(dtDaysCompare).concat(' dias');
+  }
+
+  const dtHoursCompare = moment().diff(moment(dateCard, 'YYYYMMDDHHmmss'), 'hours');
+  if (dtHoursCompare > 1) {
+    return resText.concat(dtHoursCompare).concat(' horas');
+  }
+
+  const dtMinutesCompare = moment().diff(moment(dateCard, 'YYYYMMDDHHmmss'), 'minutes');
+  if (dtMinutesCompare > 1) {
+    return resText.concat(dtMinutesCompare).concat(' minutos');
+  }
+
+  return false;
+};
+
 export default {
   formatDate,
   calcAge,
+  calcTimeCard,
 };

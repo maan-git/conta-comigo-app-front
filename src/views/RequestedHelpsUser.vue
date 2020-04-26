@@ -29,6 +29,7 @@
             :block="true"
             :templateAccount="false"
             :btnDisable="btnDisable"
+            :timeago="$filters.calcTimeCard(help.created)"
           />
         </v-col>
       </v-row>
@@ -42,6 +43,7 @@
             :age="$filters.calcAge(help.request_user.birth_date)"
             :createdat="$filters.formatDate(help.created)"
             :description="help.category.description"
+            :timeago="$filters.calcTimeCard(help.created)"
             :block="true"
             :templateAccount="true"
             :nameAssociate="help.helping_users[0].helper_user.first_name"

@@ -38,13 +38,12 @@ import DefaultAvatar from '@/components/DefaultAvatar.vue';
 
 export default {
   props: ['id', 'description',
-    'name', 'age', 'createdat', 'user_request', 'avatar', 'block',
+    'name', 'age', 'createdat', 'timeago', 'user_request', 'avatar', 'block',
     'templateAccount', 'nameAssociate', 'stateAssociate', 'imageAssociate',
     'btnDisable'],
   components: { DefaultAvatar },
   data() {
     return {
-      timeago: 'há 10 minutos',
       mydescription: '',
       myimg: '../assets/icone.svg',
     };
