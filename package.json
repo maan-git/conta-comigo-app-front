@@ -1,6 +1,9 @@
 {
   "name": "conta-comigo",
   "version": "0.1.0",
+  "engines": {
+    "node": "v11.14.0"
+  },
   "private": true,
   "scripts": {
     "serve": "vue-cli-service serve",
