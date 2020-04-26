@@ -1,4 +1,5 @@
 /* eslint-disable no-shadow */
+// eslint-disable-next-line import/no-cycle
 import routes from '../../router/index';
 import api from '../api';
 
