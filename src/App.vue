@@ -46,9 +46,6 @@ export default {
       this.$vuetify.goTo(0);
     },
   },
-  created() {
-    // this.$store.dispatch('register/resetForm');
-  },
 };
 </script>
 <style lang="scss" scoped>

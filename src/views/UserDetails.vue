@@ -64,9 +64,6 @@ export default {
       this.$store.dispatch('user/clearUserUtils');
     },
   },
-  created() {
-    this.$store.dispatch('user/getCurrentUser');
-  },
 };
 </script>
 

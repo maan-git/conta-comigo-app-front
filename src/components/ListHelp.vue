@@ -63,9 +63,6 @@ export default {
   },
   created() {
     this.listHelp();
-    if (!this.user.user) {
-      this.$store.dispatch('user/getCurrentUser');
-    }
   },
 };
 </script>

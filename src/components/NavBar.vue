@@ -46,11 +46,6 @@ export default {
       this.$store.dispatch('user/logout');
     },
   },
-  created() {
-    if (!this.user.user) {
-      this.$store.dispatch('user/getCurrentUser');
-    }
-  },
 };
 </script>
 <style lang="scss" scoped>
