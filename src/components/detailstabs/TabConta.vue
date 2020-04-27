@@ -72,6 +72,7 @@ export default {
   methods: {
     updateEmail() {
       if (this.$refs.formemail.validate()) {
+        console.log('Testando o deploy');
         this.$store.dispatch('user/updatePersonalData', { email: this.email })
           .then(() => { this.edit = false; });
       }
