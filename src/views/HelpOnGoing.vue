@@ -1,13 +1,16 @@
+<!--eslint-disable max-len-->
 <template>
   <div v-if="help.helpDetails">
     <CardContainer :title="'Detalhes da Ajuda'">
       <v-card max-width="400" elevation="0">
-        <!-- eslint-disable-next-line max-len -->
-        <v-card-title v-text="`${help.helpDetails.helping_users[0].helper_user.first_name} ${help.helpDetails.helping_users[0].helper_user.last_name}, ${$filters.calcAge(help.helpDetails.helping_users[0].helper_user.birth_date)} anos`"
+        <v-card-title
           class="primary--text"
         >
+        <!-- v-text="`${help.helpDetails.helping_users[0].helper_user.first_name} ${help.helpDetails.helping_users[0].helper_user.last_name}, ${$filters.calcAge(help.helpDetails.helping_users[0].helper_user.birth_date)} anos`" -->
+          <div class="title">{{help.helpDetails.category.description}}</div>
+          <div class="subtitle-1">{{help.helpDetails.description}}</div>
         </v-card-title>
-        <v-img
+        <!-- <v-img
           :src="help.helpDetails.helping_users[0].helper_user.avatar"
         >
           <template v-slot:placeholder>
@@ -19,63 +22,66 @@
               <v-progress-circular indeterminate color="danger"></v-progress-circular>
             </v-row>
           </template>
-        </v-img>
+        </v-img> -->
         <v-card-text class="grey--text text--darken-2">
-          <div class="title">{{help.helpDetails.category.description}}</div>
-          <div class="subtitle-1">{{help.helpDetails.description}}</div>
+          <!-- <div class="subtitle-3 mb-0 mt-2">Solicitante:</div> -->
+          <div class="d-flex align-center">
+            <DefaultAvatar
+              :size="70"
+              :src="help.helpDetails.request_user.avatar"/>
+            <div class="subtitle-1 font-weight-bold ml-2 mt-1">{{help.helpDetails.request_user.first_name}} {{help.helpDetails.request_user.last_name}}, {{$filters.calcAge(help.helpDetails.request_user.birth_date)}} anos</div>
+          </div>
         </v-card-text>
 
         <v-card-text>
-          <v-row>
-            <v-col>
-              <v-btn icon color="primary" :href="`https://wa.me/${fakeFone}`" target="_blank">
+          <div class="voluntario">
+            <div class="d-flex align-center">
+              <div class="subtitle-1 font-weight-bold mr-2 mt-1 text-right">
+                {{help.helpDetails.helping_users[0].helper_user.first_name}} {{help.helpDetails.helping_users[0].helper_user.last_name}}, {{$filters.calcAge(help.helpDetails.helping_users[0].helper_user.birth_date)}} anos
+                <div class="caption mb-0">Ajudando</div>
+              </div>
+              <DefaultAvatar
+                :size="70"
+                :src="help.helpDetails.helping_users[0].helper_user.avatar"/>
+            </div>
+
+            <div class="text--right">
+              <v-btn text color="primary" target="_blank"
+                :href="`mailto:${help.helpDetails.helping_users[0].helper_user.email}`"
+              >
+                <span class="subtitle-2">{{help.helpDetails.helping_users[0].helper_user.email}}</span>
+              </v-btn>
+              <v-btn text color="primary" :href="`callto:${help.helpDetails.helping_users[0].helper_user.phone_number}`" target="_blank">
+
+                <span class="subtitle-2">{{help.helpDetails.helping_users[0].helper_user.phone_number}}</span>
+              </v-btn>
+              <v-btn icon color="primary" :href="`https://wa.me/${help.helpDetails.helping_users[0].helper_user.phone_number}`" target="_blank">
                 <v-icon>mdi-whatsapp</v-icon>
               </v-btn>
-            </v-col>
-            <v-col>
-              <v-btn text color="primary" :href="`callto:${fakeFone}`">
-                <span class="subtitle-2">{{fakeFone}}</span>
-              </v-btn>
-            </v-col>
-            <v-col>
-              <v-btn
-                text color="primary"
-                :href="`mailto:${help.helpDetails.helping_users[0].helper_user.email}`">
-                <span class="subtitle-2">
-                  {{help.helpDetails.helping_users[0].helper_user.email}}</span>
-              </v-btn>
-            </v-col>
-
-            <v-col>
-              <div class="image">
-                <DefaultAvatar :size="34"
-                               :src="this.help.helpDetails.helping_users[0].helper_user.avatar"/>
-              </div>
-            </v-col>
-          </v-row>
+            </div>
+          </div>
+            <!--  -->
         </v-card-text>
-
         <v-card-actions>
           <v-spacer></v-spacer>
-
-        <v-btn
-          @click="applyToHelp()"
-          rounded v-if="!newHelp"
-          :disabled="!!help.helpDetailsDisable"
-          :loading="help.helpDetailsLoading"
-          color="danger"
-        >
-          <span class="white--text .font-weight-bold">
-            Cancelar
-          </span>
-        </v-btn>
+          <v-btn
+            @click="applyToHelp()"
+            rounded v-if="!newHelp"
+            :disabled="!!help.helpDetailsDisable"
+            :loading="help.helpDetailsLoading"
+            color="danger"
+          >
+            <span class="white--text .font-weight-bold">
+              Cancelar
+            </span>
+          </v-btn>
         </v-card-actions>
       </v-card>
-    <p v-if="help.helpDetailsError"
+    <!-- <p v-if="help.helpDetailsError"
        class="block text-center mt-4 red--text">{{help.helpDetailsError}}</p>
     <p v-if="help.helpDetailsSuccess"
        class="block text-center mt-4 success--text">
-      Obrigado <b>{{user.user.first_name}}</b> pela força!</p>
+      Obrigado <b>{{user.user.first_name}}</b> pela força!</p> -->
     </CardContainer>
   </div>
 </template>
@@ -114,4 +120,9 @@ export default {
 </script>
 
 <style lang="scss" scoped>
+.voluntario {
+  display: flex;
+  flex-direction: column;
+  align-items: flex-end;
+}
 </style>

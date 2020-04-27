@@ -23,7 +23,7 @@
       </v-btn>
     </div>
     <div v-else class="help-card--footer account">
-      <div class="content secondary-text">
+      <div class="content secondary--text">
         <p class="subtitle-2 mb-0">{{nameAssociate}}</p>
         <p class="caption mb-0">{{stateAssociate}}</p>
       </div>
