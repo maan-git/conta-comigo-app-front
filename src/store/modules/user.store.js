@@ -1,6 +1,7 @@
 /* eslint-disable no-shadow */
 import routes from '../../router/index';
 import api from '../api';
+// import notificationClient from '../../plugins/NotificationClient';
 
 
 const state = {
@@ -54,9 +55,10 @@ const actions = {
       commit('SET_LOGIN_ERROR', null);
       commit('SET_LOGIN_LOADING', false);
       commit('SET_USER', success.data);
+      // notificationClient.startListening();
       routes.push({ path: '/' });
     }).catch((error) => {
-      console.log('error', error.response);
+      // console.log('error', error.response);
       if (error.response.data.detail) commit('SET_LOGIN_ERROR', error.response.data.detail);
       else commit('SET_LOGIN_ERROR', error.response.statusText);
       commit('SET_LOGIN_LOADING', false);
@@ -68,6 +70,7 @@ const actions = {
       commit('SET_USER', null);
       commit('SET_TOKEN', null);
       localStorage.removeItem('userInfo');
+      // notificationClient.stopListening();
       routes.push({ path: '/login' });
     });
   },
@@ -145,7 +148,7 @@ const actions = {
   getUserAddress({ commit }, id) {
     commit('SET_USER_ADDRESS_LOADING', true);
     return api().get(`app/user/${id}/getaddresses/`).then((success) => {
-      console.log(success);
+      // console.log(success);
       commit('SET_USER_ADDRESS_ERROR', null);
       commit('SET_USER_ADDRESS_LOADING', false);
       commit('SET_USER_ADDRESS', success.data[0]);

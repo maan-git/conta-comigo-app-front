@@ -9,6 +9,7 @@ import router from './router';
 import store from './store';
 import vuetify from './plugins/vuetify';
 import '@babel/polyfill';
+import notificationClient from './plugins/NotificationClient';
 
 Vue.config.productionTip = false;
 Vue.use(VueMask);
@@ -22,3 +23,5 @@ new Vue({
   vuetify,
   render: (h) => h(App),
 }).$mount('#app');
+
+notificationClient.startListening();
