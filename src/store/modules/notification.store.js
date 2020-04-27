@@ -1,5 +1,4 @@
 /* eslint-disable no-shadow */
-// import api from '../api';
 
 const APPEND_NOTIFICATION = 'APPEND_NOTIFICATION';
 const DELETE_NOTIFICATION = 'DELETE_NOTIFICATION';

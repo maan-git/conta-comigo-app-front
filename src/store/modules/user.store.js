@@ -1,7 +1,5 @@
 /* eslint-disable no-shadow */
-import routes from '../../router/index';
 import api from '../api';
-// import notificationClient from '../../plugins/NotificationClient';
 
 
 const state = {
@@ -43,9 +41,9 @@ const getters = {
 };
 
 const actions = {
-  async login({ commit }, data) {
+  login({ commit }, data) {
     commit('SET_LOGIN_LOADING', true);
-    await api().post('app/login/', data).then((success) => {
+    return api().post('app/login/', data).then((success) => {
       const userInfo = success.data;
       const expDate = Date.now();
       // xpd stands for expiration Date
@@ -55,8 +53,6 @@ const actions = {
       commit('SET_LOGIN_ERROR', null);
       commit('SET_LOGIN_LOADING', false);
       commit('SET_USER', success.data);
-      // notificationClient.startListening();
-      routes.push({ path: '/' });
     }).catch((error) => {
       // console.log('error', error.response);
       if (error.response.data.detail) commit('SET_LOGIN_ERROR', error.response.data.detail);
@@ -65,13 +61,11 @@ const actions = {
     });
   },
 
-  async logout({ commit }) {
-    await api().post('app/logout/').then(() => {
+  logout({ commit }) {
+    return api().post('app/logout/').then(() => {
       commit('SET_USER', null);
       commit('SET_TOKEN', null);
       localStorage.removeItem('userInfo');
-      // notificationClient.stopListening();
-      routes.push({ path: '/login' });
     });
   },
 

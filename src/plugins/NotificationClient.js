@@ -1,10 +1,7 @@
-// import VueNativeSock from 'vue-native-websocket';
-// import Vue from 'vue';
 import store from '../store';
 
 const notificationActions = {
   showNotification: (notification) => {
-    console.log(notification);
     store.dispatch('notification/showNotification', notification);
   },
 };
@@ -61,7 +58,7 @@ class WS4Redis {
     } catch (e) {
       clearInterval(this.heartbeatInterval);
       this.heartbeatInterval = null;
-      console.warn(`Closing connection. Reason: ${e.message}`);
+      // console.warn(`Closing websocket connection. Reason: ${e.message}`);
       if (!this.isClosing() && !this.isClosed()) {
         this.ws.close();
       }
@@ -69,7 +66,6 @@ class WS4Redis {
   }
 
   onOpen = () => {
-    console.log('Connected!');
     // new connection, reset attemps counter
     this.attempts = 1;
     if (this.opts.heartbeat_msg && this.heartbeatInterval === null) {
@@ -82,7 +78,7 @@ class WS4Redis {
   }
 
   onError = () => {
-    console.error('Websocket connection is broken!');
+    // console.error('Websocket connection is broken!');
   }
 
   onMessage = (evt) => {
@@ -116,7 +112,7 @@ class WS4Redis {
 
   tryToReconnect = () => {
     if (this.mustReconnect && !this.timer) {
-      console.log('Reconnecting...');
+      // console.log('Reconnecting...');
       const interval = this.generateInteval(this.attempts);
       this.timer = setTimeout(() => {
         this.attempts += 1;
@@ -126,7 +122,7 @@ class WS4Redis {
   }
 
   onClose = (evt) => {
-    console.log('Connection closed!');
+    // console.log('Connection closed!');
     if (typeof this.opts.disconnected === 'function') {
       this.opts.disconnected(evt);
     }
@@ -136,7 +132,7 @@ class WS4Redis {
   connect = (uri) => {
     try {
       if (this.ws && (this.isConnecting() || this.isConnected())) {
-        console.log('Websocket is connecting or already connected.');
+        // console.log('Websocket is connecting or already connected.');
         return;
       }
 
@@ -144,7 +140,7 @@ class WS4Redis {
         this.opts.connecting();
       }
 
-      console.log(`Connecting to ${uri} ...`);
+      // console.log(`Connecting to ${uri} ...`);
       this.ws = new WebSocket(uri);
       this.ws.onopen = this.onOpen;
       this.ws.onmessage = this.onMessage;
@@ -158,15 +154,15 @@ class WS4Redis {
 }
 
 function onConnecting() {
-  console.log('Websocket is connecting...');
+  // console.log('Websocket is connecting...');
 }
 
 function onConnected() {
-  console.log('Connected');
+  // console.log('Connected');
 }
 
-function onDisconnected(evt) {
-  console.log(`Websocket was disconnected: ${JSON.stringify(evt)}`);
+function onDisconnected() {
+  // console.log(`Websocket was disconnected: ${JSON.stringify(evt)}`);
 }
 
 // receive a message though the websocket from the server
@@ -182,15 +178,14 @@ function receiveMessage(msg) {
 
     notificationActions.showNotification(n);
   }
-  console.log(`Message from Websocket: ${msg}`);
+  // console.log(`Message from Websocket: ${msg}`);
 }
 
 let client = null;
 
 const connect = () => {
   client = new WS4Redis({
-    // uri: 'ws://localhost:8000/ws/foobar?subscribe-broadcast&publish-broadcast&echo',
-    uri: 'ws://localhost:8000/ws/frontend?subscribe-user',
+    uri: 'ws://conta-comigo-ap.herokuapp.com/ws/frontend?subscribe-user',
     connecting: onConnecting,
     connected: onConnected,
     receive_message: receiveMessage,
