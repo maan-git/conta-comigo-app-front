@@ -21,6 +21,11 @@
           </template>
         </v-img>
         <v-card-text class="grey--text text--darken-2">
+          <div class="title">{{help.helpDetails.category.description}}</div>
+          <div class="subtitle-1">{{help.helpDetails.description}}</div>
+        </v-card-text>
+
+        <v-card-text>
           <v-row>
             <v-col>
               <v-btn icon color="primary" :href="`https://wa.me/${fakeFone}`" target="_blank">
@@ -40,9 +45,14 @@
                   {{help.helpDetails.helping_users[0].helper_user.email}}</span>
               </v-btn>
             </v-col>
+
+            <v-col>
+              <div class="image">
+                <DefaultAvatar :size="34"
+                               :src="this.help.helpDetails.helping_users[0].helper_user.avatar"/>
+              </div>
+            </v-col>
           </v-row>
-          <div class="title">{{help.helpDetails.category.description}}</div>
-          <div class="subtitle-1">{{help.helpDetails.description}}</div>
         </v-card-text>
 
         <v-card-actions>
@@ -73,11 +83,13 @@
 
 import { mapState } from 'vuex';
 import CardContainer from '@/components/CardContainer.vue';
+import DefaultAvatar from '@/components/DefaultAvatar.vue';
 
 
 export default {
   components: {
     CardContainer,
+    DefaultAvatar,
   },
   computed: mapState(['help', 'user']),
   data() {
