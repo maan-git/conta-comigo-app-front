@@ -77,8 +77,20 @@ const actions = {
     commit('SET_REQUEST_SUCCESS', false);
   },
   requestHelpDetails({ commit }, data) {
+    commit('SET_HELP_DETAILS_LOADING', true);
     return api().get(`/help/helprequest/${data}/`, data).then((success) => {
       commit('SET_HELP_DETAILS', success.data);
+      commit('SET_HELP_DETAILS_LOADING', false);
+    });
+  },
+  cancelHelp({ commit }, data) {
+    commit('SET_HELP_DETAILS_LOADING', true);
+    return api().post(`/help/helprequest/${data}/cancelrequest/`, data).then((success) => {
+      commit('SET_HELP_DETAILS_LOADING', false);
+      commit('SET_HELP_DETAILS', success.data);
+    }).catch((error) => {
+      commit('SET_HELP_DETAILS_LOADING', false);
+      commit('SET_HELP_DETAILS_ERROR', error.response.data.detail);
     });
   },
   deleteDetails({ commit }) {
