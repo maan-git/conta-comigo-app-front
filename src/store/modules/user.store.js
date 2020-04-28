@@ -1,6 +1,9 @@
 /* eslint-disable no-shadow */
-// eslint-disable-next-line import/no-cycle
-import routes from '../../router/index';
+// <<<<<<< HEAD
+// // eslint-disable-next-line import/no-cycle
+// import routes from '../../router/index';
+// =======
+// >>>>>>> feature/notifications
 import api from '../api';
 
 
@@ -52,14 +55,14 @@ const actions = {
     localStorage.setItem('userInfo', JSON.stringify(data));
     commit('SET_USER', data);
   },
-  async login({ commit, dispatch }, data) {
+  login({ commit, dispatch }, data) {
     commit('SET_LOGIN_LOADING', true);
-    await api().post('app/login/', data).then((success) => {
+    return api().post('app/login/', data).then((success) => {
       // dispatch('setUserInfo', success.data);
       commit('SET_TOKEN', success);
       commit('SET_LOGIN_ERROR', null);
       commit('SET_LOGIN_LOADING', false);
-      dispatch('getCurrentUser', true);
+      return dispatch('getCurrentUser');
     }).catch((error) => {
       if (error.response.data.detail) commit('SET_LOGIN_ERROR', error.response.data.detail);
       else commit('SET_LOGIN_ERROR', error.response.statusText);
@@ -67,12 +70,11 @@ const actions = {
     });
   },
 
-  async logout({ commit }) {
-    await api().post('app/logout/').then(() => {
+  logout({ commit }) {
+    return api().post('app/logout/').then(() => {
       commit('SET_USER', null);
       commit('SET_TOKEN', null);
       localStorage.removeItem('userInfo');
-      routes.push({ path: '/login' });
     });
   },
 
@@ -82,13 +84,10 @@ const actions = {
   regeneratePass({ commit }) {
     commit('SET_FORGOT_USER_PASS_SUCCESS', true);
   },
-  getCurrentUser({ commit, dispatch }, login) {
+  getCurrentUser({ commit, dispatch }) {
     commit('SET_LOGIN_LOADING', false);
     return api().get('app/user/current/').then((success) => {
       dispatch('setUserInfo', success.data);
-      if (login) {
-        routes.push({ path: '/' });
-      }
     }).catch((error) => {
       localStorage.removeItem('userInfo');
       commit('SET_LOGIN_ERROR', error.response.data.error);
