@@ -35,6 +35,8 @@
     </v-navigation-drawer>
 </template>
 <script>
+import notificationClient from '../plugins/NotificationClient';
+
 export default {
   data() { return { drawer: false }; },
   methods: {
@@ -43,7 +45,10 @@ export default {
     },
     logout() {
       this.toogleMenu();
-      this.$store.dispatch('user/logout');
+      this.$store.dispatch('user/logout').then(() => {
+        notificationClient.stopListening();
+        this.$router.push({ path: '/login' });
+      });
     },
   },
 };
