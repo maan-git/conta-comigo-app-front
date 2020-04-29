@@ -1,5 +1,7 @@
 /* eslint-disable no-shadow */
 import api from '../api';
+// eslint-disable-next-line import/no-cycle
+import router from '../../router/index';
 
 const state = {
   help: null,
@@ -83,11 +85,12 @@ const actions = {
       commit('SET_HELP_DETAILS_LOADING', false);
     });
   },
-  cancelHelp({ commit }, data) {
+  cancelHelp({ commit }, id) {
     commit('SET_HELP_DETAILS_LOADING', true);
-    return api().post(`/help/helprequest/${data}/cancelrequest/`, data).then((success) => {
+    return api().post(`/help/helprequest/${id}/cancelrequest/`, { reasonId: 100001 }).then((success) => {
       commit('SET_HELP_DETAILS_LOADING', false);
       commit('SET_HELP_DETAILS', success.data);
+      router.push('/');
     }).catch((error) => {
       commit('SET_HELP_DETAILS_LOADING', false);
       commit('SET_HELP_DETAILS_ERROR', error.response.data.detail);
