@@ -30,9 +30,10 @@
           <v-spacer></v-spacer>
 
         <v-btn
-          @click="applyToHelp()"
-          rounded v-if="!newHelp"
+          v-if="!isSameUser()"
           :disabled="!!help.helpDetailsDisable"
+          @click="applyToHelp()"
+          rounded
           :loading="help.helpDetailsLoading"
           block
           color="primary"
@@ -63,10 +64,7 @@ export default {
   },
   computed: mapState(['help', 'user']),
   data() {
-    return {
-      newHelp: false,
-      id_help: this.id,
-    };
+    return { };
   },
   methods: {
     async requestHelp() {
@@ -74,6 +72,12 @@ export default {
     },
     async applyToHelp() {
       await this.$store.dispatch('help/applyToHelpRequest', this.$route.query.id);
+    },
+    isSameUser() {
+      console.log('help.helpDetails.request_user.id', this.help.helpDetails.request_user.id);
+      console.log('user.user.id', this.user.user.id);
+      console.log('isSameUser', (this.help.helpDetails.request_user.id === this.user.user.id));
+      return (this.help.helpDetails.request_user.id === this.user.user.id);
     },
   },
   created() {

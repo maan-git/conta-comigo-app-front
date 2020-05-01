@@ -18,7 +18,8 @@
         block
         rounded
         color="primary"
-        :disabled="btnDisable">Conta Comigo
+        :disabled="btnDisable">
+        {{label? label: 'Conta Comigo'}}
         <v-icon right dark>$heart</v-icon>
       </v-btn>
     </div>
@@ -40,7 +41,7 @@ export default {
   props: ['id', 'description',
     'name', 'age', 'createdat', 'timeago', 'user_request', 'avatar', 'block',
     'templateAccount', 'nameAssociate', 'stateAssociate', 'imageAssociate',
-    'btnDisable'],
+    'btnDisable', 'label'],
   components: { DefaultAvatar },
   data() {
     return {

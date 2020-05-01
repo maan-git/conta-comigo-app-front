@@ -34,6 +34,7 @@
               :templateAccount="false"
               :btnDisable="btnDisable"
               :timeago="$filters.calcTimeCard(help.created)"
+              :label="btnLabel"
             />
           </v-col>
         </v-row>
@@ -58,6 +59,7 @@
               :nameAssociate="help.helping_users[0].helper_user.first_name"
               :stateAssociate="help.helping_users[0].status.description"
               :imageAssociate="help.helping_users[0].helper_user.avatar"
+              :label="btnLabel"
             />
           </v-col>
         </v-row>
@@ -117,6 +119,7 @@ export default {
       this.dataListApproved = {
         limit: 20,
         statusId: 20,
+        btnLabel: null,
       };
       if (this.ne) {
         this.dataListApproved.userIdNe = this.user.user.id;
@@ -129,7 +132,10 @@ export default {
   },
   created() {
     this.listHelp();
-    if (this.$router.currentRoute.name === 'RequestedHelpsUser') this.title = 'Meus Pedidos';
+    if (this.$router.currentRoute.name === 'RequestedHelpsUser') {
+      this.title = 'Meus Pedidos';
+      this.btnLabel = 'Mais Info';
+    }
   },
   beforeDestroy() {
     this.$store.dispatch('help/clearHelpState');
