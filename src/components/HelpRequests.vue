@@ -1,6 +1,6 @@
 <template>
   <div class="request-helps">
-    <CardContainer title="Pedidos" backTo="/">
+    <CardContainer :title="title" backTo="/">
       <div class="request-button my-3">
         <v-btn color="primary"
         :outlined="hidden"
@@ -89,6 +89,7 @@ export default {
       hidden: false,
       dataListHelp: null,
       dataListApproved: null,
+      title: 'Pedidos',
     };
   },
   methods: {
@@ -128,6 +129,7 @@ export default {
   },
   created() {
     this.listHelp();
+    if (this.$router.currentRoute.name === 'RequestedHelpsUser') this.title = 'Meus Pedidos';
   },
   beforeDestroy() {
     this.$store.dispatch('help/clearHelpState');
@@ -140,6 +142,7 @@ export default {
   &-content {
     min-width: 400px;
     min-height: 500px;
+    @media screen and ( max-width: 600px) { min-width: 100%; }
   }
 }
 .request-button{
