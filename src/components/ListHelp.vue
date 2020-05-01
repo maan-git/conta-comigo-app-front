@@ -26,7 +26,7 @@
       <v-btn to="/requested-helps" text color="primary">Ver todos</v-btn>
     </div>
     <p
-      v-if="help.helpCategoryError"
+      v-if="help.helpListError"
       class="block text-center mt-4 red--text">{{help.helpListError}}</p>
     <v-btn
       v-if="help.helpLoading"

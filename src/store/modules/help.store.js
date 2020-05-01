@@ -3,19 +3,34 @@ import api from '../api';
 // eslint-disable-next-line import/no-cycle
 import router from '../../router/index';
 
+
+const SET_HELP = 'SET_HELP';
+const SET_REQUEST_LOAD = 'SET_REQUEST_LOAD';
+const SET_REQUEST_ERROR = 'SET_REQUEST_ERROR';
+const SET_HELPLIST = 'SET_HELPLIST';
+const SET_HELP_ERROR = 'SET_HELP_ERROR';
+const SET_HELP_LOADING = 'SET_HELP_LOADING';
+const SET_HELP_DETAILS = 'SET_HELP_DETAILS';
+const SET_HELP_DETAILS_SUCCESS = 'SET_HELP_DETAILS_SUCCESS';
+const SET_HELP_DETAILS_LOADING = 'SET_HELP_DETAILS_LOADING';
+const SET_HELP_DETAILS_ERROR = 'SET_HELP_DETAILS_ERROR';
+const SET_HELP_DETAILS_DISABLE = 'SET_HELP_DETAILS_DISABLE';
+const SET_HELP_CATEGORY_LIST = 'SET_HELP_CATEGORY_LIST';
+const SET_REQUEST_SUCCESS = 'SET_REQUEST_SUCCESS';
+const SET_CLEAR_STATE = 'SET_CLEAR_STATE';
+
 const state = {
   help: null,
   helpList: null,
   helpLoading: false,
   helpListError: null,
 
-  helpCategoryError: null,
-
   helpDetails: null,
   helpDetailsLoading: false,
 
   requestLoad: false,
   requestError: null,
+
   helpCategory: null,
   helpRequestSuccess: null,
 
@@ -27,7 +42,6 @@ const state = {
 const getters = {
   getHelp(state) { return state.help; },
   getHelpList(state) { return state.helpList; },
-  getHelpCategoryError(state) { return state.helpCategoryError; },
   getHelpListError(state) { return state.helpListError; },
   getHelpListLoading(state) { return state.helpListLoading; },
   getHelpDetails(state) { return state.helpDetails; },
@@ -53,115 +67,114 @@ const actions = {
     });
   },
   getHelpCategory({ commit }) {
-    commit('SET_HELP_LOADING', true);
+    commit(SET_HELP_LOADING, true);
     api().get('/help/helpcategory/').then((success) => {
-      commit('SET_HELP_CATEGORY_LIST', success.data.results);
-      commit('SET_HELP_ERROR', null);
-      commit('SET_HELP_CATEGORY_LOADING', false);
+      commit(SET_HELP_CATEGORY_LIST, success.data.results);
+      commit(SET_HELP_ERROR, null);
+      commit(SET_HELP_LOADING, false);
     }).catch((error) => {
-      if (error.response.data.detail) commit('SET_HELP_ERROR', error.response.data.detail);
-      else commit('SET_HELP_ERROR', error.response.statusText);
-      commit('SET_HELP_LOADING', false);
+      if (error.response.data.detail) commit(SET_HELP_ERROR, error.response.data.detail);
+      else commit(SET_HELP_ERROR, error.response.statusText);
+      commit(SET_HELP_LOADING, false);
     });
   },
   requestHelpSave({ commit }, data) {
-    commit('SET_REQUEST_LOAD', true);
+    commit(SET_REQUEST_LOAD, true);
     return api().post('/help/helprequest/', data).then(() => {
-      commit('SET_REQUEST_ERROR', null);
-      commit('SET_REQUEST_LOAD', false);
-      commit('SET_REQUEST_SUCCESS', true);
+      commit(SET_REQUEST_ERROR, null);
+      commit(SET_REQUEST_LOAD, false);
+      commit(SET_REQUEST_SUCCESS, true);
     }).catch((error) => {
-      commit('SET_REQUEST_ERROR', error.response.data);
-      commit('SET_REQUEST_LOAD', false);
-      commit('SET_REQUEST_SUCCESS', false);
+      commit(SET_REQUEST_ERROR, error.response.data);
+      commit(SET_REQUEST_LOAD, false);
+      commit(SET_REQUEST_SUCCESS, false);
     });
   },
   requestHelpNew({ commit }) {
-    commit('SET_REQUEST_SUCCESS', false);
+    commit(SET_REQUEST_SUCCESS, false);
   },
   requestHelpDetails({ commit }, data) {
-    commit('SET_HELP_DETAILS_LOADING', true);
+    commit(SET_HELP_DETAILS_LOADING, true);
     return api().get(`/help/helprequest/${data}/`, data).then((success) => {
-      commit('SET_HELP_DETAILS', success.data);
-      commit('SET_HELP_DETAILS_LOADING', false);
+      commit(SET_HELP_DETAILS, success.data);
+      commit(SET_HELP_DETAILS_LOADING, false);
     });
   },
   cancelHelp({ commit }, id) {
-    commit('SET_HELP_DETAILS_LOADING', true);
+    commit(SET_HELP_DETAILS_LOADING, true);
     return api().post(`/help/helprequest/${id}/cancelrequest/`, { reasonId: 100001 }).then((success) => {
-      commit('SET_HELP_DETAILS_LOADING', false);
-      commit('SET_HELP_DETAILS', success.data);
+      commit(SET_HELP_DETAILS_LOADING, false);
+      commit(SET_HELP_DETAILS, success.data);
       router.push('/');
     }).catch((error) => {
-      commit('SET_HELP_DETAILS_LOADING', false);
-      commit('SET_HELP_DETAILS_ERROR', error.response.data.detail);
+      commit(SET_HELP_DETAILS_LOADING, false);
+      commit(SET_HELP_DETAILS_ERROR, error.response.data.detail);
     });
   },
   deleteDetails({ commit }) {
-    commit('SET_HELP_DETAILS', null);
+    commit(SET_HELP_DETAILS, null);
   },
   applyToHelpRequest({ commit }, data) {
-    commit('SET_HELP_DETAILS_LOADING', true);
-    commit('SET_HELP_DETAILS_DISABLE', true);
+    commit(SET_HELP_DETAILS_LOADING, true);
+    commit(SET_HELP_DETAILS_DISABLE, true);
     return api().post(`help/helprequest/${data}/applytohelp/`, data).then(() => {
-      commit('SET_HELP_DETAILS_LOADING', false);
-      commit('SET_HELP_DETAILS_SUCCESS', true);
-      commit('SET_HELP_DETAILS_ERROR', false);
+      commit(SET_HELP_DETAILS_LOADING, false);
+      commit(SET_HELP_DETAILS_SUCCESS, true);
+      commit(SET_HELP_DETAILS_ERROR, false);
     }).catch((error) => {
-      commit('SET_HELP_DETAILS_LOADING', false);
-      commit('SET_HELP_DETAILS_SUCCESS', false);
-      commit('SET_HELP_DETAILS_ERROR', error.response.data.detail);
+      commit(SET_HELP_DETAILS_LOADING, false);
+      commit(SET_HELP_DETAILS_SUCCESS, false);
+      commit(SET_HELP_DETAILS_ERROR, error.response.data.detail);
     });
   },
   clearHelpState({ commit }) {
-    commit('SET_CLEAR_STATE');
+    commit(SET_CLEAR_STATE);
   },
 };
 
 const mutations = {
-  SET_HELP(state, value) {
+  [SET_HELP](state, value) {
     state.help = value;
   },
-  SET_REQUEST_LOAD(state, value) {
+  [SET_REQUEST_LOAD](state, value) {
     state.requestLoad = value;
   },
-  SET_REQUEST_ERROR(state, value) {
+  [SET_REQUEST_ERROR](state, value) {
     state.requestError = value;
   },
-  SET_HELPLIST(state, value) {
+  [SET_HELPLIST](state, value) {
     state.helpList = value;
   },
-  SET_HELP_ERROR(state, value) {
+  [SET_HELP_ERROR](state, value) {
     state.helpListError = value;
   },
-  SET_HELP_LOADING(state, value) {
+  [SET_HELP_LOADING](state, value) {
     state.helpLoading = value;
   },
-  SET_HELP_DETAILS(state, value) {
+  [SET_HELP_DETAILS](state, value) {
     state.helpDetails = value;
   },
-  SET_HELP_DETAILS_SUCCESS(state, value) {
+  [SET_HELP_DETAILS_SUCCESS](state, value) {
     state.helpDetailsSuccess = value;
   },
-  SET_HELP_DETAILS_LOADING(state, value) {
+  [SET_HELP_DETAILS_LOADING](state, value) {
     state.helpDetailsSuccess = value;
   },
-  SET_HELP_DETAILS_ERROR(state, value) {
+  [SET_HELP_DETAILS_ERROR](state, value) {
     state.helpDetailsError = value;
   },
-  SET_HELP_DETAILS_DISABLE(state, value) {
+  [SET_HELP_DETAILS_DISABLE](state, value) {
     state.helpDetailsDisable = value;
   },
-  SET_HELP_CATEGORY_LIST(state, value) {
+  [SET_HELP_CATEGORY_LIST](state, value) {
     state.helpCategory = value;
   },
-  SET_REQUEST_SUCCESS(state, value) {
+  [SET_REQUEST_SUCCESS](state, value) {
     state.helpRequestSuccess = value;
   },
-  SET_CLEAR_STATE(state) {
+  [SET_CLEAR_STATE](state) {
     state.help = null;
     state.helpList = null;
-    state.helpCategoryError = null;
     state.helpDetails = null;
     state.helpDetailsLoading = false;
     state.helpDetailsDisable = false;
