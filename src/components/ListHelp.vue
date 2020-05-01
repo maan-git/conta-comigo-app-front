@@ -29,9 +29,9 @@
       v-if="help.helpCategoryError"
       class="block text-center mt-4 red--text">{{help.helpListError}}</p>
     <v-btn
-      v-if="help.helpListLoading"
+      v-if="help.helpLoading"
       text block x-large
-      :loading="true" color="primary"></v-btn>
+      :loading="true" color="danger"></v-btn>
   </v-container>
 </template>
 <script>
@@ -68,7 +68,7 @@ export default {
 </script>
 <style lang="scss" scoped>
 .VueCarousel {
-  max-width: 700px;
+  // max-width: 700px;
   margin: 0 auto;
   &-slide {
     margin: 10px 0px;

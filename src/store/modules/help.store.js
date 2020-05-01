@@ -5,28 +5,29 @@ import router from '../../router/index';
 
 const state = {
   help: null,
-  token: '',
   helpList: null,
+  helpLoading: false,
+  helpListError: null,
+
   helpCategoryError: null,
-  helpCategoryLoading: false,
+
   helpDetails: null,
   helpDetailsLoading: false,
-  helpDetailsDisable: false,
-  helpDetailsError: null,
+
   requestLoad: false,
   requestError: null,
   helpCategory: null,
   helpRequestSuccess: null,
+
+  helpDetailsError: null,
+  helpDetailsDisable: false,
   helpDetailsSuccess: false,
-  urlRequests: null,
 };
 
 const getters = {
   getHelp(state) { return state.help; },
-  getToken(state) { return state.token; },
   getHelpList(state) { return state.helpList; },
   getHelpCategoryError(state) { return state.helpCategoryError; },
-  getHelpCategoryLoading(state) { return state.helpCategoryLoading; },
   getHelpListError(state) { return state.helpListError; },
   getHelpListLoading(state) { return state.helpListLoading; },
   getHelpDetails(state) { return state.helpDetails; },
@@ -34,13 +35,13 @@ const getters = {
 
 const actions = {
   getHelp({ commit }, data) {
-    commit('SET_HELP_CATEGORY_LOADING', true);
     let url = '';
     if (data.userIdNe) {
       url = `/help/helprequest/?limit=${data.limit}&status_id=${data.statusId}&owner_user_id__ne=${data.userIdNe}&city=${data.cityId}&ordering=-created`;
     } else {
       url = `/help/helprequest/?limit=${data.limit}&status_id=${data.statusId}&owner_user_id=${data.userId}&ordering=-created`;
     }
+    commit('SET_HELP_LOADING', true);
     api().get(url).then((success) => {
       commit('SET_HELPLIST', success.data.results);
       commit('SET_HELP_ERROR', null);
@@ -121,9 +122,6 @@ const mutations = {
   SET_HELP(state, value) {
     state.help = value;
   },
-  SET_TOKEN(state, value) {
-    state.token = value;
-  },
   SET_REQUEST_LOAD(state, value) {
     state.requestLoad = value;
   },
@@ -137,10 +135,7 @@ const mutations = {
     state.helpListError = value;
   },
   SET_HELP_LOADING(state, value) {
-    state.helpListLoading = value;
-  },
-  SET_HELP_CATEGORY_LOADING(state, value) {
-    state.helpCategoryLoading = value;
+    state.helpLoading = value;
   },
   SET_HELP_DETAILS(state, value) {
     state.helpDetails = value;
@@ -165,10 +160,8 @@ const mutations = {
   },
   SET_CLEAR_STATE(state) {
     state.help = null;
-    state.token = '';
     state.helpList = null;
     state.helpCategoryError = null;
-    state.helpCategoryLoading = false;
     state.helpDetails = null;
     state.helpDetailsLoading = false;
     state.helpDetailsDisable = false;

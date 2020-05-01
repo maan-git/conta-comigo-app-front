@@ -62,8 +62,12 @@
           </v-col>
         </v-row>
       </div>
-      <div class="request-helps-content" v-else>
+      <div class="request-helps-content" v-else-if="!help.helpLoading">
         <p class="title danger--text text-center pa-5">Sem pedidos disponíveis</p>
+      </div>
+      <div v-else>
+        <p class="title danger--text text-center pa-5">Carregando</p>
+        <v-btn loading color="danger" text large block></v-btn>
       </div>
     </CardContainer>
   </div>
@@ -82,7 +86,7 @@ export default {
   },
   data() {
     return {
-      hidden: true,
+      hidden: false,
       dataListHelp: null,
       dataListApproved: null,
     };
