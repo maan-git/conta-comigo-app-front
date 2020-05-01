@@ -5,19 +5,17 @@
         <v-btn color="primary"
         :outlined="hidden"
         :text="!hidden"
-        :disabled="hidden"
         x-large
         rounded
-        @click="listHelp()"><b>Aguardando<br />voluntários</b></v-btn>
+        @click="listHelp()"><b>Aguardando<br/>voluntários</b></v-btn>
         <v-btn color="primary"
         :outlined="!hidden"
         :text="hidden"
-        :disabled="!hidden"
         x-large
         rounded
         @click="listApproved()"><b>Aceitos</b></v-btn>
       </div>
-      <div class="request-helps-content" v-if="help && help.helpList.length">
+      <div class="request-helps-content" v-if="help && help.helpList && help.helpList.length">
         <v-row v-if="hidden" class="row-list">
           <v-col
             cols="12"
@@ -94,6 +92,7 @@ export default {
       return (this.help.helpList && this.help.helpList.length > 2) ? 6 : 12;
     },
     async listHelp() {
+      if (this.hidden) return;
       this.dataListHelp = null;
       this.dataListHelp = {
         limit: 20,
@@ -103,11 +102,12 @@ export default {
       if (this.ne) this.dataListHelp.userIdNe = this.user.user.id;
       else this.dataListHelp.userId = this.user.user.id;
 
-
+      this.$store.dispatch('help/clearHelpState');
       await this.$store.dispatch('help/getHelp', this.dataListHelp);
       this.hidden = true;
     },
     async listApproved() {
+      if (!this.hidden) return;
       this.dataListApproved = null;
       this.dataListApproved = {
         limit: 20,
@@ -117,7 +117,7 @@ export default {
         this.dataListApproved.userIdNe = this.user.user.id;
         this.dataListApproved.cityId = this.user.user.addresses[0].city.id;
       } else this.dataListApproved.userId = this.user.user.id;
-
+      this.$store.dispatch('help/clearHelpState');
       await this.$store.dispatch('help/getHelp', this.dataListApproved);
       this.hidden = false;
     },
