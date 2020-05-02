@@ -1,6 +1,6 @@
 <template>
   <div class="request-helps">
-    <CardContainer :title="title" backTo="/">
+    <CardContainer :title="title" backTo>
       <div class="request-button my-3">
         <v-btn color="primary"
         :outlined="hidden"
@@ -92,6 +92,7 @@ export default {
       dataListHelp: null,
       dataListApproved: null,
       title: 'Pedidos',
+      btnLabel: null,
     };
   },
   methods: {
@@ -119,7 +120,6 @@ export default {
       this.dataListApproved = {
         limit: 20,
         statusId: 20,
-        btnLabel: null,
       };
       if (this.ne) {
         this.dataListApproved.userIdNe = this.user.user.id;

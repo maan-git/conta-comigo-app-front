@@ -1,29 +1,34 @@
 <template>
   <v-container class="list-volunteers text-center">
-    <p class="title font-weight-medium primary--text text-left">Voluntarios</p>
 
-    <div v-if="user.users">
-      <Carousel
-        :loop="true"
-        :scrollPerPage="true"
-        :paginationEnabled="false"
-        :perPageCustom="[[320, 3], [600, 6], [800, 8]]"
-        :paginationActiveColor="'#532594'"
-        :spacePadding="20"
-        :spacePaddingMaxOffsetFactor="1"
-      >
-        <Slide v-for="(user, i) in user.users" :key="i">
-          <div class="volunteer" @click="volunteerDetails(user.id)">
-            <DefaultAvatar :src="user.avatar" :size="60" />
-            <span>{{user.first_name}}</span>
-          </div>
-        </Slide>
-      </Carousel>
-      <ButtonRouter
-        url='/create-help'
-        text='Preciso de ajuda!'
-        heart=$heart>
-      </ButtonRouter>
+    <div v-if="user.users && user.users.length === 0">
+      <p class="display-1 font-weight-medium danger--text">Sem Voluntarios</p>
+    </div>
+    <div v-else>
+      <p class="title font-weight-medium primary--text text-left">Voluntarios</p>
+      <div v-if="user.users">
+        <Carousel
+          :loop="true"
+          :scrollPerPage="true"
+          :paginationEnabled="false"
+          :perPageCustom="[[320, 3], [600, 6], [800, 8]]"
+          :paginationActiveColor="'#532594'"
+          :spacePadding="20"
+          :spacePaddingMaxOffsetFactor="1"
+        >
+          <Slide v-for="(user, i) in user.users" :key="i">
+            <div class="volunteer" @click="volunteerDetails(user.id)">
+              <DefaultAvatar :src="user.avatar" :size="60" />
+              <span>{{user.first_name}}</span>
+            </div>
+          </Slide>
+        </Carousel>
+        <ButtonRouter
+          url='/create-help'
+          text='Preciso de ajuda!'
+          heart=$heart>
+        </ButtonRouter>
+      </div>
     </div>
     <v-btn
       v-if="user.usersLoginLoading"

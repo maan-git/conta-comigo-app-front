@@ -2,6 +2,7 @@
 import api from '../api';
 // eslint-disable-next-line import/no-cycle
 import router from '../../router/index';
+import { guid } from '../../utils/functions';
 
 
 const SET_HELP = 'SET_HELP';
@@ -78,12 +79,20 @@ const actions = {
       commit(SET_HELP_LOADING, false);
     });
   },
-  requestHelpSave({ commit }, data) {
+  requestHelpSave({ commit, dispatch }, data) {
     commit(SET_REQUEST_LOAD, true);
     return api().post('/help/helprequest/', data).then(() => {
       commit(SET_REQUEST_ERROR, null);
       commit(SET_REQUEST_LOAD, false);
       commit(SET_REQUEST_SUCCESS, true);
+      router.push('/');
+      dispatch('notification/showNotification', {
+        description: 'operação realizada com sucesso',
+        color: 'success',
+        id: guid(),
+        type: 0,
+        status: 0,
+      }, { root: true });
     }).catch((error) => {
       commit(SET_REQUEST_ERROR, error.response.data);
       commit(SET_REQUEST_LOAD, false);

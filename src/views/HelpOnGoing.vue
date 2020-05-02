@@ -63,13 +63,13 @@
           </div>
             <!--  -->
         </v-card-text>
-        <v-card-actions>
+        <v-card-actions v-if="help.helpDetails">
           <!-- <v-spacer></v-spacer> -->
           <v-btn
             block
             large
             @click="cancelHelp()"
-            rounded v-if="!(help.helpDetailsstatus.id === 99)"
+            rounded v-if="!(help.helpDetails.status.id === 99)"
             :disabled="!!help.helpDetailsDisable"
             :loading="help.helpDetailsLoading"
             color="danger"
@@ -103,7 +103,6 @@ export default {
   computed: mapState(['help', 'user']),
   data() {
     return {
-      id_help: this.id,
       fakeFone: '5511999999999',
     };
   },

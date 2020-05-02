@@ -1,6 +1,6 @@
 <template>
   <div v-if="help.helpDetails">
-    <CardContainer :hideLogo="true">
+    <CardContainer backTo title="Detalhes da Ajuda">
       <v-card max-width="400" elevation="0">
         <v-card-title
           class="primary--text"
@@ -74,9 +74,6 @@ export default {
       await this.$store.dispatch('help/applyToHelpRequest', this.$route.query.id);
     },
     isSameUser() {
-      console.log('help.helpDetails.request_user.id', this.help.helpDetails.request_user.id);
-      console.log('user.user.id', this.user.user.id);
-      console.log('isSameUser', (this.help.helpDetails.request_user.id === this.user.user.id));
       return (this.help.helpDetails.request_user.id === this.user.user.id);
     },
   },
