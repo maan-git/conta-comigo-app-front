@@ -46,9 +46,9 @@
       </v-card>
     <p v-if="help.helpDetailsError"
        class="block text-center mt-4 red--text">{{help.helpDetailsError}}</p>
-    <p v-if="help.helpDetailsSuccess"
+    <!-- <p v-if="help.helpDetailsSuccess"
        class="block text-center mt-4 success--text">
-      Obrigado <b>{{user.user.first_name}}</b> pela força!</p>
+      Obrigado <b>{{user.user.first_name}}</b> pela força!</p> -->
     </CardContainer>
   </div>
 </template>

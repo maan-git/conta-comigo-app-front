@@ -1,5 +1,7 @@
 /* eslint-disable no-shadow */
 import api from '../api';
+// eslint-disable-next-line import/no-cycle
+import router from '../../router/index';
 
 const SET_LOGIN_LOADING = 'SET_LOGIN_LOADING';
 const SET_NOME = 'SET_NOME';
@@ -137,7 +139,7 @@ const actions = {
         username: state.email,
         password: state.password,
       };
-      dispatch('user/login', loginData, { root: true });
+      dispatch('user/login', loginData, { root: true }).then(() => router.push('/'));
       commit(RESET_STATES);
     }).catch((error) => {
       commit(SET_LOGIN_LOADING, false);

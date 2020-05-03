@@ -109,12 +109,19 @@ const actions = {
       commit(SET_HELP_DETAILS_LOADING, false);
     });
   },
-  cancelHelp({ commit }, id) {
+  cancelHelp({ commit, dispatch }, id) {
     commit(SET_HELP_DETAILS_LOADING, true);
     return api().post(`/help/helprequest/${id}/cancelrequest/`, { reasonId: 100001 }).then((success) => {
       commit(SET_HELP_DETAILS_LOADING, false);
       commit(SET_HELP_DETAILS, success.data);
       router.push('/');
+      dispatch('notification/showNotification', {
+        description: 'Ajuda cancelada com sucesso',
+        color: 'success',
+        id: guid(),
+        type: 0,
+        status: 0,
+      }, { root: true });
     }).catch((error) => {
       commit(SET_HELP_DETAILS_LOADING, false);
       commit(SET_HELP_DETAILS_ERROR, error.response.data.detail);
@@ -123,13 +130,21 @@ const actions = {
   deleteDetails({ commit }) {
     commit(SET_HELP_DETAILS, null);
   },
-  applyToHelpRequest({ commit }, data) {
+  applyToHelpRequest({ commit, dispatch }, data) {
     commit(SET_HELP_DETAILS_LOADING, true);
     commit(SET_HELP_DETAILS_DISABLE, true);
     return api().post(`help/helprequest/${data}/applytohelp/`, data).then(() => {
       commit(SET_HELP_DETAILS_LOADING, false);
       commit(SET_HELP_DETAILS_SUCCESS, true);
       commit(SET_HELP_DETAILS_ERROR, false);
+      router.push('/');
+      dispatch('notification/showNotification', {
+        description: 'Obrigado pela força',
+        color: 'success',
+        id: guid(),
+        type: 0,
+        status: 0,
+      }, { root: true });
     }).catch((error) => {
       commit(SET_HELP_DETAILS_LOADING, false);
       commit(SET_HELP_DETAILS_SUCCESS, false);
@@ -167,7 +182,7 @@ const mutations = {
     state.helpDetailsSuccess = value;
   },
   [SET_HELP_DETAILS_LOADING](state, value) {
-    state.helpDetailsSuccess = value;
+    state.helpLoading = value;
   },
   [SET_HELP_DETAILS_ERROR](state, value) {
     state.helpDetailsError = value;
