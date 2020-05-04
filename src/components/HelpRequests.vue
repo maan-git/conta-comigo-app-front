@@ -120,6 +120,8 @@ export default {
     listHelp() {
       if (this.hidden) return;
       this.$store.dispatch('help/clearHelpState');
+      this.page = 1;
+      this.offset = 0;
       this.getListHelp();
     },
     async getListHelp() {
@@ -138,6 +140,8 @@ export default {
     listApproved() {
       if (!this.hidden) return;
       this.$store.dispatch('help/clearHelpState');
+      this.page = 1;
+      this.offset = 0;
       this.getListApproved();
     },
     async getListApproved() {
