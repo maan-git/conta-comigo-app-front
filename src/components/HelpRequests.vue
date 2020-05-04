@@ -63,6 +63,15 @@
             />
           </v-col>
         </v-row>
+        <div class="text-center">
+          <v-pagination
+            v-on:next="next"
+            v-on:previous="previous"
+            v-model="page"
+            :length="pagesLength()"
+            circle
+          ></v-pagination>
+        </div>
       </div>
       <div class="request-helps-content" v-else-if="!help.helpLoading">
         <p class="title danger--text text-center pa-5">Sem pedidos disponíveis</p>
@@ -93,41 +102,67 @@ export default {
       dataListApproved: null,
       title: 'Pedidos',
       btnLabel: null,
+      page: 1,
+      offset: 0,
+      limit: 6,
     };
   },
   methods: {
     smSize() {
       return (this.help.helpList && this.help.helpList.length > 2) ? 6 : 12;
     },
-    async listHelp() {
+    pagesLength() {
+      const plus = (this.help.helpListCount / this.limit) % 2 === 0 ? 0 : 1;
+      // eslint-disable-next-line radix
+      const ret = parseInt((this.help.helpListCount / this.limit) + plus);
+      return ret;
+    },
+    listHelp() {
       if (this.hidden) return;
+      this.$store.dispatch('help/clearHelpState');
+      this.getListHelp();
+    },
+    async getListHelp() {
       this.dataListHelp = null;
       this.dataListHelp = {
-        limit: 20,
-        statusId: 1,
+        limit: this.limit,
+        offset: this.offset,
+        statusId: 1, // Criado
         cityId: this.user.user.addresses[0].city.id,
       };
       if (this.ne) this.dataListHelp.userIdNe = this.user.user.id;
       else this.dataListHelp.userId = this.user.user.id;
-
-      this.$store.dispatch('help/clearHelpState');
       await this.$store.dispatch('help/getHelp', this.dataListHelp);
       this.hidden = true;
     },
-    async listApproved() {
+    listApproved() {
       if (!this.hidden) return;
+      this.$store.dispatch('help/clearHelpState');
+      this.getListApproved();
+    },
+    async getListApproved() {
       this.dataListApproved = null;
       this.dataListApproved = {
-        limit: 20,
-        statusId: 20,
+        limit: this.limit,
+        offset: this.offset,
+        statusId: 20, // Em andamento
       };
       if (this.ne) {
         this.dataListApproved.userIdNe = this.user.user.id;
         this.dataListApproved.cityId = this.user.user.addresses[0].city.id;
       } else this.dataListApproved.userId = this.user.user.id;
-      this.$store.dispatch('help/clearHelpState');
       await this.$store.dispatch('help/getHelp', this.dataListApproved);
       this.hidden = false;
+    },
+    next() {
+      this.offset += this.limit;
+      if (this.hidden) this.getListHelp();
+      else this.getListApproved();
+    },
+    previous() {
+      this.offset -= this.limit;
+      if (this.hidden) this.getListHelp();
+      else this.getListApproved();
     },
   },
   created() {

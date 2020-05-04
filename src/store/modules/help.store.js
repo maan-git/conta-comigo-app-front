@@ -9,6 +9,9 @@ const SET_HELP = 'SET_HELP';
 const SET_REQUEST_LOAD = 'SET_REQUEST_LOAD';
 const SET_REQUEST_ERROR = 'SET_REQUEST_ERROR';
 const SET_HELPLIST = 'SET_HELPLIST';
+const SET_HELPLIST_COUNT = 'SET_HELPLIST_COUNT';
+const SET_HELPLIST_PREVIOUS = 'SET_HELPLIST_PREVIOUS';
+const SET_HELPLIST_NEXT = 'SET_HELPLIST_NEXT';
 const SET_HELP_ERROR = 'SET_HELP_ERROR';
 const SET_HELP_LOADING = 'SET_HELP_LOADING';
 const SET_HELP_DETAILS = 'SET_HELP_DETAILS';
@@ -23,6 +26,9 @@ const SET_CLEAR_STATE = 'SET_CLEAR_STATE';
 const state = {
   help: null,
   helpList: null,
+  helpListCount: 0,
+  helpListNext: null,
+  helpListPrevius: null,
   helpLoading: false,
   helpListError: null,
 
@@ -52,19 +58,22 @@ const actions = {
   getHelp({ commit }, data) {
     let url = '';
     if (data.userIdNe) {
-      url = `/help/helprequest/?limit=${data.limit}&status_id=${data.statusId}&owner_user_id__ne=${data.userIdNe}&city=${data.cityId}&ordering=-created`;
+      url = `/help/helprequest/?limit=${data.limit}&offset=${data.offset}&status_id=${data.statusId}&owner_user_id__ne=${data.userIdNe}&city=${data.cityId}&ordering=-created`;
     } else {
-      url = `/help/helprequest/?limit=${data.limit}&status_id=${data.statusId}&owner_user_id=${data.userId}&ordering=-created`;
+      url = `/help/helprequest/?limit=${data.limit}&offset=${data.offset}&status_id=${data.statusId}&owner_user_id=${data.userId}&ordering=-created`;
     }
-    commit('SET_HELP_LOADING', true);
+    commit(SET_HELP_LOADING, true);
     api().get(url).then((success) => {
-      commit('SET_HELPLIST', success.data.results);
-      commit('SET_HELP_ERROR', null);
-      commit('SET_HELP_LOADING', false);
+      commit(SET_HELPLIST, success.data.results);
+      commit(SET_HELPLIST_COUNT, success.data.count);
+      commit(SET_HELPLIST_PREVIOUS, success.data.previous);
+      commit(SET_HELPLIST_NEXT, success.data.next);
+      commit(SET_HELP_ERROR, null);
+      commit(SET_HELP_LOADING, false);
     }).catch((error) => {
-      if (error.response.data.detail) commit('SET_HELP_ERROR', error.response.data.detail);
-      else commit('SET_HELP_ERROR', error.response.statusText);
-      commit('SET_HELP_LOADING', false);
+      if (error.response.data.detail) commit(SET_HELP_ERROR, error.response.data.detail);
+      else commit(SET_HELP_ERROR, error.response.statusText);
+      commit(SET_HELP_LOADING, false);
     });
   },
   getHelpCategory({ commit }) {
@@ -169,6 +178,15 @@ const mutations = {
   [SET_HELPLIST](state, value) {
     state.helpList = value;
   },
+  [SET_HELPLIST_COUNT](state, value) {
+    state.helpListCount = value;
+  },
+  [SET_HELPLIST_NEXT](state, value) {
+    state.helpListNext = value;
+  },
+  [SET_HELPLIST_PREVIOUS](state, value) {
+    state.helpListPrevious = value;
+  },
   [SET_HELP_ERROR](state, value) {
     state.helpListError = value;
   },
@@ -199,6 +217,9 @@ const mutations = {
   [SET_CLEAR_STATE](state) {
     state.help = null;
     state.helpList = null;
+    state.helpListCount = 0;
+    state.helpListNext = null;
+    state.helpListPrevius = null;
     state.helpDetails = null;
     state.helpDetailsLoading = false;
     state.helpDetailsDisable = false;
