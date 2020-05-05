@@ -37,7 +37,7 @@
     </v-navigation-drawer>
 </template>
 <script>
-import notificationClient from '../plugins/NotificationClient';
+// import notificationClient from '../plugins/NotificationClient';
 
 export default {
   data() { return { drawer: false }; },
@@ -52,7 +52,7 @@ export default {
     logout() {
       this.toogleMenu();
       this.$store.dispatch('user/logout').then(() => {
-        notificationClient.stopListening();
+        // notificationClient.stopListening();
         this.$router.push({ path: '/login' });
       });
     },
