@@ -9,7 +9,7 @@ const guard = (to, from, next) => {
   const isAuthenticated = !!localStorage.getItem('userInfo');
   if (isAuthenticated) {
     if (!store.getters['user/getUser']) {
-      store.dispatch('user/getCurrentUser', true);
+      store.dispatch('user/getCurrentUser').then(() => next());
     } else {
       next();
     }
@@ -62,6 +62,12 @@ const routes = [
     path: '/help-details',
     name: 'HelpDetails',
     component: () => import('../views/HelpDetails.vue'),
+    beforeEnter: guard,
+  },
+  {
+    path: '/help-on-going',
+    name: 'HelpOnGoing',
+    component: () => import('../views/HelpOnGoing.vue'),
     beforeEnter: guard,
   },
   {

@@ -40,15 +40,17 @@
           color="primary" x-large>Procurar voluntário
           <v-icon right dark>$heart</v-icon>
         </v-btn>
-        <p v-if="help.requestError"
-        class="block text-center mt-4 danger--text">{{help.requestError}}</p>
-        <div v-if="help.helpRequestSuccess" class="block text-center mt-4">
+        <p
+          v-if="help.requestError"
+          class="block text-center mt-4 danger--text"
+        >{{help.requestError}}</p>
+        <!-- <div v-if="help.helpRequestSuccess" class="block text-center mt-4">
           <p class="success--text">
             Solicitação realizada com sucesso!
             <br>Agora é so aguardar que um voluntário irá ajudá-lo.
           </p>
           <v-btn text color="primary" @click="requestHelpNew()">Realizar um novo cadastro</v-btn>
-        </div>
+        </div> -->
       </v-form>
     </CardContainer>
   </div>
@@ -74,6 +76,13 @@ export default {
   methods: {
     requestHelpSave() {
       if (this.$refs.requestform.validate()) {
+        // this.$store.dispatch('notification/showNotification', {
+        //   description: 'operação realizada com sucesso',
+        //   color: 'success',
+        //   id: this.$foos.guid(),
+        //   type: 0,
+        //   status: 0,
+        // });
         this.$store.dispatch('help/requestHelpSave', {
           category: this.requestCategory,
           description: this.requestDescription,

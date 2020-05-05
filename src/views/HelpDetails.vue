@@ -1,6 +1,6 @@
 <template>
   <div v-if="help.helpDetails">
-    <CardContainer :hideLogo="true">
+    <CardContainer backTo title="Detalhes da Ajuda">
       <v-card max-width="400" elevation="0">
         <v-card-title
           class="primary--text"
@@ -30,9 +30,10 @@
           <v-spacer></v-spacer>
 
         <v-btn
-          @click="applyToHelp()"
-          rounded v-if="!newHelp"
+          v-if="!isSameUser()"
           :disabled="!!help.helpDetailsDisable"
+          @click="applyToHelp()"
+          rounded
           :loading="help.helpDetailsLoading"
           block
           color="primary"
@@ -45,9 +46,9 @@
       </v-card>
     <p v-if="help.helpDetailsError"
        class="block text-center mt-4 red--text">{{help.helpDetailsError}}</p>
-    <p v-if="help.helpDetailsSuccess"
+    <!-- <p v-if="help.helpDetailsSuccess"
        class="block text-center mt-4 success--text">
-      Obrigado <b>{{user.user.first_name}}</b> pela força!</p>
+      Obrigado <b>{{user.user.first_name}}</b> pela força!</p> -->
     </CardContainer>
   </div>
 </template>
@@ -63,10 +64,7 @@ export default {
   },
   computed: mapState(['help', 'user']),
   data() {
-    return {
-      newHelp: false,
-      id_help: this.id,
-    };
+    return { };
   },
   methods: {
     async requestHelp() {
@@ -74,6 +72,9 @@ export default {
     },
     async applyToHelp() {
       await this.$store.dispatch('help/applyToHelpRequest', this.$route.query.id);
+    },
+    isSameUser() {
+      return (this.help.helpDetails.request_user.id === this.user.user.id);
     },
   },
   created() {

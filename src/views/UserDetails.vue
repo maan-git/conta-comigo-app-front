@@ -1,6 +1,6 @@
 <template>
   <div v-if="user.user" class="user-details">
-    <CardContainer :title="'Perfil'" >
+    <CardContainer backTo :title="'Perfil'" >
       <div class="text-center">
         <p class="primary--text font-weight-bold title">
           {{tabName}}</p>

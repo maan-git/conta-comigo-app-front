@@ -2,7 +2,7 @@
   <div class="card-container" :class="{'justify-space-between': $vuetify.breakpoint.xs}">
     <div v-if="!hideLogo" class="card-container__img text-center my-5">
       <div class="back-to">
-        <v-btn v-if="backTo" :to="backTo" x-large icon color="white">
+        <v-btn v-if="backTo" @click="$router.go(-1)" x-large icon color="white">
           <v-icon>mdi-arrow-left</v-icon>
         </v-btn>
       </div>
@@ -17,7 +17,11 @@
 <script>
 export default {
   name: 'CardContainer',
-  props: ['hideLogo', 'backTo', 'title'],
+  props: {
+    hideLogo: { type: Boolean },
+    backTo: { type: Boolean },
+    title: { type: String },
+  },
 };
 </script>
 <style lang="scss" scoped>

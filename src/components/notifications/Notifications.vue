@@ -1,10 +1,11 @@
 <template>
   <span v-if="show()">
-    <v-snackbar v-model="notification" :timeout="0" top>
+    <v-snackbar v-model="notification" :timeout="0" top
+    :color="notification.color ? notification.color: 'secondary'">
       {{notification.description}}
-      <v-btn text color="accent"
+      <v-btn icon color="white"
         @click.native="removeNotification">
-        Fechar
+        <v-icon>mdi-close</v-icon>
       </v-btn>
     </v-snackbar>
   </span>

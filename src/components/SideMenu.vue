@@ -9,7 +9,7 @@
           <v-icon>mdi-close</v-icon>
         </v-btn>
         <v-list-item-group active-class="deep-purple--text text--accent-4">
-          <v-list-item to="/" >
+          <v-list-item @click="linkClick('/')" >
             <v-img :max-width="500" :src="require('../assets/logo_completa.svg')"></v-img>
           </v-list-item>
           <v-btn
@@ -17,13 +17,15 @@
             block
             right
             elevation="0"
-            to="/user-details">Perfil</v-btn>
+            @click="linkClick('/user-details')"
+            >Perfil</v-btn>
           <v-btn
             color="primary"
             block
             right
             elevation="0"
-            to="/requested-helps-user">Meus pedidos</v-btn>
+            @click="linkClick('/requested-helps-user')"
+          >Meus pedidos</v-btn>
           <v-btn
             color="primary"
             block
@@ -42,6 +44,10 @@ export default {
   methods: {
     toogleMenu() {
       this.drawer = !this.drawer;
+    },
+    linkClick(to) {
+      this.toogleMenu();
+      this.$router.push({ path: to });
     },
     logout() {
       this.toogleMenu();

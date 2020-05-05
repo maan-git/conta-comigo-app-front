@@ -18,12 +18,13 @@
         block
         rounded
         color="primary"
-        :disabled="btnDisable">Conta Comigo
+        :disabled="btnDisable">
+        {{label? label: 'Conta Comigo'}}
         <v-icon right dark>$heart</v-icon>
       </v-btn>
     </div>
     <div v-else class="help-card--footer account">
-      <div class="content secondary-text">
+      <div class="content secondary--text">
         <p class="subtitle-2 mb-0">{{nameAssociate}}</p>
         <p class="caption mb-0">{{stateAssociate}}</p>
       </div>
@@ -40,7 +41,7 @@ export default {
   props: ['id', 'description',
     'name', 'age', 'createdat', 'timeago', 'user_request', 'avatar', 'block',
     'templateAccount', 'nameAssociate', 'stateAssociate', 'imageAssociate',
-    'btnDisable'],
+    'btnDisable', 'label'],
   components: { DefaultAvatar },
   data() {
     return {
