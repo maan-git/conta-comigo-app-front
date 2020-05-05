@@ -15,8 +15,8 @@
           >Cadastrou-se em {{$filters.formatDate(user.volunteerDetails.date_joined)}}</p>
           <p class="subtitle-1 grey--text"
           >Grupo de risco: {{$filters.isRiskGroup(user.volunteerDetails.is_at_risk_group)}}</p>
-          <p class="subtitle-1 grey--text"
-          >Telefone: {{user.volunteerDetails.phone_number | VMask('(##) #####-####')}}</p>
+          <!-- <p class="subtitle-1 grey--text"
+          >Telefone: {{user.volunteerDetails.phone_number | VMask('(##) #####-####')}}</p> -->
         </div>
       </v-flex>
     <p v-if="user.volunteerDetailsError"
