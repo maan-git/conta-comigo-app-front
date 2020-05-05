@@ -63,10 +63,11 @@
             />
           </v-col>
         </v-row>
-        <div class="text-center">
+        <div class="text-center" v-if="help.helpListCount > limit">
           <v-pagination
             v-on:next="next"
             v-on:previous="previous"
+            v-on:input="paginationInput"
             v-model="page"
             :length="pagesLength()"
             circle
@@ -158,13 +159,19 @@ export default {
       await this.$store.dispatch('help/getHelp', this.dataListApproved);
       this.hidden = false;
     },
+    paginationInput(e) {
+      this.offset = this.limit * (e - 1);
+      this.onlyGo();
+    },
     next() {
       this.offset += this.limit;
-      if (this.hidden) this.getListHelp();
-      else this.getListApproved();
+      this.onlyGo();
     },
     previous() {
       this.offset -= this.limit;
+      this.onlyGo();
+    },
+    onlyGo() {
       if (this.hidden) this.getListHelp();
       else this.getListApproved();
     },
