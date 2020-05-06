@@ -59,8 +59,7 @@ export default {
     @media screen and ( max-width: 600px) {
       .card-container {
         &__img {
-          height: 100%;
-          // display: flex;
+          flex:1;
         }
         &__card {
           align-self: stretch;
