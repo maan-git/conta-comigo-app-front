@@ -185,7 +185,7 @@ let client = null;
 
 const connect = () => {
   client = new WS4Redis({
-    uri: 'ws://conta-comigo-ap.herokuapp.com/ws/frontend?subscribe-user',
+    uri: process.env.VUE_APP_NOTIFICATION_ADDRESS,
     connecting: onConnecting,
     connected: onConnected,
     receive_message: receiveMessage,

@@ -43,7 +43,7 @@
 <script>
 import { mapState } from 'vuex';
 import CardContainer from '@/components/CardContainer.vue';
-// import notificationClient from '../plugins/NotificationClient';
+import notificationClient from '../plugins/NotificationClient';
 
 export default {
   name: 'Login',
@@ -72,7 +72,7 @@ export default {
           username: this.email,
           password: this.password, // this.$foos.encrypt(this.password)
         }).then(() => {
-          // notificationClient.startListening();
+          notificationClient.startListening();
           this.$router.push({ path: '/' });
         });
       }
