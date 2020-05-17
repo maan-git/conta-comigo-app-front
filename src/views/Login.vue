@@ -66,8 +66,12 @@ export default {
   },
   methods: {
     loginClick() {
+      // console.log('this.password', this.$foos.encrypt(this.password));
       if (this.$refs.formLogin.validate()) {
-        this.$store.dispatch('user/login', { username: this.email, password: this.password }).then(() => {
+        this.$store.dispatch('user/login', {
+          username: this.email,
+          password: this.password, // this.$foos.encrypt(this.password)
+        }).then(() => {
           // notificationClient.startListening();
           this.$router.push({ path: '/' });
         });

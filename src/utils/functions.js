@@ -1,3 +1,9 @@
+/* eslint-disable prefer-const */
+/* eslint-disable no-restricted-syntax */
+/* eslint-disable guard-for-in */
+// eslint-disable-next-line import/no-extraneous-dependencies
+import fernet from 'fernet';
+
 /**
  * Generates a GUID string.
  * @returns {string} The generated GUID.
@@ -13,6 +19,22 @@ const p8 = (s) => {
 
 export const guid = () => p8() + p8(true) + p8(true) + p8();
 
+export const encrypt = (str) => {
+  const res = [];
+  const num = '_'.charCodeAt(0);
+  // eslint-disable-next-line no-plusplus
+  for (let i = 0; i < str.length; i++) {
+    const mres = [((i - (str.length + 1)) + str.charAt(i).charCodeAt(0)), num];
+    res.push(mres.join(''));
+  }
+
+  const secret = new fernet.Secret('4IaokWbQcl7RnXdmTqnPaYHkV0m3YZiePSqchMAqwHk='); // env key
+  const token = new fernet.Token({ secret });
+
+  return token.encode(res.join(''));
+};
+
 export default {
   guid,
+  encrypt,
 };
