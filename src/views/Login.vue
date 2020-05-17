@@ -43,7 +43,7 @@
 <script>
 import { mapState } from 'vuex';
 import CardContainer from '@/components/CardContainer.vue';
-// import notificationClient from '../plugins/NotificationClient';
+import notificationClient from '../plugins/NotificationClient';
 
 export default {
   name: 'Login',
@@ -68,7 +68,7 @@ export default {
     loginClick() {
       if (this.$refs.formLogin.validate()) {
         this.$store.dispatch('user/login', { username: this.email, password: this.password }).then(() => {
-          // notificationClient.startListening();
+          notificationClient.startListening();
           this.$router.push({ path: '/' });
         });
       }

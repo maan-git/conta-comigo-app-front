@@ -1,7 +1,6 @@
 import axios from 'axios';
 
-const apiUrl = 'https://conta-comigo-ap.herokuapp.com/';
-// const apiUrl = 'http://0.0.0.0:8000/';
+const apiUrl = process.env.VUE_APP_BACKEND_ADDRESS;
 
 export default () => axios.create({
   baseURL: apiUrl,
