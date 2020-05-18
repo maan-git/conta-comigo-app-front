@@ -1,3 +1,4 @@
+// eslint-disable-next-line import/no-cycle
 import store from '../store';
 
 const notificationActions = {
@@ -107,6 +108,7 @@ class WS4Redis {
     this.mustReconnect = false;
     if (!this.isClosing() || !this.isClosed()) {
       this.ws.close();
+      console.log('after close', this.ws);
     }
   };
 

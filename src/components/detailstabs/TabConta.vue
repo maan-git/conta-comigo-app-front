@@ -78,7 +78,9 @@ export default {
     },
     updatePass() {
       if (this.$refs.formsenha.validate()) {
-        this.$store.dispatch('user/updatePersonalData', { password: this.password })
+        this.$store.dispatch('user/updatePersonalData', {
+          password: this.password, // this.$foos.encrypt(this.password),
+        })
           .then(() => { this.editPass = false; });
       }
     },

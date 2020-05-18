@@ -1,7 +1,8 @@
+/* eslint-disable import/no-cycle */
 import Vue from 'vue';
 import VueRouter from 'vue-router';
-// eslint-disable-next-line import/no-cycle
 import store from '../store/index';
+import notificationClient from '../plugins/NotificationClient';
 
 Vue.use(VueRouter);
 
@@ -9,8 +10,12 @@ const guard = (to, from, next) => {
   const isAuthenticated = !!localStorage.getItem('userInfo');
   if (isAuthenticated) {
     if (!store.getters['user/getUser']) {
-      store.dispatch('user/getCurrentUser').then(() => next());
+      store.dispatch('user/getCurrentUser').then(() => {
+        notificationClient.startListening();
+        next();
+      });
     } else {
+      notificationClient.startListening();
       next();
     }
   } else next('/login');

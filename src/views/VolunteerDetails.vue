@@ -1,6 +1,6 @@
 <template>
   <div v-if="user.volunteerDetails">
-    <CardContainer :hideLogo="true">
+    <CardContainer :title="'Voluntário'" backTo>
       <div class="text-center">
         <p class="primary--text font-weight-bold title">
           {{user.volunteerDetails.first_name}},
