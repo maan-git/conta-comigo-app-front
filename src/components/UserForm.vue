@@ -3,8 +3,8 @@
     <StepperHeader :currenctStep="register.step"
       :steps="[
         { label: 'Dados pessoais' },
-        { label: 'Dados da conta' },
         { label: 'Endereço' },
+        { label: 'Dados da conta' },
         ]"
     />
     <v-stepper alt-labels v-model="register.step">
