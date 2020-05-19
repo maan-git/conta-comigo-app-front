@@ -62,7 +62,8 @@ export default {
       if (this.$refs.dadosconta.validate()) {
         this.$store.dispatch('register/registerStep3', {
           email: this.email,
-          password: this.password, // this.$foos.encrypt(this.password),
+          password: this.$foos.encrypt(this.password),
+          // password: this.password,
           lieAceito: this.lieAceito,
         });
       }
