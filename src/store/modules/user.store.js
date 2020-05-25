@@ -67,7 +67,6 @@ const actions = {
   login({ commit, dispatch }, data) {
     commit(SET_LOGIN_LOADING, true);
     return api().post('app/login/', data).then((success) => {
-      // dispatch('setUserInfo', success.data);
       commit(SET_TOKEN, success);
       commit(SET_LOGIN_ERROR, null);
       commit(SET_LOGIN_LOADING, false);
