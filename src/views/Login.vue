@@ -65,9 +65,8 @@ export default {
   },
   methods: {
     loginClick() {
-      // console.log('this.password', this.$foos.encrypt(this.password));
       if (this.$refs.formLogin.validate()) {
-        this.$store.dispatch('user/login', {
+        this.$store.dispatch('user/loginToken', {
           username: this.email,
           // password: this.password,
           password: this.$foos.encrypt(this.password),
