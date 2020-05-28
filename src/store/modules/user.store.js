@@ -65,7 +65,6 @@ const actions = {
     commit(SET_USER, data);
   },
   setToken({ state, commit }) {
-    console.log('token', state.token);
     const expDate = Date.now();
     // xpd stands for expiration Date
     Object.assign(state.token, { xpd: expDate });
