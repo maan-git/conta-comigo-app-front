@@ -58,21 +58,44 @@ const getters = {
 
 const actions = {
   setUserInfo({ commit }, data) {
+    // const expDate = Date.now();
+    // xpd stands for expiration Date
+    // Object.assign(data, { xpd: expDate });
+    // localStorage.setItem('userInfo', JSON.stringify(data));
+    commit(SET_USER, data);
+  },
+  setToken({ state, commit }) {
     const expDate = Date.now();
     // xpd stands for expiration Date
-    Object.assign(data, { xpd: expDate });
-    localStorage.setItem('userInfo', JSON.stringify(data));
-    commit(SET_USER, data);
+    Object.assign(state.token, { xpd: expDate });
+    localStorage.setItem('userInfo', JSON.stringify(state.token));
+    commit(SET_TOKEN, null);
+    // commit(SET_USER, data);
   },
   login({ commit, dispatch }, data) {
     commit(SET_LOGIN_LOADING, true);
     return api().post('app/login/', data).then((success) => {
-      // dispatch('setUserInfo', success.data);
       commit(SET_TOKEN, success);
       commit(SET_LOGIN_ERROR, null);
       commit(SET_LOGIN_LOADING, false);
       return dispatch('getCurrentUser');
     }).catch((error) => {
+      if (error.response.data.detail) commit(SET_LOGIN_ERROR, error.response.data.detail);
+      else commit(SET_LOGIN_ERROR, error.response.statusText);
+      commit(SET_LOGIN_LOADING, false);
+    });
+  },
+
+  loginToken({ commit, dispatch }, data) {
+    commit(SET_LOGIN_LOADING, true);
+    return api().post('/app/login-token/', data).then((success) => {
+      commit(SET_TOKEN, `Token ${success.data.token}`);
+      dispatch('setToken');
+      commit(SET_LOGIN_ERROR, null);
+      commit(SET_LOGIN_LOADING, false);
+      return dispatch('getCurrentUser');
+    }).catch((error) => {
+      console.log('login token error', error);
       if (error.response.data.detail) commit(SET_LOGIN_ERROR, error.response.data.detail);
       else commit(SET_LOGIN_ERROR, error.response.statusText);
       commit(SET_LOGIN_LOADING, false);

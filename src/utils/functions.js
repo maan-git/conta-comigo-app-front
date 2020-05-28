@@ -27,8 +27,7 @@ export const encrypt = (str) => {
     const mres = [((i - (str.length + 1)) + str.charAt(i).charCodeAt(0)), num];
     res.push(mres.join(''));
   }
-  // console.log(process.env.SECRET_KEY_PASS);
-  const secret = new fernet.Secret('4IaokWbQcl7RnXdmTqnPaYHkV0m3YZiePSqchMAqwHk=');
+  const secret = new fernet.Secret(process.env.VUE_APP_SECRET_KEY_PASS);
   const token = new fernet.Token({ secret });
 
   return token.encode(res.join(''));
