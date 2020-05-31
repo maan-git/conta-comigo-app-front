@@ -95,7 +95,7 @@ const actions = {
       commit(SET_LOGIN_LOADING, false);
       return dispatch('getCurrentUser');
     }).catch((error) => {
-      console.log('login token error', error);
+      // console.log('login token error', error);
       if (error.response.data.detail) commit(SET_LOGIN_ERROR, error.response.data.detail);
       else commit(SET_LOGIN_ERROR, error.response.statusText);
       commit(SET_LOGIN_LOADING, false);

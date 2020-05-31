@@ -108,7 +108,7 @@ class WS4Redis {
     this.mustReconnect = false;
     if (!this.isClosing() || !this.isClosed()) {
       this.ws.close();
-      console.log('after close', this.ws);
+      // console.log('after close', this.ws);
     }
   };
 
