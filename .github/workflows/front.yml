@@ -24,6 +24,7 @@ jobs:
 
     - name: Deploy to production
       run: |
+        ls -l
         npm install
         if [ $? -ne 0 ];
         then
