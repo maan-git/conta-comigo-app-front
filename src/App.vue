@@ -1,6 +1,5 @@
 <template>
   <v-app :class="purple()">
-    <!--  -->
     <SideMenu ref="sidemenu"/>
     <NavBar v-on:toogle="toogleMenu()"/>
     <v-content class="content-width">
