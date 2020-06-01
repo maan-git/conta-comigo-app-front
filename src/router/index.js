@@ -119,7 +119,7 @@ const routes = [
   },
   {
     path: '*',
-    redirect: '/login',
+    component: () => import('../views/NotFound.vue'),
   },
 ];
 
