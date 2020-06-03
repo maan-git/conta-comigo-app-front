@@ -139,8 +139,9 @@ const actions = {
         username: state.email,
         password: state.password,
       };
-      dispatch('user/login', loginData, { root: true }).then(() => router.push('/'));
+      dispatch('user/loginToken', loginData, { root: true }).then(() => router.push('/'));
       commit(RESET_STATES);
+      dispatch('address/resetStates', null, { root: true });
     }).catch((error) => {
       commit(SET_LOGIN_LOADING, false);
       if (error.response.data.detail) commit(SET_CREATE_USER_ERROR, error.response.data.detail);
@@ -148,8 +149,9 @@ const actions = {
     });
   },
   setAvatar({ commit }, avatar) { commit(SET_AVATAR, avatar); },
-  resetForm({ commit }) {
+  resetForm({ commit, dispatch }) {
     commit(RESET_STATES);
+    dispatch('address/resetStates', null, { root: true });
   },
 };
 

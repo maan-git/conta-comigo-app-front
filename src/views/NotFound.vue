@@ -1,7 +1,7 @@
 <template>
   <div class="notfound">
     <h1 class="white--text">
-      404 Página não encontrada <span class=" danger--text">:/</span></h1>
+      404 Página não encontrada <span class="danger--text">:/</span></h1>
   </div>
 </template>
 <style lang="scss" scoped>
