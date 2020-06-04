@@ -143,7 +143,7 @@ export default {
     formValidation() {
       return this.$refs.dadospessoais.validate();
     },
-    sendFormData() {
+    sendFormData(callBack) {
       if (this.$refs.dadospessoais.validate()) {
         this.$store.dispatch('register/registerStep1', {
           nome: this.nome,
@@ -155,6 +155,7 @@ export default {
           moraso: this.moraso,
           grupoderisco: this.grupoderisco,
         });
+        if (callBack) callBack();
       }
     },
     saveDate(date) {

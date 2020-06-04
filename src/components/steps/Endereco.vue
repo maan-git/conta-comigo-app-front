@@ -85,9 +85,10 @@ export default {
     formValidation() {
       return this.$refs.enderecoform.validate();
     },
-    sendFormData() {
+    sendFormData(callBack) {
       if (this.$refs.enderecoform.validate()) {
         this.$store.dispatch('register/setStep', 3);
+        if (callBack) callBack();
       }
     },
   },

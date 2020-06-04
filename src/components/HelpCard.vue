@@ -1,5 +1,8 @@
 <template>
-  <div class="help-card" :class="{'help-card--bloq': block}">
+  <div class="help-card"
+    :class="{'help-card--bloq': block, 'help-card--clickable': templateAccount}"
+    @click="gotoHelp()"
+  >
     <div class="help-card--header">
       <DefaultAvatar :src="avatar"/>
       <div class="help-card--header__text">
@@ -53,6 +56,9 @@ export default {
     getUrl() {
       return `/help-details?id=${this.id}`;
     },
+    gotoHelp() {
+      if (this.templateAccount) this.$router.push(`/help-on-going?id=${this.id}`);
+    },
   },
   created() {
     if (this.description.length > 120) {
@@ -77,7 +83,9 @@ export default {
   flex-flow: column;
   justify-content: space-between;
   // margin: 10px 30px;
-
+  &--clickable {
+    cursor: pointer;
+  }
   &--header {
     display: flex;
     align-content: center;

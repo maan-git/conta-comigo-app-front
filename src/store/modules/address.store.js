@@ -9,6 +9,7 @@ const SET_BAIRRO = 'SET_BAIRRO';
 const SET_BAIRROS = 'SET_BAIRROS';
 const SET_CIDADE = 'SET_CIDADE';
 const SET_ESTADO = 'SET_ESTADO';
+const RESET_STATES = 'RESET_STATES';
 
 
 const state = {
@@ -60,6 +61,9 @@ const actions = {
       else commit(SET_ADDRESS_ERROR, error.response.statusText);
     });
   },
+  resetStates({ commit }) {
+    commit(RESET_STATES);
+  },
 };
 
 const mutations = {
@@ -86,6 +90,14 @@ const mutations = {
   },
   [SET_ESTADO](state, value) {
     state.estado = value;
+  },
+  [RESET_STATES](state) {
+    state.cep = '';
+    state.endereco = '';
+    state.bairro = '';
+    state.bairros = [];
+    state.cidade = '';
+    state.estado = '';
   },
 };
 
