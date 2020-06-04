@@ -51,11 +51,10 @@ export default {
     },
     changeStep(step) {
       if (step === 2) {
-        this.$refs.pessoais.sendFormData();
+        this.$refs.pessoais.sendFormData(() => this.$store.dispatch('register/setStep', step));
       } else if (step === 3) {
-        this.$refs.endereco.sendFormData();
-      }
-      this.$store.dispatch('register/setStep', step);
+        this.$refs.endereco.sendFormData(() => this.$store.dispatch('register/setStep', step));
+      } else this.$store.dispatch('register/setStep', step);
     },
     onInput(val) {
       // eslint-disable-next-line radix
