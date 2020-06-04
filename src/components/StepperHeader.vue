@@ -20,7 +20,8 @@ export default {
   props: ['currenctStep', 'steps'],
   methods: {
     gotoStep(step) {
-      this.$store.dispatch('register/setStep', step);
+      this.$emit('changeStep', step);
+      // this.$store.dispatch('register/setStep', step);
     },
   },
 };

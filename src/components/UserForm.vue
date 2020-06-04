@@ -6,17 +6,18 @@
         { label: 'Endereço' },
         { label: 'Dados da conta' },
         ]"
+      v-on:changeStep="changeStep"
     />
     <v-stepper alt-labels v-model="register.step">
       <v-stepper-items>
         <v-stepper-content class="px-0" step="1">
-          <DadosPessoais v-on:openDialog="$refs.dialog.open()"/>
+          <DadosPessoais ref="pessoais" v-on:openDialog="$refs.dialog.open()"/>
         </v-stepper-content>
         <v-stepper-content class="px-0" step="2">
-          <Endereco/>
+          <Endereco ref="endereco" />
         </v-stepper-content>
         <v-stepper-content class="px-0" step="3">
-          <DadosConta/>
+          <DadosConta  ref="conta"/>
         </v-stepper-content>
       </v-stepper-items>
     </v-stepper>
@@ -48,7 +49,14 @@ export default {
     disapleForm() {
       return this.editavel && !this.register.loginLoading;
     },
-
+    changeStep(step) {
+      if (step === 2) {
+        this.$refs.pessoais.sendFormData();
+      } else if (step === 3) {
+        this.$refs.endereco.sendFormData();
+      }
+      this.$store.dispatch('register/setStep', step);
+    },
     onInput(val) {
       // eslint-disable-next-line radix
       this.steps = parseInt(val);
