@@ -32,4 +32,4 @@ export default {
 .txt-color {
   color: #5f5f5f;
 }
-</style>style
+</style>
