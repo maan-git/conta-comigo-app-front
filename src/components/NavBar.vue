@@ -36,6 +36,7 @@
 
 import { mapState } from 'vuex';
 import DefaultAvatar from '@/components/DefaultAvatar.vue';
+// import notificationClient from '../plugins/NotificationClient';
 
 export default {
   name: 'NavBar',
@@ -43,7 +44,10 @@ export default {
   computed: mapState(['user']),
   methods: {
     logout() {
-      this.$store.dispatch('user/logout');
+      this.$store.dispatch('user/logout').then(() => {
+        // notificationClient.stopListening();
+        this.$router.push('/login');
+      });
     },
   },
 };

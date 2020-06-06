@@ -1,7 +1,7 @@
 <!--eslint-disable max-len-->
 <template>
   <div v-if="help.helpDetails">
-    <CardContainer :title="'Detalhes da Ajuda'">
+    <CardContainer backTo :title="'Detalhes da Ajuda'">
       <v-card max-width="400" elevation="0">
         <v-card-title
           class="primary--text"
@@ -44,34 +44,37 @@
                 :size="70"
                 :src="help.helpDetails.helping_users[0].helper_user.avatar"/>
             </div>
-
-            <div class="text--right">
-              <v-btn text color="primary" target="_blank"
+            <div class="d-flex justify-space-around mt-3">
+              <v-btn  icon large color="primary" target="_blank"
                 :href="`mailto:${help.helpDetails.helping_users[0].helper_user.email}`"
               >
-                <span class="subtitle-2">{{help.helpDetails.helping_users[0].helper_user.email}}</span>
+                <v-icon>mdi-email</v-icon>
+                <!-- <span class="subtitle-2">{{help.helpDetails.helping_users[0].helper_user.email}}</span> -->
               </v-btn>
-              <v-btn text color="primary" :href="`callto:${help.helpDetails.helping_users[0].helper_user.phone_number}`" target="_blank">
+              <v-btn icon large color="primary" :href="`callto:${help.helpDetails.helping_users[0].helper_user.phone_number}`" target="_blank">
+                <!-- <span class="subtitle-2">{{help.helpDetails.helping_users[0].helper_user.phone_number}}</span> -->
+                <v-icon>mdi-phone</v-icon>
+              </v-btn>
 
-                <span class="subtitle-2">{{help.helpDetails.helping_users[0].helper_user.phone_number}}</span>
-              </v-btn>
-              <v-btn icon color="primary" :href="`https://wa.me/${help.helpDetails.helping_users[0].helper_user.phone_number}`" target="_blank">
+              <v-btn icon large color="primary" :href="`https://wa.me/${help.helpDetails.helping_users[0].helper_user.phone_number}`" target="_blank">
                 <v-icon>mdi-whatsapp</v-icon>
               </v-btn>
             </div>
           </div>
             <!--  -->
         </v-card-text>
-        <v-card-actions>
-          <v-spacer></v-spacer>
+        <v-card-actions v-if="help.helpDetails">
+          <!-- <v-spacer></v-spacer> -->
           <v-btn
-            @click="applyToHelp()"
-            rounded v-if="!newHelp"
+            block
+            large
+            @click="opencancelDialog()"
+            rounded v-if="!(help.helpDetails.status.id === 99)"
             :disabled="!!help.helpDetailsDisable"
             :loading="help.helpDetailsLoading"
             color="danger"
           >
-            <span class="white--text .font-weight-bold">
+            <span class="white--text font-weight-bold">
               Cancelar
             </span>
           </v-btn>
@@ -83,6 +86,48 @@
        class="block text-center mt-4 success--text">
       Obrigado <b>{{user.user.first_name}}</b> pela força!</p> -->
     </CardContainer>
+
+
+    <v-dialog
+      v-model="dialog"
+      max-width="300"
+    >
+      <v-card>
+        <v-card-title>
+          <p class="title">Você tem certeza que deseja cancelar a ajuda?</p>
+        </v-card-title>
+
+        <v-card-text>
+        </v-card-text>
+
+        <v-card-actions>
+          <v-spacer></v-spacer>
+
+          <v-btn
+            color="success"
+            @click="dialog = false"
+            rounded
+            :disabled="help.helpLoading"
+          >
+            <span class="white--text font-weight-bold">
+              Não
+            </span>
+          </v-btn>
+
+          <v-btn
+            color="danger"
+            @click="cancelHelp()"
+            rounded
+            :loading="help.helpLoading"
+          >
+          <span class="white--text font-weight-bold">
+            Sim
+          </span>
+          </v-btn>
+        </v-card-actions>
+      </v-card>
+    </v-dialog>
+
   </div>
 </template>
 <script>
@@ -100,9 +145,7 @@ export default {
   computed: mapState(['help', 'user']),
   data() {
     return {
-      newHelp: false,
-      id_help: this.id,
-      fakeFone: '5511999999999',
+      dialog: false,
     };
   },
   methods: {
@@ -111,6 +154,12 @@ export default {
     },
     async applyToHelp() {
       await this.$store.dispatch('help/applyToHelpRequest', this.$route.query.id);
+    },
+    opencancelDialog() {
+      this.dialog = true;
+    },
+    cancelHelp() {
+      this.$store.dispatch('help/cancelHelp', this.$route.query.id);
     },
   },
   created() {

@@ -1,7 +1,10 @@
 <template>
   <v-container class="list-volunteers text-center">
-    <p class="title font-weight-medium primary--text text-left">Voluntarios</p>
 
+    <p v-if="user.users && user.users.length === 0"
+      class="display-1 font-weight-medium danger--text">Sem Voluntarios</p>
+    <p v-else
+      class="title font-weight-medium primary--text text-left">Voluntarios</p>
     <div v-if="user.users">
       <Carousel
         :loop="true"

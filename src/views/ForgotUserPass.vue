@@ -1,6 +1,6 @@
 <template>
   <div class="login">
-    <CardContainer :backTo="'/'">
+    <CardContainer backTo>
       <v-form ref="formForgotUserPass" class="ma-5 text-center"
         @keyup.enter.native="forgotUserPassClick()">
         <p class="primary--text font-weight-medium headline">Recuperar Senha</p>

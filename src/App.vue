@@ -6,6 +6,7 @@
     <v-content class="content-width">
       <router-view></router-view>
     </v-content>
+    <Notifications />
     <v-btn v-scroll="onScroll" v-show="fab" fab
       dark fixed bottom right color="danger" @click="toTop"
     ><v-icon>mdi-arrow-up</v-icon></v-btn>
@@ -15,6 +16,7 @@
 <script>
 import { mapState } from 'vuex';
 import NavBar from './components/NavBar.vue';
+import Notifications from './components/notifications/Notifications.vue';
 import SideMenu from './components/SideMenu.vue';
 
 export default {
@@ -22,8 +24,9 @@ export default {
   components: {
     NavBar,
     SideMenu,
+    Notifications,
   },
-  computed: mapState(['user']),
+  computed: mapState(['user', 'notification']),
   data: () => ({
     fab: false,
   }),

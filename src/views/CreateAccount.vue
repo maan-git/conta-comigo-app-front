@@ -1,6 +1,6 @@
 <template>
   <div>
-    <CardContainer :backTo="'/login'">
+    <CardContainer backTo>
       <div class="text-center mb-5">
         <p class="primary--text font-weight-medium headline">Cadastro</p>
         <span class="subtitle-1 txt-color">{{text}}</span>
