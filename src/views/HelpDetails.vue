@@ -80,6 +80,10 @@ export default {
   created() {
     this.$store.dispatch('help/requestHelpDetails', this.$route.query.id);
   },
+  destroyed() {
+    this.$store.dispatch('help/clearHelpState', this.$route.query.id);
+
+  },
 };
 </script>
 
