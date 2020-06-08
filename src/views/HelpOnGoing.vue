@@ -109,6 +109,14 @@
         </v-card-title>
 
         <v-card-text>
+          <v-select
+            outlined
+            v-model="cancelReason"
+            :items="cancelReasons"
+            label="Rasão"
+            item-text="description"
+            item-value="id"
+          ></v-select>
         </v-card-text>
 
         <v-card-actions>
@@ -130,8 +138,10 @@
             @click="cancelHelp()"
             rounded
             :loading="help.helpLoading"
+            :disabled = "!cancelReason"
           >
           <span class="white--text font-weight-bold">
+            
             Sim
           </span>
           </v-btn>
@@ -149,6 +159,14 @@
         </v-card-title>
 
         <v-card-text>
+          <v-select
+            outlined
+            v-model="cancelReason"
+            :items="cancelReasons"
+            label="Rasão"
+            item-text="description"
+            item-value="id"
+          ></v-select>
         </v-card-text>
 
         <v-card-actions>
@@ -170,6 +188,7 @@
             @click="finishHelp()"
             rounded
             :loading="help.helpLoading"
+            :disabled = "!cancelReason"
           >
           <span class="white--text font-weight-bold">
             Sim
@@ -198,6 +217,8 @@ export default {
     return {
       dialog: false,
       dialogFinal: false,
+      cancelReasons: [],
+      cancelReason: ''
     };
   },
   methods: {
@@ -211,17 +232,19 @@ export default {
       this.dialog = true;
     },
     cancelHelp() {
-      this.$store.dispatch('help/cancelHelp', this.$route.query.id);
+      this.$store.dispatch('help/cancelHelp', this.$route.query.id, cancelReason);
     },
     finishHelp() {
-      this.$store.dispatch('help/finishHelp', this.$route.query.id);
-    },
-    endHelp() {
-      this.$store.dispatch('help/cancelHelp', this.$route.query.id);
+      this.$store.dispatch('help/finishHelp', this.$route.query.id, cancelReason);
     },
   },
   created() {
     this.$store.dispatch('help/requestHelpDetails', this.$route.query.id);
+    this.$store.dispatch('help/cancelReasons').then(s => {
+      s.data.results.forEach(reason => {
+        this.cancelReasons.push({id: reason.id, description: reason.description})
+      });
+    })
   },
 };
 </script>
