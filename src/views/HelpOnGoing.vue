@@ -63,11 +63,9 @@
           </div>
             <!--  -->
         </v-card-text>
-        <v-card-actions v-if="help.helpDetails">
+        <v-card-actions v-if="help.helpDetails && help.helpDetails.request_user.id === user.user.id">
           <!-- <v-spacer></v-spacer> -->
           <v-btn
-            block
-            large
             @click="opencancelDialog()"
             rounded v-if="!(help.helpDetails.status.id === 99)"
             :disabled="!!help.helpDetailsDisable"
@@ -76,6 +74,19 @@
           >
             <span class="white--text font-weight-bold">
               Cancelar
+            </span>
+          </v-btn>
+          <v-spacer></v-spacer>
+          <v-btn
+            @click="dialogFinal = true"
+            rounded v-if="!(help.helpDetails.status.id === 99)"
+            :disabled="!!help.helpDetailsDisable"
+            :loading="help.helpDetailsLoading"
+            color="primary"
+          >
+            <span class="white--text font-weight-bold">
+              Finalizar
+              <v-icon right>$heart</v-icon>
             </span>
           </v-btn>
         </v-card-actions>
@@ -104,7 +115,7 @@
           <v-spacer></v-spacer>
 
           <v-btn
-            color="success"
+            color="danger"
             @click="dialog = false"
             rounded
             :disabled="help.helpLoading"
@@ -115,8 +126,48 @@
           </v-btn>
 
           <v-btn
-            color="danger"
+            color="success"
             @click="cancelHelp()"
+            rounded
+            :loading="help.helpLoading"
+          >
+          <span class="white--text font-weight-bold">
+            Sim
+          </span>
+          </v-btn>
+        </v-card-actions>
+      </v-card>
+    </v-dialog>
+
+    <v-dialog
+      v-model="dialogFinal"
+      max-width="300"
+    >
+      <v-card>
+        <v-card-title>
+          <p class="title">Você tem certeza que deseja finalizar a ajuda?</p>
+        </v-card-title>
+
+        <v-card-text>
+        </v-card-text>
+
+        <v-card-actions>
+          <v-spacer></v-spacer>
+
+          <v-btn
+            color="danger"
+            @click="dialogFinal = false"
+            rounded
+            :disabled="help.helpLoading"
+          >
+            <span class="white--text font-weight-bold">
+              Não
+            </span>
+          </v-btn>
+
+          <v-btn
+            color="success"
+            @click="finishHelp()"
             rounded
             :loading="help.helpLoading"
           >
@@ -146,6 +197,7 @@ export default {
   data() {
     return {
       dialog: false,
+      dialogFinal: false,
     };
   },
   methods: {
@@ -159,6 +211,12 @@ export default {
       this.dialog = true;
     },
     cancelHelp() {
+      this.$store.dispatch('help/cancelHelp', this.$route.query.id);
+    },
+    finishHelp() {
+      this.$store.dispatch('help/finishHelp', this.$route.query.id);
+    },
+    endHelp() {
       this.$store.dispatch('help/cancelHelp', this.$route.query.id);
     },
   },

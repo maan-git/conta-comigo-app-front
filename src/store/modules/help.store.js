@@ -136,6 +136,24 @@ const actions = {
       commit(SET_HELP_DETAILS_ERROR, error.response.data.detail);
     });
   },
+  finishHelp({ commit, dispatch }, id) {
+    commit(SET_HELP_DETAILS_LOADING, true);
+    return api().post(`/help/helprequest/${id}/finishrequest/`, { reasonId: 100001 }).then((success) => {
+      commit(SET_HELP_DETAILS_LOADING, false);
+      commit(SET_HELP_DETAILS, success.data);
+      router.push('/');
+      dispatch('notification/showNotification', {
+        description: 'Ajuda finalizada com sucesso',
+        color: 'success',
+        id: guid(),
+        type: 0,
+        status: 0,
+      }, { root: true });
+    }).catch((error) => {
+      commit(SET_HELP_DETAILS_LOADING, false);
+      commit(SET_HELP_DETAILS_ERROR, error.response.data.detail);
+    });
+  },
   deleteDetails({ commit }) {
     commit(SET_HELP_DETAILS, null);
   },
