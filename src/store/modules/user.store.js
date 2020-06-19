@@ -113,8 +113,9 @@ const actions = {
   register({ commit }) {
     commit(SET_LOGIN_LOADING, true);
   },
-  regeneratePass({ commit }) {
-    commit(SET_FORGOT_USER_PASS_SUCCESS, true);
+  regeneratePass({}, email) {
+    // commit(SET_FORGOT_USER_PASS_SUCCESS, true);
+    return api().post('/app/user/resetpassword/', { email })
   },
   getCurrentUser({ commit, dispatch }) {
     commit(SET_LOGIN_LOADING, false);
