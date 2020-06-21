@@ -118,9 +118,9 @@ const actions = {
       commit(SET_HELP_DETAILS_LOADING, false);
     });
   },
-  cancelHelp({ commit, dispatch }, id) {
+  cancelHelp({ commit, dispatch }, id, reasonId) {
     commit(SET_HELP_DETAILS_LOADING, true);
-    return api().post(`/help/helprequest/${id}/cancelrequest/`, { reasonId: 100001 }).then((success) => {
+    return api().post(`/help/helprequest/${id}/cancelrequest/`, { reasonId: reasonId }).then((success) => {
       commit(SET_HELP_DETAILS_LOADING, false);
       commit(SET_HELP_DETAILS, success.data);
       router.push('/');
@@ -135,6 +135,27 @@ const actions = {
       commit(SET_HELP_DETAILS_LOADING, false);
       commit(SET_HELP_DETAILS_ERROR, error.response.data.detail);
     });
+  },
+  finishHelp({ commit, dispatch }, id, reasonId) {
+    commit(SET_HELP_DETAILS_LOADING, true);
+    return api().post(`/help/helprequest/${id}/finishrequest/`, { reasonId: reasonId }).then((success) => {
+      commit(SET_HELP_DETAILS_LOADING, false);
+      commit(SET_HELP_DETAILS, success.data);
+      router.push('/');
+      dispatch('notification/showNotification', {
+        description: 'Ajuda finalizada com sucesso',
+        color: 'success',
+        id: guid(),
+        type: 0,
+        status: 0,
+      }, { root: true });
+    }).catch((error) => {
+      commit(SET_HELP_DETAILS_LOADING, false);
+      commit(SET_HELP_DETAILS_ERROR, error.response.data.detail);
+    });
+  },
+  cancelReasons() {
+    return api().get('/help/helprequestcancelreason/');
   },
   deleteDetails({ commit }) {
     commit(SET_HELP_DETAILS, null);

@@ -12,7 +12,7 @@
           :rules="[$vln.requiredRule('Email')]"
         ></v-text-field>
        <v-btn small class="mt-1" color="primary" to="/login" text>
-          <span class="">Login</span>
+          <span class="">Entrar</span>
         </v-btn>
         <v-btn
           class="my-4"
@@ -20,30 +20,29 @@
           rounded
           x-large
           @click="forgotUserPassClick()"
-          color="primary" :loading="user.forgotUserPassLoading">
+          color="primary" :loading="loading">
           <span class="text-capitalize">Enviar</span>
         </v-btn>
         <v-btn small class="mt-1" color="primary" to="/create-account" text>
           <span class="">Cadastre-se e seja um voluntário</span>
         </v-btn>
-        <p v-if="user.forgotUserPassError" class="block text-center mt-4 red--text">
+        <!-- <p v-if="error" class="block text-center mt-4 red--text">
             {{user.forgotUserPassError}}</p>
-        <p v-if="user.forgotUserPassSuccess" class="block text-center mt-4 primary--text">
-            E-mail de recuperação de senha enviado para <b>{{this.email}}</b>. </p>
+        <p v-if="success" class="block text-center mt-4 primary--text">
+            E-mail de recuperação de senha enviado para <b>{{this.email}}</b>. </p> -->
       </v-form>
     </CardContainer>
   </div>
 </template>
 <script>
-import { mapState } from 'vuex';
 import CardContainer from '@/components/CardContainer.vue';
+import { guid } from '../utils/functions';
 
 export default {
   name: 'Login',
   components: {
     CardContainer,
   },
-  computed: mapState(['user']),
   watch: {
     email(email) {
       if (email) {
@@ -54,17 +53,39 @@ export default {
   data() {
     return {
       email: '',
+      loading: false,
+      success: false,
+      error: false,
+      errorMsg: '',
     };
   },
   methods: {
-    async forgotUserPassClick() {
+    forgotUserPassClick() {
       if (this.$refs.formForgotUserPass.validate()) {
-        await this.$store.dispatch('user/regeneratePass', { username: this.email });
+        this.loading = true;
+        this.$store.dispatch('user/regeneratePass', this.email).then(s => {
+          this.loading = false;
+          this.$store.dispatch('notification/showNotification', {
+            description: `E-mail de recuperação de senha enviado para ${this.email}.`,
+            color: 'success',
+            id: guid(),
+            type: 0,
+            status: 0,
+          });
+          if (this.$route.path !== '/login') this.$router.push('/login')
+        }).catch(error => {
+          this.loading = false;
+          let msg = error.response.data.detail ? error.response.data.detail : error.response.statusText;
+          this.$store.dispatch('notification/showNotification', {
+            description: msg,
+            color: 'danger',
+            id: guid(),
+            type: 0,
+            status: 0,
+          });
+        });
       }
     },
-  },
-  created() {
-    this.$store.dispatch('register/resetForm');
   },
 };
 </script>
